@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LoginFormPopStyled = styled.div`
+export const LoginFormStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

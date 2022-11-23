@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ButtonStyled } from "../Navbar/Navbar.styled";
+import { ButtonStyled } from "./Navbar.styled";
 import {
   selectIsUserLoggedIn,
   setIsLoginFormDisplayed,

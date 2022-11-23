@@ -4,7 +4,7 @@ import {
   BlogPostTitleStyled,
 } from "../BlogPostsList/BlogPostsList.styled";
 
-export const CommentStyled = styled.div`
+export const CommentsStyled = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;

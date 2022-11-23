@@ -1,20 +1,20 @@
 import React from "react";
 import { IComments, IPostInfo } from "../BlogPostsList/BlogPostsList";
 import {
-  CommentStyled,
+  CommentsStyled,
   CommentTitleAuthorStyled,
   CommentTitleStyled,
-} from "./Comment.styled";
+} from "./Comments.styled";
 
 interface CommentProps {
   selectedPost: IPostInfo | undefined;
 }
 
-export const Comment: React.FC<CommentProps> = (props) => {
+export const Comments: React.FC<CommentProps> = (props) => {
   return (
     <>
       {props.selectedPost?.comments.map((comment: IComments) => (
-        <CommentStyled>
+        <CommentsStyled>
           <CommentTitleStyled>
             <CommentTitleAuthorStyled>
               <img src={comment.userAvatar} />
@@ -25,7 +25,7 @@ export const Comment: React.FC<CommentProps> = (props) => {
           </CommentTitleStyled>
 
           <p>{comment.text}</p>
-        </CommentStyled>
+        </CommentsStyled>
       ))}
     </>
   );
