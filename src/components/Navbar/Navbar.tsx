@@ -11,17 +11,11 @@ import {
 } from "./Navbar.styled";
 import { AddButton } from "./AddButton";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { LoginForm } from "../LoginForm/LoginForm";
 import { useAppSelector } from "../../store/hooks";
-import {
-  selectIsUserLoggedIn,
-  selectLoginFormDisplayed,
-  setIsLoginFormDisplayed,
-  setIsUserLoggedIn,
-} from "../../store/userSlice";
-import { useDispatch } from "react-redux";
+import { selectLoginFormDisplayed } from "../../store/userSlice";
 import { LoginButton } from "./LoginButton";
 
 export const Navbar: React.FC = () => {

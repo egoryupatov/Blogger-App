@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BlogPostsListStyled,
   BlogPostTitleStyled,
@@ -97,13 +97,26 @@ export const BlogPostsList: React.FC = () => {
   };
 
   const onPostHideClick = (postID: number) => {
-    setPosts(
-      posts.filter((e) => {
-        return e.id != postID;
-      })
-    );
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        postId: postID,
+        userId: Number(localStorage.getItem("id")),
+      }),
+    };
 
-    setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
+    fetch(`${SERVER_URL}/users/hide`, options).then((response) => {
+      setPosts(
+        posts.filter((e) => {
+          return e.id != postID;
+        })
+      );
+
+      setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
+    });
   };
 
   return (
