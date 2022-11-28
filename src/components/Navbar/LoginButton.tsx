@@ -8,7 +8,6 @@ import {
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
-import { AuthSectionContainerStyled } from "./Navbar.styled";
 
 export const LoginButton: React.FC = () => {
   const dispatch = useDispatch();

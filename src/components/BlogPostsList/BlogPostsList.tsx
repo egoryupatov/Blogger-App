@@ -14,14 +14,11 @@ import { Link } from "react-router-dom";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { SERVER_URL } from "../../constants/constants";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
-import { useAppSelector } from "../../store/hooks";
-import { selectIsUserLoggedIn } from "../../store/userSlice";
 
-export interface IComments {
-  user: string;
-  timeAgo: string;
+export interface IComment {
+  id?: number;
   text: string;
-  userAvatar: string;
+  rating: number;
 }
 
 export interface IPostInfo {
@@ -34,8 +31,6 @@ export interface IPostInfo {
   postImage: string;
   title: string;
   description: string;
-  comments: IComments[];
-  numberOfComments: number;
   rating: number;
   text: string;
 }
@@ -43,16 +38,18 @@ export interface IPostInfo {
 export const BlogPostsList: React.FC = () => {
   const [posts, setPosts] = useState<IPostInfo[]>([]);
 
-  const [isThreeDotsMenuActive, setIsThreeDotsMenuActive] =
-    useState<boolean>(false);
+  //сделать замену эндпоинта в зависимости от категории в парамсе
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/posts/banned`)
+    fetch(`${SERVER_URL}/posts/all`)
       .then((response) => response.json())
       .then((posts) => setPosts(posts));
   }, []);
 
-  const onRatingIncrement = (postID: number) => {
+  const [isThreeDotsMenuActive, setIsThreeDotsMenuActive] =
+    useState<boolean>(false);
+
+  const onPostRatingIncrement = (postID: number) => {
     const options = {
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +69,7 @@ export const BlogPostsList: React.FC = () => {
     );
   };
 
-  const onRatingDecrement = (postID: number) => {
+  const onPostRatingDecrement = (postID: number) => {
     const options = {
       headers: {
         "Content-Type": "application/json",
@@ -90,10 +87,6 @@ export const BlogPostsList: React.FC = () => {
         return post;
       })
     );
-  };
-
-  const onThreeDotsClick = () => {
-    setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
   };
 
   const onPostHideClick = (postID: number) => {
@@ -119,8 +112,14 @@ export const BlogPostsList: React.FC = () => {
     });
   };
 
+  const onThreeDotsClick = () => {
+    setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
+  };
+
   return (
     <>
+      {/**/}
+
       {posts.map((elem: IPostInfo) => (
         <BlogPostsListStyled key={elem.id}>
           <div>
@@ -157,11 +156,11 @@ export const BlogPostsList: React.FC = () => {
             <BlogPostFooterStyled>
               <BlogPostCommentsStyled>
                 <span className="material-symbols-outlined">mode_comment</span>
-                <span>{elem.numberOfComments}</span>
+                <span>999</span>
               </BlogPostCommentsStyled>
               <BlogPostRatingStyled>
                 <span
-                  onClick={() => onRatingDecrement(elem.id)}
+                  onClick={() => onPostRatingDecrement(elem.id)}
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >
@@ -169,7 +168,7 @@ export const BlogPostsList: React.FC = () => {
                 </span>
                 {elem.rating}
                 <span
-                  onClick={() => onRatingIncrement(elem.id)}
+                  onClick={() => onPostRatingIncrement(elem.id)}
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >
@@ -180,6 +179,8 @@ export const BlogPostsList: React.FC = () => {
           </div>
         </BlogPostsListStyled>
       ))}
+
+      {/**/}
     </>
   );
 };

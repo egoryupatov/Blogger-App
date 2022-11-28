@@ -21,6 +21,7 @@ import {
 import { useGetUser } from "../../utils/useGetUser";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { DashboardPost } from "./DashboardPost";
+import { IPostInfo } from "../../components/BlogPostsList/BlogPostsList";
 
 export const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,28 @@ export const Dashboard: React.FC = () => {
 
   const currentUserPosts = useAppSelector(selectCurrentUserPosts);
   const currentUserInfo = useAppSelector(selectCurrentUserInfo);
+  const [bannedPosts, setBannedPosts] = useState([]);
+  console.log(bannedPosts);
+
+  useEffect(() => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ id: Number(localStorage.getItem("id")) }),
+    };
+
+    fetch(`${SERVER_URL}/dashboard`, options)
+      .then((response) => response.json())
+      .then((response) => dispatch(getCurrentUserPosts(response)));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${SERVER_URL}/posts/banned`)
+      .then((response) => response.json())
+      .then((posts) => setBannedPosts(posts));
+  }, []);
 
   const onDeletePostClick = (postId: number) => {
     const options = {
@@ -44,21 +67,25 @@ export const Dashboard: React.FC = () => {
     dispatch(deleteCurrentUserPosts(postId));
   };
 
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({ id: Number(localStorage.getItem("id")) }),
+  const onUnhidePostClick = (postId: number) => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        postId: postId,
+        userId: Number(localStorage.getItem("id")),
+      }),
+    };
+
+    fetch(`${SERVER_URL}/users/unhide`, options).then((response) =>
+      setBannedPosts((prevState) =>
+        prevState.filter((e: IPostInfo) => e.id !== postId)
+      )
+    );
   };
 
-  useEffect(() => {
-    fetch(`${SERVER_URL}/dashboard`, options)
-      .then((response) => response.json())
-      .then((response) => dispatch(getCurrentUserPosts(response)));
-  }, []);
-
-  // @ts-ignore
   return (
     <MainContainerStyled>
       <WrapperStyled>
@@ -82,16 +109,33 @@ export const Dashboard: React.FC = () => {
 
         <DashboardMiddlePartStyled>
           <DashboardSectionStyled>
-            <h3>Published articles</h3>
+            <h3>Published posts</h3>
 
             {currentUserPosts
               .filter((post) => post.id)
               .map((post: Post) => (
                 <DashboardPost
                   post={post}
+                  isBannedPosts={false}
                   onDeletePostClick={onDeletePostClick}
+                  onUnhidePostClick={onUnhidePostClick}
                 />
               ))}
+          </DashboardSectionStyled>
+        </DashboardMiddlePartStyled>
+
+        <DashboardMiddlePartStyled>
+          <DashboardSectionStyled>
+            <h3>Hidden posts</h3>
+
+            {bannedPosts.map((post: Post) => (
+              <DashboardPost
+                post={post}
+                isBannedPosts={true}
+                onDeletePostClick={onDeletePostClick}
+                onUnhidePostClick={onUnhidePostClick}
+              />
+            ))}
           </DashboardSectionStyled>
           <DashboardSectionStyled style={{ width: "50%" }}>
             <h3>Subscribers</h3>

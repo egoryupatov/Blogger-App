@@ -14,8 +14,8 @@ export const ThreeDotsMenu: React.FC<ThreeDotsMenuInterface> = (props) => {
       <ThreeDotsMenuStyled>
         <div>Report</div>
       </ThreeDotsMenuStyled>
-      <ThreeDotsMenuStyled>
-        <div onClick={props.onPostHideClick}>Hide</div>
+      <ThreeDotsMenuStyled onClick={props.onPostHideClick}>
+        <div>Hide</div>
       </ThreeDotsMenuStyled>
     </ThreeDotsMenuContainerStyled>
   );

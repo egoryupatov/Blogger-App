@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { PostPageStyled } from "./PostPage.styled";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  IComments,
+  IComment,
   IPostInfo,
 } from "../../components/BlogPostsList/BlogPostsList";
+import { SERVER_URL } from "../../constants/constants";
 import {
   MainContainerStyled,
   WrapperStyled,
 } from "../../styles/general.styled";
+import { PostPageStyled, PostPageComments } from "./PostPage.styled";
 import {
-  BlogPostBodyStyled,
-  BlogPostCommentsStyled,
-  BlogPostFooterStyled,
-  BlogPostRatingStyled,
-  BlogPostTitleAuthorStyled,
   BlogPostTitleStyled,
+  BlogPostBodyStyled,
+  BlogPostTitleAuthorStyled,
+  BlogPostFooterStyled,
+  BlogPostCommentsStyled,
+  BlogPostRatingStyled,
 } from "../../components/BlogPostsList/BlogPostsList.styled";
-import { PostPageComments } from "./PostPage.styled";
-import { Comments } from "../../components/Comments/Comments";
-import { getTimeAgo } from "../../utils/getTimeAgo";
+import { Comment } from "../../components/Comment/Comment";
 
 export const PostPage: React.FC = () => {
   const params = useParams();
   const [isPostFound, setIsPostFound] = useState(true);
 
   const [selectedPost, setSelectedPost] = useState<IPostInfo>();
-  /*const [comment, setComment] = useState("");*/
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [newComment, setNewComment] = useState({
+    text: "",
+    rating: 0,
+  });
 
   useEffect(() => {
     fetch(`http://localhost:3005/posts/${params.id}`)
@@ -42,7 +45,29 @@ export const PostPage: React.FC = () => {
       .catch((error) => setIsPostFound(false));
   }, []);
 
-  //Как побороть ошибку TS что объект может быть undefined?
+  useEffect(() => {
+    fetch(`${SERVER_URL}/comments/${params.id}`).then((response) =>
+      response.json().then((response) => setComments(response))
+    );
+  }, []);
+
+  const handleAddingComment = (event: any) => {
+    setNewComment({ ...newComment, text: event.target.value });
+  };
+
+  const onCommentAdd = () => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newComment),
+    };
+
+    fetch(`${SERVER_URL}/comments/${params.id}`, options).then((response) =>
+      setComments([...comments, newComment])
+    );
+  };
 
   return (
     <MainContainerStyled>
@@ -70,7 +95,7 @@ export const PostPage: React.FC = () => {
           <BlogPostFooterStyled>
             <BlogPostCommentsStyled>
               <span className="material-symbols-outlined">mode_comment</span>
-              <span>{selectedPost?.numberOfComments}</span>
+              <span>{comments.length}</span>
             </BlogPostCommentsStyled>
             <BlogPostRatingStyled>
               <span className="material-symbols-outlined">
@@ -83,12 +108,18 @@ export const PostPage: React.FC = () => {
             </BlogPostRatingStyled>
           </BlogPostFooterStyled>
         </PostPageStyled>
-        {/*<PostPageComments>
-          <h2>{selectedPost?.numberOfComments} comments</h2>
-          <textarea id="description" placeholder="What are your thoughts?" />
-          <button>Add a comment</button>
-          <Comments selectedPost={selectedPost} />
-        </PostPageComments>*/}
+        <PostPageComments>
+          <h2>Comments</h2>
+          <textarea
+            id="description"
+            placeholder="What are your thoughts?"
+            onChange={handleAddingComment}
+          />
+          <button onClick={onCommentAdd}>Add a comment</button>
+          {comments.map((comment: IComment) => (
+            <Comment comment={comment} />
+          ))}
+        </PostPageComments>
       </WrapperStyled>
     </MainContainerStyled>
   );

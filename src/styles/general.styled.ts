@@ -11,5 +11,6 @@ export const WrapperStyled = styled.div`
 `;
 
 export const MainContainerStyled = styled.div`
+  display: flex;
   background: #f2f2f2;
 `;

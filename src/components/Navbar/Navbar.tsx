@@ -10,9 +10,7 @@ import {
   AuthSectionContainerStyled,
 } from "./Navbar.styled";
 import { AddButton } from "./AddButton";
-
 import { Link } from "react-router-dom";
-
 import { LoginForm } from "../LoginForm/LoginForm";
 import { useAppSelector } from "../../store/hooks";
 import { selectLoginFormDisplayed } from "../../store/userSlice";

@@ -10,7 +10,7 @@ export const PostPageStyled = styled.div`
   margin-top: 20px;
   background: white;
   transition: all 250ms;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
