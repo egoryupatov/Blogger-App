@@ -10,22 +10,42 @@ import {
   BlogPostTitleMiddleStyled,
   BlogPostTitleEndStyled,
 } from "./BlogPostsList.styled";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { SERVER_URL } from "../../constants/constants";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
+import { getCategoryName } from "../../utils/getCategoryName";
+
+export interface IAuthor {
+  login: string;
+  avatar: string;
+}
 
 export interface IComment {
   id?: number;
   text: string;
   rating: number;
+  author: IAuthor;
+  publishDate: Date;
+  article: {
+    id: number;
+    title: string;
+  };
+}
+
+export interface IPostCategory {
+  id: number;
+  name: string;
 }
 
 export interface IPostInfo {
   id: number;
-  author: IPostInfo;
+  author: {
+    login: string;
+    id: number;
+  };
   login: string;
-  category: string;
+  category: IPostCategory;
   publishDate: Date;
   categoryImage: string;
   postImage: string;
@@ -38,13 +58,19 @@ export interface IPostInfo {
 export const BlogPostsList: React.FC = () => {
   const [posts, setPosts] = useState<IPostInfo[]>([]);
 
-  //сделать замену эндпоинта в зависимости от категории в парамсе
+  const location = useLocation();
+
+  //адекватно ли это? или надо делать по другому?
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/posts/all`)
-      .then((response) => response.json())
-      .then((posts) => setPosts(posts));
-  }, []);
+    location.pathname !== "/"
+      ? fetch(`${SERVER_URL}${location.pathname}`)
+          .then((response) => response.json())
+          .then((posts) => setPosts(posts))
+      : fetch(`${SERVER_URL}/posts/all`)
+          .then((response) => response.json())
+          .then((posts) => setPosts(posts));
+  }, [location]);
 
   const [isThreeDotsMenuActive, setIsThreeDotsMenuActive] =
     useState<boolean>(false);
@@ -126,11 +152,13 @@ export const BlogPostsList: React.FC = () => {
             <BlogPostTitleStyled>
               <BlogPostTitleAuthorStyled>
                 <img src={elem.categoryImage} />
-                <p style={{ fontWeight: "500" }}>{elem.category}</p>
+                <p style={{ fontWeight: "500" }}>
+                  {getCategoryName(elem.category.name)}
+                </p>
               </BlogPostTitleAuthorStyled>
 
               <BlogPostTitleMiddleStyled>
-                <div>{elem.author.login}</div>
+                <div>{/*{elem.author.login}*/}</div>
                 <div>{getTimeAgo(elem.publishDate)}</div>
               </BlogPostTitleMiddleStyled>
               <BlogPostTitleEndStyled>
@@ -146,7 +174,7 @@ export const BlogPostsList: React.FC = () => {
             </BlogPostTitleStyled>
 
             <BlogPostBodyStyled>
-              <Link to={`/posts/${elem.id}`}>
+              <Link to={`/posts/${elem.category.name}/${elem.id}`}>
                 <h1>{elem.title}</h1>
               </Link>
               <p>{elem.description}</p>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   IComment,
+  IPostCategory,
   IPostInfo,
 } from "../../components/BlogPostsList/BlogPostsList";
 import { SERVER_URL } from "../../constants/constants";
@@ -19,30 +20,51 @@ import {
   BlogPostRatingStyled,
 } from "../../components/BlogPostsList/BlogPostsList.styled";
 import { Comment } from "../../components/Comment/Comment";
+import { getCategoryName } from "../../utils/getCategoryName";
+import { getTimeAgo } from "../../utils/getTimeAgo";
+import { Categories } from "../../components/Categories/Categories";
+import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
 
 export const PostPage: React.FC = () => {
   const params = useParams();
-  const [isPostFound, setIsPostFound] = useState(true);
 
-  const [selectedPost, setSelectedPost] = useState<IPostInfo>();
+  const [selectedPost, setSelectedPost] = useState({
+    category: {
+      name: "",
+    },
+    author: {
+      login: "",
+    },
+    categoryImage: "",
+    title: "",
+    description: "",
+    rating: 0,
+    postImage: "",
+    text: "",
+    publishDate: new Date(),
+  });
+
   const [comments, setComments] = useState<IComment[]>([]);
+
   const [newComment, setNewComment] = useState({
     text: "",
     rating: 0,
+    author: {
+      login: "",
+      avatar: "",
+    },
+    article: {
+      id: 0,
+      title: "",
+    },
+    publishDate: new Date(),
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3005/posts/${params.id}`)
-      .then((response) => {
-        if (response.status === 500) {
-          throw new Error();
-        } else {
-          return response.json();
-          setIsPostFound(true);
-        }
-      })
-      .then((response) => setSelectedPost(response))
-      .catch((error) => setIsPostFound(false));
+    fetch(`http://localhost:3005/posts/${params.category}/${params.id}`).then(
+      (response) =>
+        response.json().then((response) => setSelectedPost(response))
+    );
   }, []);
 
   useEffect(() => {
@@ -71,25 +93,28 @@ export const PostPage: React.FC = () => {
 
   return (
     <MainContainerStyled>
+      <Categories />
       <WrapperStyled>
         <PostPageStyled>
           <BlogPostTitleStyled>
             <BlogPostTitleAuthorStyled>
-              <img src={selectedPost?.categoryImage} />
-              <p style={{ fontWeight: "500" }}>{selectedPost?.category}</p>
-              <p>{/*{selectedPost?.author.login}*/}</p>
+              <img src={selectedPost.categoryImage} />
+              <p style={{ fontWeight: "500" }}>
+                {getCategoryName(selectedPost.category.name)}
+              </p>
+              <p>Author's name{/*{selectedPost.author.login}*/}</p>
             </BlogPostTitleAuthorStyled>
 
-            {/* <p>{getTimeAgo(selectedPost!.time)}</p>*/}
+            <p>{getTimeAgo(selectedPost.publishDate)}</p>
           </BlogPostTitleStyled>
 
           <BlogPostBodyStyled>
-            <h1>{selectedPost?.title}</h1>
+            <h1>{selectedPost.title}</h1>
 
-            <p>{selectedPost?.description}</p>
-            <img src={selectedPost?.postImage} />
+            <p>{selectedPost.description}</p>
+            <img src={selectedPost.postImage} />
 
-            <p>{selectedPost?.text}</p>
+            <p>{selectedPost.text}</p>
           </BlogPostBodyStyled>
 
           <BlogPostFooterStyled>
@@ -101,7 +126,7 @@ export const PostPage: React.FC = () => {
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
-              {selectedPost?.rating}
+              {selectedPost.rating}
               <span className="material-symbols-outlined">
                 keyboard_arrow_up
               </span>
@@ -121,6 +146,7 @@ export const PostPage: React.FC = () => {
           ))}
         </PostPageComments>
       </WrapperStyled>
+      <CommentsBoard />
     </MainContainerStyled>
   );
 };

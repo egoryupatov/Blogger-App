@@ -23,9 +23,13 @@ root.render(
         <AuthContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="posts/business" element={<Homepage />} />
+          <Route path="posts/travel" element={<Homepage />} />
+          <Route path="posts/health" element={<Homepage />} />
+          <Route path="posts/entertainment" element={<Homepage />} />
           <Route path="/add-new-post" element={<AddPostPage />} />
           <Route path="/edit-post/:id" element={<EditPostPage />} />
-          <Route path="/posts/:id" element={<PostPage />} />
+          <Route path="/posts/:category/:id" element={<PostPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Provider>

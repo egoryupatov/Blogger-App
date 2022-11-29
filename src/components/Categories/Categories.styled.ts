@@ -5,17 +5,16 @@ export const CategoriesContainerStyled = styled.div`
   flex-direction: column;
   gap: 10px;
   position: sticky;
-  width: 200px;
+  width: 100%;
   height: 100%;
   top: 100px;
   margin-top: 40px;
-  margin-left: 20px;
 `;
 
 export const CategoryStyled = styled.div`
   display: flex;
   gap: 10px;
-  width: 100%;
+  max-width: 200px;
   min-height: 45px;
   justify-content: start;
   align-items: center;
