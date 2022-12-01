@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const AddPostWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 640px;
+  margin: 0 auto;
+  min-height: 100vh;
+`;
+
 export const AddPostStyled = styled.div`
   display: flex;
   gap: 10px;

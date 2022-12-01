@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MainContainerStyled } from "../../styles/general.styled";
 import { WrapperStyled } from "../../styles/general.styled";
-import { DashboardSectionStyled } from "./DashboardSectionStyled";
+import { DashboardStyled, DashboardWrapperStyled } from "./DashboardStyled";
 import { SERVER_URL } from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import {
@@ -17,7 +17,7 @@ import {
   DashboardUserPanelStyled,
   DashboardUserInfoStyled,
   DashboardUserInfoRightSideStyled,
-} from "./DashboardSectionStyled";
+} from "./DashboardStyled";
 import { useGetUser } from "../../utils/useGetUser";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { DashboardPost } from "./DashboardPost";
@@ -88,8 +88,8 @@ export const Dashboard: React.FC = () => {
 
   return (
     <MainContainerStyled>
-      <WrapperStyled>
-        <DashboardSectionStyled>
+      <DashboardWrapperStyled>
+        <DashboardStyled>
           <DashboardUserPanelStyled>
             <div style={{ display: "flex", gap: "20px" }}>
               <img src={`${currentUserInfo.avatar}`} />
@@ -105,10 +105,10 @@ export const Dashboard: React.FC = () => {
               <span className="material-symbols-outlined">settings</span>
             </DashboardUserInfoRightSideStyled>
           </DashboardUserPanelStyled>
-        </DashboardSectionStyled>
+        </DashboardStyled>
 
         <DashboardMiddlePartStyled>
-          <DashboardSectionStyled>
+          <DashboardStyled>
             <h3>Published posts</h3>
 
             {currentUserPosts
@@ -121,11 +121,11 @@ export const Dashboard: React.FC = () => {
                   onUnhidePostClick={onUnhidePostClick}
                 />
               ))}
-          </DashboardSectionStyled>
+          </DashboardStyled>
         </DashboardMiddlePartStyled>
 
         <DashboardMiddlePartStyled>
-          <DashboardSectionStyled>
+          <DashboardStyled>
             <h3>Hidden posts</h3>
 
             {bannedPosts.map((post: Post) => (
@@ -136,12 +136,12 @@ export const Dashboard: React.FC = () => {
                 onUnhidePostClick={onUnhidePostClick}
               />
             ))}
-          </DashboardSectionStyled>
-          <DashboardSectionStyled style={{ width: "50%" }}>
+          </DashboardStyled>
+          <DashboardStyled style={{ width: "50%" }}>
             <h3>Subscribers</h3>
-          </DashboardSectionStyled>
+          </DashboardStyled>
         </DashboardMiddlePartStyled>
-      </WrapperStyled>
+      </DashboardWrapperStyled>
     </MainContainerStyled>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { AddPostStyled } from "./AddPostPage.styled";
+import { AddPostStyled, AddPostWrapperStyled } from "./AddPostPage.styled";
 import { MainContainerStyled } from "../../styles/general.styled";
-import { WrapperStyled } from "../../styles/general.styled";
 import {
   ButtonStyled,
   InputStyled,
@@ -12,15 +11,12 @@ import { SERVER_URL } from "../../constants/constants";
 export const AddPostPage: React.FC = () => {
   const [newPost, setNewPost] = useState({
     author: Number(localStorage.getItem("id")),
-    category: "Business",
+    category: 1,
     categoryImage: "/category1.png",
     time: new Date(),
-    avatar: "-",
     postImage: "",
     title: "",
     description: "",
-    numberOfComments: 0,
-    rating: 0,
     text: "",
   });
 
@@ -66,25 +62,21 @@ export const AddPostPage: React.FC = () => {
         ...newPost,
         postImage: `${SERVER_URL}/pictures/${imageURL}`,
       }),
-    });
-
-    navigate("/");
+    }).then((response) => navigate("/"));
   };
-
-  console.log(newPost.postImage);
 
   return (
     <MainContainerStyled>
-      <WrapperStyled>
+      <AddPostWrapperStyled>
         <AddPostStyled>
           <h1>Add a new post</h1>
 
           <label htmlFor="category">Choose a category:</label>
           <select id="category" onChange={onCategorySelect}>
-            <option value="Business">Design</option>
-            <option value="Health">JavaScript</option>
-            <option value="Entertainment">Node.js</option>
-            <option value="Travel">Node.js</option>
+            <option value="1">Business</option>
+            <option value="2">Health</option>
+            <option value="3">Travel</option>
+            <option value="4">Entertainment</option>
           </select>
 
           <label htmlFor="title">Title:</label>
@@ -117,7 +109,7 @@ export const AddPostPage: React.FC = () => {
             </InputStyled>
           </div>
         </AddPostStyled>
-      </WrapperStyled>
+      </AddPostWrapperStyled>
     </MainContainerStyled>
   );
 };

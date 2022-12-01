@@ -28,12 +28,26 @@ import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
 export const PostPage: React.FC = () => {
   const params = useParams();
 
+  useEffect(() => {
+    fetch(`${SERVER_URL}/posts/${params.category}/${params.id}`).then(
+      (response) =>
+        response.json().then((response) => setSelectedPost(response))
+    );
+  }, []);
+
+  useEffect(() => {
+    fetch(`${SERVER_URL}/comments/${params.id}`).then((response) =>
+      response.json().then((response) => setComments(response))
+    );
+  }, []);
+
   const [selectedPost, setSelectedPost] = useState({
     category: {
       name: "",
     },
     author: {
       login: "",
+      avatar: "",
     },
     categoryImage: "",
     title: "",
@@ -59,19 +73,6 @@ export const PostPage: React.FC = () => {
     },
     publishDate: new Date(),
   });
-
-  useEffect(() => {
-    fetch(`http://localhost:3005/posts/${params.category}/${params.id}`).then(
-      (response) =>
-        response.json().then((response) => setSelectedPost(response))
-    );
-  }, []);
-
-  useEffect(() => {
-    fetch(`${SERVER_URL}/comments/${params.id}`).then((response) =>
-      response.json().then((response) => setComments(response))
-    );
-  }, []);
 
   const handleAddingComment = (event: any) => {
     setNewComment({ ...newComment, text: event.target.value });
@@ -102,7 +103,7 @@ export const PostPage: React.FC = () => {
               <p style={{ fontWeight: "500" }}>
                 {getCategoryName(selectedPost.category.name)}
               </p>
-              <p>Author's name{/*{selectedPost.author.login}*/}</p>
+              <p>{selectedPost.author.login}</p>
             </BlogPostTitleAuthorStyled>
 
             <p>{getTimeAgo(selectedPost.publishDate)}</p>

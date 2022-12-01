@@ -6,11 +6,11 @@ import { Homepage } from "./pages/Homepage/Homepage";
 import "./index.css";
 import { Navbar } from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AddPostPage } from "./pages/AddPostPage/AddPostPage";
-import { PostPage } from "./pages/PostPage/PostPage";
+import { AddPostPage } from "./pages/AddPost/AddPostPage";
+import { PostPage } from "./pages/Post/PostPage";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { AuthContainer } from "./components/LoginForm/AuthContainer";
-import { EditPostPage } from "./pages/EditPostPage/EditPostPage";
+import { EditPostPage } from "./pages/EditPost/EditPostPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

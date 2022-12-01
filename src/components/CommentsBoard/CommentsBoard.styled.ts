@@ -3,11 +3,10 @@ import styled from "styled-components";
 export const CommentsBoardContainerStyled = styled.div`
   display: flex;
   justify-content: end;
-  margin-top: 40px;
   width: 100%;
+  top: 100px;
   position: sticky;
   height: 100%;
-  top: 100px;
 `;
 
 export const CommentsBoardStyled = styled.div`
@@ -15,10 +14,16 @@ export const CommentsBoardStyled = styled.div`
   flex-direction: column;
   gap: 20px;
   justify-content: end;
-  max-width: 200px;
+  max-width: 250px;
   padding: 10px 0px 10px 0px;
-  height: 100%;
-  top: 40px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`;
+
+export const CommentBoardCommentStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 export const CommentBoardCommentTitleStyled = styled.div`
@@ -32,10 +37,4 @@ export const CommentBoardCommentTitleStyled = styled.div`
     height: 24px;
     border-radius: 5px;
   }
-`;
-
-export const CommentBoardCommentStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 `;

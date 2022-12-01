@@ -74,8 +74,9 @@ export const SearchbarStyled = styled.div`
 
 export const ButtonStyled = styled.div`
   display: flex;
-
+  overflow: hidden;
   button {
+    overflow: hidden;
     display: flex;
     width: auto;
     align-items: center;
@@ -95,6 +96,7 @@ export const ButtonStyled = styled.div`
     border-color: rgba(0, 0, 0, 0.15);
     box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
     transform: translateY(-1px);
+    overflow: hidden;
   }
 `;
 

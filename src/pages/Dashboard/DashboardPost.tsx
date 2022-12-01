@@ -1,5 +1,5 @@
 import React from "react";
-import { DashboardPostsList } from "./DashboardSectionStyled";
+import { DashboardPostsList } from "./DashboardStyled";
 import { Link } from "react-router-dom";
 import { Post } from "../../store/userSlice";
 

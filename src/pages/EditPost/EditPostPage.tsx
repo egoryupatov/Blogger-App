@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { EditPostStyled } from "./EditPostPage.styled";
-import {
-  MainContainerStyled,
-  WrapperStyled,
-} from "../../styles/general.styled";
+import { EditPostStyled, EditPostWrapperStyled } from "./EditPostPage.styled";
+import { MainContainerStyled } from "../../styles/general.styled";
 import { ButtonStyled } from "../../components/Navbar/Navbar.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { SERVER_URL } from "../../constants/constants";
@@ -21,14 +18,10 @@ export const EditPostPage: React.FC = () => {
 
   const [editedPost, setEditedPost] = useState({
     user: Number(localStorage.getItem("id")),
-    category: "",
-    time: new Date(),
-    avatar: "",
-    postImage: "",
+    category: 1, //категория должна быть изначальная
+    time: new Date(), // дата тоже
     title: "",
     description: "",
-    numberOfComments: 0,
-    rating: 0,
     text: "",
   });
 
@@ -80,7 +73,7 @@ export const EditPostPage: React.FC = () => {
 
   return (
     <MainContainerStyled>
-      <WrapperStyled>
+      <EditPostWrapperStyled>
         <EditPostStyled>
           <h1>Edit post</h1>
 
@@ -90,10 +83,10 @@ export const EditPostPage: React.FC = () => {
             onChange={onCategorySelect}
             defaultValue={editedPost.category}
           >
-            <option value="Business">Design</option>
-            <option value="Health">JavaScript</option>
-            <option value="Entertainment">Node.js</option>
-            <option value="Travel">Node.js</option>
+            <option value="1">Business</option>
+            <option value="2">Health</option>
+            <option value="3">Travel</option>
+            <option value="4">Entertainment</option>
           </select>
 
           <label htmlFor="title">Title:</label>
@@ -108,7 +101,6 @@ export const EditPostPage: React.FC = () => {
           <textarea
             onChange={onDescriptionChange}
             id="description"
-            placeholder="Enter the post text"
             value={editedPost.description}
           />
 
@@ -131,7 +123,7 @@ export const EditPostPage: React.FC = () => {
             </ButtonStyled>
           </div>
         </EditPostStyled>
-      </WrapperStyled>
+      </EditPostWrapperStyled>
     </MainContainerStyled>
   );
 };

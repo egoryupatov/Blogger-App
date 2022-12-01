@@ -44,6 +44,7 @@ export interface IPostInfo {
     login: string;
     id: number;
   };
+  comments: IComment[];
   login: string;
   category: IPostCategory;
   publishDate: Date;
@@ -152,13 +153,16 @@ export const BlogPostsList: React.FC = () => {
             <BlogPostTitleStyled>
               <BlogPostTitleAuthorStyled>
                 <img src={elem.categoryImage} />
-                <p style={{ fontWeight: "500" }}>
-                  {getCategoryName(elem.category.name)}
-                </p>
+
+                <Link to={`/posts/${elem.category.name}`}>
+                  <p style={{ fontWeight: "500" }}>
+                    {getCategoryName(elem.category.name)}
+                  </p>
+                </Link>
               </BlogPostTitleAuthorStyled>
 
               <BlogPostTitleMiddleStyled>
-                <div>{/*{elem.author.login}*/}</div>
+                <div>{elem.author.login}</div>
                 <div>{getTimeAgo(elem.publishDate)}</div>
               </BlogPostTitleMiddleStyled>
               <BlogPostTitleEndStyled>
@@ -184,7 +188,7 @@ export const BlogPostsList: React.FC = () => {
             <BlogPostFooterStyled>
               <BlogPostCommentsStyled>
                 <span className="material-symbols-outlined">mode_comment</span>
-                <span>999</span>
+                <span>{elem.comments.length}</span>
               </BlogPostCommentsStyled>
               <BlogPostRatingStyled>
                 <span

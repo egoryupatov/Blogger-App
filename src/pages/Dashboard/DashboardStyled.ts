@@ -1,7 +1,19 @@
 import styled from "styled-components";
-import { AddPostStyled } from "../AddPostPage/AddPostPage.styled";
+import { AddPostStyled } from "../AddPost/AddPostPage.styled";
 
-export const DashboardSectionStyled = styled(AddPostStyled)`
+export const DashboardWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 640px;
+  margin: 0 auto;
+  min-height: 100vh;
+`;
+
+export const DashboardStyled = styled(AddPostStyled)`
+  display: flex;
+  justify-content: center;
+  max-width: 640px;
+
   &:hover {
     box-shadow: none;
   }
@@ -30,7 +42,8 @@ export const DashboardUserInfoRightSideStyled = styled.div`
   display: flex;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 5px;
-  height: 100%;
+  height: 35px;
+  align-items: center;
   border-radius: 6px;
   margin-top: -5px;
   cursor: pointer;
