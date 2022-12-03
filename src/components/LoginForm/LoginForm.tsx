@@ -44,16 +44,16 @@ export const LoginForm: React.FC = () => {
   };
 
   const onSignInClick = () => {
-    fetch("http://localhost:3005/users", options)
+    fetch("http://localhost:3005/auth/login", options)
       .then((response) => {
-        if (response.status === 404) {
+        if (response.status === 401) {
           throw new Error();
         } else {
           return response.json();
         }
       })
       .then((response) => {
-        localStorage.setItem("token", response.token);
+        localStorage.setItem("token", response.access_token);
         localStorage.setItem("id", response.id);
         dispatch(setIsLoginFormDisplayed(false));
         dispatch(setIsUserLoggedIn(true));

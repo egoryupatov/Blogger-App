@@ -7,27 +7,30 @@ export const AuthContainer: React.FC = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   const checkToken = () => {
-    if (!token) {
-      return;
+    if (token) {
+      dispatch(setIsUserLoggedIn(true));
     }
-
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: token,
-      },
-    };
-
-    fetch(`${SERVER_URL}/users/token`, options).then((response) => {
-      if (response.status === 200) {
-        dispatch(setIsUserLoggedIn(true));
-      }
-    });
   };
 
   useEffect(() => {
-    checkToken();
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    fetch(`${SERVER_URL}/auth/refresh`, options).then((response) => {
+      if (response.status === 401) {
+        dispatch(setIsUserLoggedIn(false));
+        localStorage.clear();
+      }
+    });
   }, []);
 
   return null;

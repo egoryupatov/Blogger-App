@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MainContainerStyled } from "../../styles/general.styled";
-import { WrapperStyled } from "../../styles/general.styled";
 import { DashboardStyled, DashboardWrapperStyled } from "./DashboardStyled";
 import { SERVER_URL } from "../../constants/constants";
 import { useDispatch } from "react-redux";
@@ -26,12 +25,32 @@ import { IPostInfo } from "../../components/BlogPostsList/BlogPostsList";
 export const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
 
-  useGetUser();
+  /*  useGetUser();*/
 
   const currentUserPosts = useAppSelector(selectCurrentUserPosts);
   const currentUserInfo = useAppSelector(selectCurrentUserInfo);
   const [bannedPosts, setBannedPosts] = useState([]);
-  console.log(bannedPosts);
+
+  const [currUser, setCurrUser] = useState({
+    login: "",
+    avatar: "",
+    signUpDate: new Date(),
+    rating: 0,
+  });
+
+  useEffect(() => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ id: localStorage.getItem("id") }),
+    };
+
+    fetch(`${SERVER_URL}/users`, options)
+      .then((response) => response.json())
+      .then((response) => setCurrUser(response));
+  }, []);
 
   useEffect(() => {
     const options = {
@@ -92,13 +111,13 @@ export const Dashboard: React.FC = () => {
         <DashboardStyled>
           <DashboardUserPanelStyled>
             <div style={{ display: "flex", gap: "20px" }}>
-              <img src={`${currentUserInfo.avatar}`} />
+              <img src={`${currUser.avatar}`} />
 
               <DashboardUserInfoStyled>
-                <h1>{currentUserInfo.login}</h1>
-                <p>Signed up: {getTimeAgo(currentUserInfo.signUpDate)}</p>
+                <h1>{currUser.login}</h1>
+                <p>Signed up: {getTimeAgo(currUser.signUpDate)}</p>
                 <p>Posts published: {currentUserPosts.length}</p>
-                <p>Rating: {currentUserInfo.rating}</p>
+                <p>Rating: {currUser.rating}</p>
               </DashboardUserInfoStyled>
             </div>
             <DashboardUserInfoRightSideStyled>

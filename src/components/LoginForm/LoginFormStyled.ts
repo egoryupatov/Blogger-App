@@ -30,6 +30,11 @@ export const LoginFormContainerStyled = styled.div`
   max-height: 300px;
   max-width: 400px;
 
+  h1 {
+    display: flex;
+    justify-content: center;
+  }
+
   &:nth-child(1) {
     display: flex;
     gap: 10px;
