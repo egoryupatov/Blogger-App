@@ -1,20 +1,20 @@
 import React from "react";
-import { DashboardPostsList } from "./DashboardStyled";
+import { DashboardPostsList } from "./UserStyled";
 import { Link } from "react-router-dom";
-import { Post } from "../../store/userSlice";
+import { IArticle } from "../../store/userSlice";
 
 interface DashboardPostProps {
-  post: Post;
-  onDeletePostClick: (id: number) => void;
-  onUnhidePostClick: (id: number) => void;
+  article: IArticle;
+  onDeleteArticleClick: (id: number) => void;
+  onUnhideArticleClick: (id: number) => void;
   isBannedPosts: boolean;
 }
 
-export const DashboardPost: React.FC<DashboardPostProps> = (props) => {
+export const AuthorizedUserArticle: React.FC<DashboardPostProps> = (props) => {
   return (
-    <DashboardPostsList key={props.post.id}>
-      <Link to={`/posts/${props.post.id}`}>
-        <p>{props.post.title}</p>
+    <DashboardPostsList key={props.article.id}>
+      <Link to={`/posts/${props.article.id}`}>
+        <p>{props.article.title}</p>
       </Link>
 
       {props.isBannedPosts ? (
@@ -22,14 +22,14 @@ export const DashboardPost: React.FC<DashboardPostProps> = (props) => {
           style={{ cursor: "pointer" }}
           className="material-symbols-outlined"
           onClick={() => {
-            props.onUnhidePostClick(props.post.id);
+            props.onUnhideArticleClick(props.article.id);
           }}
         >
           undo
         </span>
       ) : (
         <div style={{ display: "flex", gap: "10px" }}>
-          <Link to={`/edit-post/${props.post.id}`}>
+          <Link to={`/edit-post/${props.article.id}`}>
             <span
               style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
@@ -41,7 +41,7 @@ export const DashboardPost: React.FC<DashboardPostProps> = (props) => {
           <span
             style={{ cursor: "pointer" }}
             onClick={() => {
-              props.onDeletePostClick(props.post.id);
+              props.onDeleteArticleClick(props.article.id);
             }}
             className="material-symbols-outlined"
           >

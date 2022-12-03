@@ -23,6 +23,7 @@ export const AuthContainer: React.FC = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      method: "POST",
     };
 
     fetch(`${SERVER_URL}/auth/refresh`, options).then((response) => {

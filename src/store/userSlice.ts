@@ -1,47 +1,66 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { IPostInfo } from "../components/BlogPostsList/BlogPostsList";
+import { IAuthor } from "../components/BlogPostsList/BlogPostsList";
 
-export interface Post {
+export interface ICategory {
   id: number;
-  title: string;
-  text: string;
-  author: IPostInfo;
-  category: string;
-  avatar: string;
-  postImage: string;
-  description: string;
-  numberOfComments: number;
-  rating: number;
-  userId: number;
-  time: string;
+  name: string;
 }
 
-export interface User {
+export interface IArticle {
+  id: number;
+  publishDate: Date;
+  categoryImage: string;
+  postImage: string;
+  title: string;
+  description: string;
+  rating: number;
+  text: string;
+  category: ICategory;
+}
+
+export interface IComment {
+  id: number;
+  publishDate: Date;
+  categoryImage: string;
+  postImage: string;
+  title: string;
+  description: string;
+  rating: number;
+  text: string;
+  article: IArticle;
+  author: IUser;
+}
+
+export interface IUser {
   id: number;
   login: string;
   avatar: string;
   signUpDate: Date;
   rating: number;
+  articles: IArticle[];
+  comments: IComment[];
+  bannedArticles: IArticle[];
 }
 
-interface UserState {
+interface IInitialState {
   isUserLoggedIn: boolean;
   isLoginFormDisplayed: boolean;
-  currentUserPosts: Post[];
-  currentUserInfo: User;
+  userInfo: IUser;
 }
 
-const initialState: UserState = {
+const initialState: IInitialState = {
   isUserLoggedIn: false,
   isLoginFormDisplayed: false,
-  currentUserPosts: [],
-  currentUserInfo: {
+  userInfo: {
     id: 0,
     login: "",
     avatar: "",
     signUpDate: new Date(),
     rating: 0,
+    articles: [],
+    comments: [],
+    bannedArticles: [],
   },
 };
 
@@ -55,16 +74,13 @@ export const userSlice = createSlice({
     setIsLoginFormDisplayed: (state, action) => {
       state.isLoginFormDisplayed = action.payload;
     },
-    getCurrentUserPosts: (state, action) => {
-      state.currentUserPosts = action.payload;
-    },
-    deleteCurrentUserPosts: (state, action) => {
-      state.currentUserPosts = state.currentUserPosts.filter(
+    deleteArticle: (state, action) => {
+      state.userInfo.articles = state.userInfo.articles.filter(
         (post) => post.id !== action.payload
       );
     },
-    getCurrentUserInfo: (state, action) => {
-      state.currentUserInfo = action.payload;
+    getUserInfo: (state, action) => {
+      state.userInfo = action.payload;
     },
   },
 });
@@ -72,18 +88,14 @@ export const userSlice = createSlice({
 export const {
   setIsUserLoggedIn,
   setIsLoginFormDisplayed,
-  getCurrentUserPosts,
-  getCurrentUserInfo,
-  deleteCurrentUserPosts,
+  getUserInfo,
+  deleteArticle,
 } = userSlice.actions;
 
 export const selectIsUserLoggedIn = (state: RootState) =>
   state.user.isUserLoggedIn;
 export const selectLoginFormDisplayed = (state: RootState) =>
   state.user.isLoginFormDisplayed;
-export const selectCurrentUserPosts = (state: RootState) =>
-  state.user.currentUserPosts;
-export const selectCurrentUserInfo = (state: RootState) =>
-  state.user.currentUserInfo;
+export const selectUserInfo = (state: RootState) => state.user.userInfo;
 
 export default userSlice.reducer;

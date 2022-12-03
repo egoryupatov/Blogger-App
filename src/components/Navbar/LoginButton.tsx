@@ -13,6 +13,7 @@ export const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isUserLogged = useAppSelector(selectIsUserLoggedIn);
+  const userId = localStorage.getItem("id");
 
   return (
     <>
@@ -20,7 +21,7 @@ export const LoginButton: React.FC = () => {
         <>
           <AuthSectionStyled
             onClick={() => {
-              navigate("/dashboard");
+              navigate(`/user/${userId}`);
             }}
           >
             <img

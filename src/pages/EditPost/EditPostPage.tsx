@@ -4,7 +4,7 @@ import { MainContainerStyled } from "../../styles/general.styled";
 import { ButtonStyled } from "../../components/Navbar/Navbar.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { SERVER_URL } from "../../constants/constants";
-import { deleteCurrentUserPosts } from "../../store/userSlice";
+import { deleteArticle } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 
 export const EditPostPage: React.FC = () => {
@@ -53,8 +53,9 @@ export const EditPostPage: React.FC = () => {
       body: JSON.stringify(editedPost),
     };
 
-    fetch(`http://localhost:3005/posts/${params.id}`, options);
-    navigate("/dashboard");
+    fetch(`http://localhost:3005/posts/${params.id}`, options).then(
+      (response) => navigate("/dashboard")
+    );
   };
 
   const onDeletePostClick = () => {
@@ -67,7 +68,7 @@ export const EditPostPage: React.FC = () => {
     };
 
     fetch(`${SERVER_URL}/posts`, options)
-      .then(() => dispatch(deleteCurrentUserPosts(Number(params.id))))
+      .then(() => dispatch(deleteArticle(Number(params.id))))
       .then(() => navigate("/dashboard"));
   };
 
