@@ -2,6 +2,7 @@ import React from "react";
 import { AuthSectionStyled } from "./Navbar.styled";
 import {
   selectIsUserLoggedIn,
+  selectUserInfo,
   setIsLoginFormDisplayed,
   setIsUserLoggedIn,
 } from "../../store/userSlice";
@@ -14,6 +15,7 @@ export const LoginButton: React.FC = () => {
   const navigate = useNavigate();
   const isUserLogged = useAppSelector(selectIsUserLoggedIn);
   const userId = localStorage.getItem("id");
+  const userInfo = useAppSelector(selectUserInfo);
 
   return (
     <>
@@ -26,7 +28,7 @@ export const LoginButton: React.FC = () => {
           >
             <img
               style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-              src={"/avatar.png"}
+              src={userInfo.avatar}
             />
           </AuthSectionStyled>
 

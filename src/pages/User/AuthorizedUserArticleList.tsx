@@ -9,11 +9,17 @@ interface PublishedArticlesProps {
   onUnhideArticleClick: (articleId: number) => void;
 }
 
-export const PublishedArticles: React.FC<PublishedArticlesProps> = (props) => {
+export const AuthorizedUserArticleList: React.FC<PublishedArticlesProps> = (
+  props
+) => {
   return (
     <DashboardMiddlePartStyled>
       <UserStyled>
-        <h3>Published posts</h3>
+        {props.userInfo.articles.length > 0 ? (
+          <h3>Published posts</h3>
+        ) : (
+          <h3>This user hasn't published anything yet!</h3>
+        )}
 
         {props.userInfo.articles
           .filter((article) => article.id)

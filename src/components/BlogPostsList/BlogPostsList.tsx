@@ -15,23 +15,7 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import { SERVER_URL } from "../../constants/constants";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
 import { getCategoryName } from "../../utils/getCategoryName";
-
-export interface IAuthor {
-  login: string;
-  avatar: string;
-}
-
-export interface IComment {
-  id?: number;
-  text: string;
-  rating: number;
-  author: IAuthor;
-  publishDate: Date;
-  article: {
-    id: number;
-    title: string;
-  };
-}
+import { IComment } from "../../store/userSlice";
 
 export interface IPostCategory {
   id: number;
@@ -81,13 +65,14 @@ export const BlogPostsList: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "GET",
+      method: "POST",
+      body: JSON.stringify({ id: postID }),
     };
 
-    fetch(`${SERVER_URL}/posts/${postID}/rating/increment`, options);
+    fetch(`${SERVER_URL}/posts/rating/increment`, options);
 
     setPosts(
-      posts.map((post) => {
+      posts.map((post: IPostInfo) => {
         if (post.id === postID) {
           return { ...post, rating: post.rating + 1 };
         }
@@ -101,13 +86,14 @@ export const BlogPostsList: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "GET",
+      method: "POST",
+      body: JSON.stringify({ id: postID }),
     };
 
-    fetch(`${SERVER_URL}/posts/${postID}/rating/decrement`, options);
+    fetch(`${SERVER_URL}/posts/rating/decrement`, options);
 
     setPosts(
-      posts.map((post) => {
+      posts.map((post: IPostInfo) => {
         if (post.id === postID) {
           return { ...post, rating: post.rating - 1 };
         }
@@ -162,7 +148,9 @@ export const BlogPostsList: React.FC = () => {
               </BlogPostTitleAuthorStyled>
 
               <BlogPostTitleMiddleStyled>
-                <div>{elem.author.login}</div>
+                <Link to={`/user/${elem.author.id}`}>
+                  <div>{elem.author.login}</div>
+                </Link>
                 <div>{getTimeAgo(elem.publishDate)}</div>
               </BlogPostTitleMiddleStyled>
               <BlogPostTitleEndStyled>
@@ -186,10 +174,14 @@ export const BlogPostsList: React.FC = () => {
             </BlogPostBodyStyled>
 
             <BlogPostFooterStyled>
-              <BlogPostCommentsStyled>
-                <span className="material-symbols-outlined">mode_comment</span>
-                <span>{elem.comments.length}</span>
-              </BlogPostCommentsStyled>
+              <Link to={`/posts/${elem.category.name}/${elem.id}#comments`}>
+                <BlogPostCommentsStyled>
+                  <span className="material-symbols-outlined">
+                    mode_comment
+                  </span>
+                  <span>{elem.comments.length}</span>
+                </BlogPostCommentsStyled>
+              </Link>
               <BlogPostRatingStyled>
                 <span
                   onClick={() => onPostRatingDecrement(elem.id)}
@@ -211,8 +203,6 @@ export const BlogPostsList: React.FC = () => {
           </div>
         </BlogPostsListStyled>
       ))}
-
-      {/**/}
     </>
   );
 };

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import {
-  IComment,
-  IPostCategory,
-  IPostInfo,
-} from "../../components/BlogPostsList/BlogPostsList";
+import { Link, useParams } from "react-router-dom";
+import { IComment } from "../../store/userSlice";
 import { SERVER_URL } from "../../constants/constants";
 import {
   MainContainerStyled,
@@ -48,6 +44,7 @@ export const PostPage: React.FC = () => {
     author: {
       login: "",
       avatar: "",
+      id: 0,
     },
     categoryImage: "",
     title: "",
@@ -58,9 +55,10 @@ export const PostPage: React.FC = () => {
     publishDate: new Date(),
   });
 
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [comments, setComments] = useState<any>([]);
 
   const [newComment, setNewComment] = useState({
+    id: 0,
     text: "",
     rating: 0,
     author: {
@@ -92,6 +90,48 @@ export const PostPage: React.FC = () => {
     );
   };
 
+  const onCommentRatingIncrement = (commentID: number) => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ id: commentID }),
+    };
+
+    fetch(`${SERVER_URL}/comments/rating/increment`, options);
+
+    setComments(
+      comments.map((comment: IComment) => {
+        if (comment.id === commentID) {
+          return { ...comment, rating: comment.rating + 1 };
+        }
+        return comment;
+      })
+    );
+  };
+
+  const onCommentRatingDecrement = (commentID: number) => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ id: commentID }),
+    };
+
+    fetch(`${SERVER_URL}/comments/rating/decrement`, options);
+
+    setComments(
+      comments.map((comment: IComment) => {
+        if (comment.id === commentID) {
+          return { ...comment, rating: comment.rating - 1 };
+        }
+        return comment;
+      })
+    );
+  };
+
   return (
     <MainContainerStyled>
       <Categories />
@@ -100,10 +140,14 @@ export const PostPage: React.FC = () => {
           <BlogPostTitleStyled>
             <BlogPostTitleAuthorStyled>
               <img src={selectedPost.categoryImage} />
-              <p style={{ fontWeight: "500" }}>
-                {getCategoryName(selectedPost.category.name)}
-              </p>
-              <p>{selectedPost.author.login}</p>
+              <Link to={`/posts/${selectedPost.category.name}`}>
+                <p style={{ fontWeight: "500" }}>
+                  {getCategoryName(selectedPost.category.name)}
+                </p>
+              </Link>
+              <Link to={`/user/${selectedPost.author.id}`}>
+                <p>{selectedPost.author.login}</p>
+              </Link>
             </BlogPostTitleAuthorStyled>
 
             <p>{getTimeAgo(selectedPost.publishDate)}</p>
@@ -111,10 +155,8 @@ export const PostPage: React.FC = () => {
 
           <BlogPostBodyStyled>
             <h1>{selectedPost.title}</h1>
-
             <p>{selectedPost.description}</p>
             <img src={selectedPost.postImage} />
-
             <p>{selectedPost.text}</p>
           </BlogPostBodyStyled>
 
@@ -127,7 +169,12 @@ export const PostPage: React.FC = () => {
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
-              {selectedPost.rating}
+              {selectedPost.rating > 0 ? (
+                <p style={{ color: "#2EA839" }}>{selectedPost.rating}</p>
+              ) : (
+                <p style={{ color: "red" }}>{selectedPost.rating}</p>
+              )}
+
               <span className="material-symbols-outlined">
                 keyboard_arrow_up
               </span>
@@ -142,8 +189,13 @@ export const PostPage: React.FC = () => {
             onChange={handleAddingComment}
           />
           <button onClick={onCommentAdd}>Add a comment</button>
+          <span id="comments"></span>
           {comments.map((comment: IComment) => (
-            <Comment comment={comment} />
+            <Comment
+              comment={comment}
+              onCommentRatingIncrement={onCommentRatingIncrement}
+              onCommentRatingDecrement={onCommentRatingDecrement}
+            />
           ))}
         </PostPageComments>
       </WrapperStyled>

@@ -3,7 +3,7 @@ import {
   CommentsBoardContainerStyled,
   CommentsBoardStyled,
 } from "./CommentsBoard.styled";
-import { IComment } from "../BlogPostsList/BlogPostsList";
+import { IComment } from "../../store/userSlice";
 import { SERVER_URL } from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import { CommentBoardComment } from "./CommentBoardComment";

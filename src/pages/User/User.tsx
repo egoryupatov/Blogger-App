@@ -7,10 +7,11 @@ import {
 } from "./UserStyled";
 import { SERVER_URL } from "../../constants/constants";
 import { useDispatch } from "react-redux";
-import { Link, Routes } from "react-router-dom";
+import { Link, Navigate, Routes, useNavigate } from "react-router-dom";
 import {
   deleteArticle,
   getUserInfo,
+  selectIsUserLoggedIn,
   selectUserInfo,
 } from "../../store/userSlice";
 import { useAppSelector } from "../../store/hooks";
@@ -21,14 +22,17 @@ import {
   DashboardUserInfoRightSideStyled,
 } from "./UserStyled";
 import { getTimeAgo } from "../../utils/getTimeAgo";
-import { PublishedArticles } from "./PublishedArticles";
+import { AuthorizedUserArticleList } from "./AuthorizedUserArticleList";
 import { Route, useParams } from "react-router-dom";
 import { HiddenArticles } from "./HiddenArticles";
 import { UserComments } from "./UserComments";
 
 export const User: React.FC = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
+  const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+
   useEffect(() => {
     fetch(`${SERVER_URL}/users/${params.id}`)
       .then((response) => response.json())
@@ -88,7 +92,11 @@ export const User: React.FC = () => {
           </DashboardUserPanelStyled>
           <DashboardUserInfoTabs>
             <Link to={`/user/${params.id}/articles`}>Articles</Link>
-            <Link to={`/user/${params.id}/hidden`}>Hidden articles</Link>
+
+            {isUserLoggedIn && localStorage.getItem("id") === params.id ? (
+              <Link to={`/user/${params.id}/hidden`}>Hidden articles</Link>
+            ) : null}
+
             <Link to={`/user/${params.id}/comments`}>Comments</Link>
             <Link to={`/user/${params.id}/subscribers`}>Subscribers</Link>
             <Link to={`/user/${params.id}/subscriptions`}>Subscriptions</Link>
@@ -99,42 +107,38 @@ export const User: React.FC = () => {
           <Route
             path="/"
             element={
-              <PublishedArticles
+              <AuthorizedUserArticleList
                 userInfo={userInfo}
                 onDeleteArticleClick={onDeleteArticleClick}
                 onUnhideArticleClick={onUnhideArticleClick}
               />
             }
           />
-        </Routes>
-
-        <Routes>
           <Route
             path="articles"
             element={
-              <PublishedArticles
+              <AuthorizedUserArticleList
                 userInfo={userInfo}
                 onDeleteArticleClick={onDeleteArticleClick}
                 onUnhideArticleClick={onUnhideArticleClick}
               />
             }
           />
-        </Routes>
 
-        <Routes>
-          <Route
-            path="hidden"
-            element={
-              <HiddenArticles
-                userInfo={userInfo}
-                onDeleteArticleClick={onDeleteArticleClick}
-                onUnhideArticleClick={onUnhideArticleClick}
-              />
-            }
-          />
-        </Routes>
+          {isUserLoggedIn && localStorage.getItem("id") === params.id ? (
+            <Route
+              path="hidden"
+              element={
+                <HiddenArticles
+                  userInfo={userInfo}
+                  onDeleteArticleClick={onDeleteArticleClick}
+                  onUnhideArticleClick={onUnhideArticleClick}
+                />
+              }
+            />
+          ) : null}
+          {/*добавить страницу 404*/}
 
-        <Routes>
           <Route
             path="comments"
             element={<UserComments userInfo={userInfo} />}

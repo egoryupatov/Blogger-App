@@ -8,10 +8,28 @@ export const CommentStyled = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
 `;
 
-export const CommentTitleStyled = styled(BlogPostTitleStyled)`
-  margin-bottom: 10px;
+export const CommentTitleStyled = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+
+  img {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+  }
+
+  &:nth-last-child(even) {
+    padding-bottom: 10px;
+  }
 `;
 
 export const CommentTextStyled = styled.div`
@@ -21,9 +39,19 @@ export const CommentTextStyled = styled.div`
 
 export const CommentRatingStyled = styled.div`
   display: flex;
-  justify-content: end;
   gap: 10px;
   align-items: center;
 `;
 
-export const CommentTitleAuthorStyled = styled(BlogPostTitleAuthorStyled)``;
+export const CommentTitleAuthorStyled = styled.div`
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  align-items: center;
+
+  img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+  }
+`;

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { IAuthor } from "../components/BlogPostsList/BlogPostsList";
 
 export interface ICategory {
   id: number;
@@ -22,10 +21,6 @@ export interface IArticle {
 export interface IComment {
   id: number;
   publishDate: Date;
-  categoryImage: string;
-  postImage: string;
-  title: string;
-  description: string;
   rating: number;
   text: string;
   article: IArticle;
