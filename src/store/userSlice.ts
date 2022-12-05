@@ -25,6 +25,7 @@ export interface IComment {
   text: string;
   article: IArticle;
   author: IUser;
+  children: IComment[];
 }
 
 export interface IUser {
