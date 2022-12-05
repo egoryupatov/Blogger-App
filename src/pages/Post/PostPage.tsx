@@ -20,6 +20,8 @@ import { getCategoryName } from "../../utils/getCategoryName";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { Categories } from "../../components/Categories/Categories";
 import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
+import { ButtonStyled } from "../../styles/general.styled";
+import { TextAreaStyled, TextFormStyled } from "../../styles/general.styled";
 
 export const PostPage: React.FC = () => {
   const params = useParams();
@@ -148,9 +150,8 @@ export const PostPage: React.FC = () => {
               <Link to={`/user/${selectedPost.author.id}`}>
                 <p>{selectedPost.author.login}</p>
               </Link>
+              <p>{getTimeAgo(selectedPost.publishDate)}</p>
             </BlogPostTitleAuthorStyled>
-
-            <p>{getTimeAgo(selectedPost.publishDate)}</p>
           </BlogPostTitleStyled>
 
           <BlogPostBodyStyled>
@@ -181,14 +182,28 @@ export const PostPage: React.FC = () => {
             </BlogPostRatingStyled>
           </BlogPostFooterStyled>
         </PostPageStyled>
+
         <PostPageComments>
           <h2>Comments</h2>
-          <textarea
-            id="description"
-            placeholder="What are your thoughts?"
-            onChange={handleAddingComment}
-          />
-          <button onClick={onCommentAdd}>Add a comment</button>
+
+          <TextFormStyled>
+            <TextAreaStyled
+              id="description"
+              placeholder="What are your thoughts?"
+              onChange={handleAddingComment}
+            />
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                justifyContent: "end",
+                width: "100%",
+              }}
+            >
+              <ButtonStyled onClick={onCommentAdd}>Add a comment</ButtonStyled>
+            </div>
+          </TextFormStyled>
+
           <span id="comments"></span>
           {comments.map((comment: IComment) => (
             <Comment

@@ -41,16 +41,6 @@ export const AddPostStyled = styled.div`
     padding: 10px;
   }
 
-  textarea {
-    padding: 10px;
-    min-height: 200px;
-    max-height: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    border-radius: 9px;
-    border: 1px solid #e3e5e8;
-  }
-
   select {
     display: flex;
     width: 100%;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CommentStyled = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 `;
 
 export const CommentTitleStyled = styled.div`
@@ -18,15 +18,27 @@ export const CommentTitleStyled = styled.div`
     height: 24px;
     border-radius: 5px;
   }
-
-  &:nth-last-child(even) {
-    padding-bottom: 10px;
-  }
 `;
 
 export const CommentTextStyled = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const CommentAnswerStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  cursor: pointer;
+
+  span {
+    color: gray;
+    font-size: 14px;
+
+    &:hover {
+      color: #528adc;
+    }
+  }
 `;
 
 export const CommentRatingStyled = styled.div`
@@ -40,6 +52,7 @@ export const CommentTitleAuthorStyled = styled.div`
   justify-content: start;
   gap: 10px;
   align-items: center;
+  margin-bottom: 10px;
 
   img {
     height: 32px;

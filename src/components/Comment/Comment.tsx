@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IComment } from "../../store/userSlice";
 import {
   CommentTitleAuthorStyled,
@@ -6,9 +6,11 @@ import {
   CommentStyled,
   CommentTextStyled,
   CommentRatingStyled,
+  CommentAnswerStyled,
 } from "./Comment.styled";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { Link } from "react-router-dom";
+import { CommentForm } from "./CommentForm";
 
 interface CommentProps {
   comment: IComment;
@@ -17,6 +19,8 @@ interface CommentProps {
 }
 
 export const Comment: React.FC<CommentProps> = (props) => {
+  const [isAnswerWindowOpened, setIsAnswerWindowOpened] = useState(false);
+
   return (
     <>
       <CommentStyled>
@@ -64,19 +68,27 @@ export const Comment: React.FC<CommentProps> = (props) => {
         <CommentTextStyled>
           <p>{props.comment.text}</p>
         </CommentTextStyled>
-      </CommentStyled>
 
-      {props.comment.children
-        ? props.comment.children.map((childComment: IComment) => (
-            <div style={{ marginLeft: "20px" }}>
-              <Comment
-                comment={childComment}
-                onCommentRatingIncrement={props.onCommentRatingIncrement}
-                onCommentRatingDecrement={props.onCommentRatingDecrement}
-              />
-            </div>
-          ))
-        : null}
+        <CommentAnswerStyled
+          onClick={() => setIsAnswerWindowOpened(!isAnswerWindowOpened)}
+        >
+          <span>Answer</span>
+        </CommentAnswerStyled>
+
+        {isAnswerWindowOpened ? <CommentForm /> : null}
+
+        {props.comment.children
+          ? props.comment.children.map((childComment: IComment) => (
+              <div style={{ marginLeft: "20px", marginTop: "20px" }}>
+                <Comment
+                  comment={childComment}
+                  onCommentRatingIncrement={props.onCommentRatingIncrement}
+                  onCommentRatingDecrement={props.onCommentRatingDecrement}
+                />
+              </div>
+            ))
+          : null}
+      </CommentStyled>
     </>
   );
 };

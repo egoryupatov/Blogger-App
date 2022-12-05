@@ -75,6 +75,7 @@ export const SearchbarStyled = styled.div`
 export const ButtonStyled = styled.div`
   display: flex;
   overflow: hidden;
+
   button {
     overflow: hidden;
     display: flex;
