@@ -5,11 +5,9 @@ import {
 } from "./CommentsBoard.styled";
 import { IComment } from "../../store/userSlice";
 import { SERVER_URL } from "../../constants/constants";
-import { useDispatch } from "react-redux";
 import { CommentBoardComment } from "./CommentBoardComment";
 
 export const CommentsBoard: React.FC = () => {
-  const dispatch = useDispatch();
   const [comments, setComments] = useState<IComment[]>([]);
 
   useEffect(() => {
@@ -21,8 +19,8 @@ export const CommentsBoard: React.FC = () => {
   return (
     <CommentsBoardContainerStyled>
       <CommentsBoardStyled>
-        {comments.map((comment) => (
-          <CommentBoardComment comment={comment} />
+        {comments.map((comment: IComment) => (
+          <CommentBoardComment key={comment.id} comment={comment} />
         ))}
       </CommentsBoardStyled>
     </CommentsBoardContainerStyled>

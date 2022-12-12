@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from "../../constants/constants";
 
 export const AddPostPage: React.FC = () => {
-  const [newPost, setNewPost] = useState({
+  const [newBlogPost, setNewBlogPost] = useState({
     author: Number(localStorage.getItem("id")),
     category: 1,
     categoryImage: "/category1.png",
@@ -20,21 +20,21 @@ export const AddPostPage: React.FC = () => {
     text: "",
   });
 
-  const [attachedImage, setAttachedImage] = useState("");
-  const [attachedImageName, setAttachedImageName] = useState("");
+  const [attachedImage, setAttachedImage] = useState<string>("");
+  const [attachedImageName, setAttachedImageName] = useState<string>("");
 
   const navigate = useNavigate();
 
   const onTitleChange = (e: any) => {
-    setNewPost({ ...newPost, title: e.target.value });
+    setNewBlogPost({ ...newBlogPost, title: e.target.value });
   };
 
   const onDescriptionChange = (e: any) => {
-    setNewPost({ ...newPost, description: e.target.value });
+    setNewBlogPost({ ...newBlogPost, description: e.target.value });
   };
 
   const onCategorySelect = (e: any) => {
-    setNewPost({ ...newPost, category: e.target.value });
+    setNewBlogPost({ ...newBlogPost, category: e.target.value });
   };
 
   const onPostImageAttach = (e: any) => {
@@ -59,7 +59,7 @@ export const AddPostPage: React.FC = () => {
       },
       method: "POST",
       body: JSON.stringify({
-        ...newPost,
+        ...newBlogPost,
         postImage: `${SERVER_URL}/pictures/${imageURL}`,
       }),
     }).then((response) => navigate("/"));

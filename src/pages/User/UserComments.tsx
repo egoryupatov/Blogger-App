@@ -15,7 +15,11 @@ export const UserComments: React.FC<UserCommentsProps> = (props) => {
   return (
     <DashboardCommentStyled>
       {props.userInfo.comments.map((comment: IComment) => (
-        <UserComment comment={comment} login={props.userInfo.login} />
+        <UserComment
+          key={comment.id}
+          comment={comment}
+          login={props.userInfo.login}
+        />
       ))}
     </DashboardCommentStyled>
   );

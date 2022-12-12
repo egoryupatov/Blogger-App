@@ -12,6 +12,7 @@ import { User } from "./pages/User/User";
 import { AuthContainer } from "./components/LoginForm/AuthContainer";
 import { EditPostPage } from "./pages/EditPost/EditPostPage";
 import { AuthorizedUserArticle } from "./pages/User/AuthorizedUserArticle";
+import { Search } from "./pages/Search/Search";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -31,6 +32,7 @@ root.render(
           <Route path="/add-new-post" element={<AddPostPage />} />
           <Route path="/edit-post/:id" element={<EditPostPage />} />
           <Route path="/posts/:category/:id" element={<PostPage />} />
+          <Route path="/search" element={<Search />} />
 
           <Route path="/user/:id" element={<User />}>
             <Route path="articles" element={<User />} />

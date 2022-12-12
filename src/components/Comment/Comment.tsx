@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { IComment } from "../../store/userSlice";
+import React, { Dispatch, useState } from "react";
+import { IComment, IUser } from "../../store/userSlice";
 import {
   CommentTitleAuthorStyled,
   CommentTitleStyled,
@@ -9,17 +9,45 @@ import {
   CommentAnswerStyled,
 } from "./Comment.styled";
 import { getTimeAgo } from "../../utils/getTimeAgo";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CommentForm } from "./CommentForm";
+import { SERVER_URL } from "../../constants/constants";
 
 interface CommentProps {
   comment: IComment;
+  comments: IComment[];
+  /*  setComments: Dispatch<any>;*/
   onCommentRatingIncrement: (commentId: number) => void;
   onCommentRatingDecrement: (commentId: number) => void;
 }
 
 export const Comment: React.FC<CommentProps> = (props) => {
+  // сделать понижение и повышение рейтинга не через пропсы а через редакс
+
   const [isAnswerWindowOpened, setIsAnswerWindowOpened] = useState(false);
+
+  const [answer, setAnswer] = useState({
+    author: localStorage.getItem("id"),
+    text: "",
+    article: props.comment.article.id,
+    parent: props.comment.parent?.id,
+  });
+
+  const onAnswerChange = (e: any) => {
+    setAnswer({ ...answer, text: e.target.value });
+  };
+
+  const onAnswerAdd = (parentCommentId: number) => {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(answer),
+    };
+
+    fetch(`${SERVER_URL}/comments/${props.comment.id}/answer`, options);
+  };
 
   return (
     <>
@@ -27,7 +55,7 @@ export const Comment: React.FC<CommentProps> = (props) => {
         <CommentTitleStyled>
           <CommentTitleAuthorStyled>
             <Link to={`/user/${props.comment.author.id}`}>
-              <img src="/avatar.png" />
+              <img src={`${props.comment.author.avatar}`} />
             </Link>
 
             <div
@@ -75,13 +103,24 @@ export const Comment: React.FC<CommentProps> = (props) => {
           <span>Answer</span>
         </CommentAnswerStyled>
 
-        {isAnswerWindowOpened ? <CommentForm /> : null}
+        {isAnswerWindowOpened ? (
+          <CommentForm
+            setIsAnswerWindowOpened={() =>
+              setIsAnswerWindowOpened(!isAnswerWindowOpened)
+            }
+            onAnswerChange={onAnswerChange}
+            onAnswerAdd={onAnswerAdd}
+            comment={props.comment}
+          />
+        ) : null}
 
         {props.comment.children
           ? props.comment.children.map((childComment: IComment) => (
               <div style={{ marginLeft: "20px", marginTop: "20px" }}>
                 <Comment
                   comment={childComment}
+                  comments={props.comments}
+                  /*setComments={props.setComments}*/
                   onCommentRatingIncrement={props.onCommentRatingIncrement}
                   onCommentRatingDecrement={props.onCommentRatingDecrement}
                 />

@@ -88,3 +88,11 @@ export const TextAreaStyled = styled.textarea`
     outline: none;
   }
 `;
+
+export const PositiveRatingStyled = styled.div`
+  color: #2ea839;
+`;
+
+export const NegativeRatingStyled = styled.div`
+  color: red;
+`;

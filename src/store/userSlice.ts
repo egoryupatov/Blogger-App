@@ -6,43 +6,48 @@ export interface ICategory {
   name: string;
 }
 
-export interface IArticle {
-  id: number;
+export interface IBlogPost {
+  author: IUser;
+  comments: IComment[];
+  category: ICategory;
   publishDate: Date;
+  id: number;
   categoryImage: string;
   postImage: string;
   title: string;
   description: string;
   rating: number;
   text: string;
-  category: ICategory;
 }
 
 export interface IComment {
-  id: number;
-  publishDate: Date;
-  rating: number;
-  text: string;
-  article: IArticle;
+  article: IBlogPost;
   author: IUser;
   children: IComment[];
+  parent: IComment;
+  publishDate: Date;
+  id: number;
+  rating: number;
+  text: string;
 }
 
 export interface IUser {
+  articles: IBlogPost[];
+  comments: IComment[];
+  bannedArticles: IBlogPost[];
+  signUpDate: Date;
   id: number;
   login: string;
   avatar: string;
-  signUpDate: Date;
   rating: number;
-  articles: IArticle[];
-  comments: IComment[];
-  bannedArticles: IArticle[];
 }
 
 interface IInitialState {
+  userInfo: IUser;
   isUserLoggedIn: boolean;
   isLoginFormDisplayed: boolean;
-  userInfo: IUser;
+  searchQuery: string;
+  postComments: IComment[];
 }
 
 const initialState: IInitialState = {
@@ -58,9 +63,12 @@ const initialState: IInitialState = {
     comments: [],
     bannedArticles: [],
   },
+  postComments: [],
+  searchQuery: "",
 };
 
 export const userSlice = createSlice({
+  //переименовать слайс
   name: "user",
   initialState,
   reducers: {
@@ -78,6 +86,12 @@ export const userSlice = createSlice({
     getUserInfo: (state, action) => {
       state.userInfo = action.payload;
     },
+    getPostComments: (state, action) => {
+      state.postComments = action.payload;
+    },
+    getSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
@@ -86,6 +100,8 @@ export const {
   setIsLoginFormDisplayed,
   getUserInfo,
   deleteArticle,
+  getSearchQuery,
+  getPostComments,
 } = userSlice.actions;
 
 export const selectIsUserLoggedIn = (state: RootState) =>
@@ -93,5 +109,7 @@ export const selectIsUserLoggedIn = (state: RootState) =>
 export const selectLoginFormDisplayed = (state: RootState) =>
   state.user.isLoginFormDisplayed;
 export const selectUserInfo = (state: RootState) => state.user.userInfo;
+export const selectPostComments = (state: RootState) => state.user.postComments;
+export const selectSearchQuery = (state: RootState) => state.user.searchQuery;
 
 export default userSlice.reducer;

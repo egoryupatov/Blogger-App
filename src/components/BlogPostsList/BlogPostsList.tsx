@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BlogPostsListStyled,
   BlogPostTitleStyled,
@@ -10,51 +10,32 @@ import {
   BlogPostTitleMiddleStyled,
   BlogPostTitleEndStyled,
 } from "./BlogPostsList.styled";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { SERVER_URL } from "../../constants/constants";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
 import { getCategoryName } from "../../utils/getCategoryName";
-import { IComment } from "../../store/userSlice";
-
-export interface IPostCategory {
-  id: number;
-  name: string;
-}
-
-export interface IPostInfo {
-  id: number;
-  author: {
-    login: string;
-    id: number;
-  };
-  comments: IComment[];
-  login: string;
-  category: IPostCategory;
-  publishDate: Date;
-  categoryImage: string;
-  postImage: string;
-  title: string;
-  description: string;
-  rating: number;
-  text: string;
-}
+import { IBlogPost } from "../../store/userSlice";
+import {
+  PositiveRatingStyled,
+  NegativeRatingStyled,
+} from "../../styles/general.styled";
 
 export const BlogPostsList: React.FC = () => {
-  const [posts, setPosts] = useState<IPostInfo[]>([]);
+  // вынести в редакс получение постов
+  //сделать кастомный хук нау увеличение и уменьшение рейтинга поста
 
+  const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
   const location = useLocation();
-
-  //адекватно ли это? или надо делать по другому?
 
   useEffect(() => {
     location.pathname !== "/"
       ? fetch(`${SERVER_URL}${location.pathname}`)
           .then((response) => response.json())
-          .then((posts) => setPosts(posts))
+          .then((posts) => setBlogPosts(posts))
       : fetch(`${SERVER_URL}/posts/all`)
           .then((response) => response.json())
-          .then((posts) => setPosts(posts));
+          .then((posts) => setBlogPosts(posts));
   }, [location]);
 
   const [isThreeDotsMenuActive, setIsThreeDotsMenuActive] =
@@ -71,128 +52,131 @@ export const BlogPostsList: React.FC = () => {
 
     fetch(`${SERVER_URL}/posts/rating/increment`, options);
 
-    setPosts(
-      posts.map((post: IPostInfo) => {
-        if (post.id === postID) {
-          return { ...post, rating: post.rating + 1 };
+    setBlogPosts(
+      blogPosts.map((blogPost: IBlogPost) => {
+        if (blogPost.id === postID) {
+          return { ...blogPost, rating: blogPost.rating + 1 };
         }
-        return post;
+        return blogPost;
       })
     );
   };
-
-  const onPostRatingDecrement = (postID: number) => {
+  const onPostRatingDecrement = (blogPostId: number) => {
     const options = {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ id: postID }),
+      body: JSON.stringify({ id: blogPostId }),
     };
 
     fetch(`${SERVER_URL}/posts/rating/decrement`, options);
 
-    setPosts(
-      posts.map((post: IPostInfo) => {
-        if (post.id === postID) {
-          return { ...post, rating: post.rating - 1 };
+    setBlogPosts(
+      blogPosts.map((blogPost: IBlogPost) => {
+        if (blogPost.id === blogPostId) {
+          return { ...blogPost, rating: blogPost.rating - 1 };
         }
-        return post;
+        return blogPost;
       })
     );
   };
 
-  const onPostHideClick = (postID: number) => {
+  const onPostHideClick = (blogPostId: number) => {
     const options = {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({
-        postId: postID,
+        postId: blogPostId,
         userId: Number(localStorage.getItem("id")),
       }),
     };
 
     fetch(`${SERVER_URL}/users/hide`, options).then((response) => {
-      setPosts(
-        posts.filter((e) => {
-          return e.id != postID;
+      setBlogPosts(
+        blogPosts.filter((blogPost: IBlogPost) => {
+          return blogPost.id != blogPostId;
         })
       );
 
-      setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
+      setIsThreeDotsMenuActive((prevState) => !prevState);
     });
   };
 
   const onThreeDotsClick = () => {
-    setIsThreeDotsMenuActive(!isThreeDotsMenuActive);
+    setIsThreeDotsMenuActive((prevState) => !prevState);
   };
 
   return (
     <>
-      {/**/}
-
-      {posts.map((elem: IPostInfo) => (
-        <BlogPostsListStyled key={elem.id}>
+      {blogPosts.map((blogPost: IBlogPost) => (
+        <BlogPostsListStyled key={blogPost.id}>
           <div>
             <BlogPostTitleStyled>
               <BlogPostTitleAuthorStyled>
-                <img src={elem.categoryImage} />
+                <img src={blogPost.categoryImage} />
 
-                <Link to={`/posts/${elem.category.name}`}>
+                <Link to={`/posts/${blogPost.category.name}`}>
                   <p style={{ fontWeight: "500" }}>
-                    {getCategoryName(elem.category.name)}
+                    {getCategoryName(blogPost.category.name)}
                   </p>
                 </Link>
               </BlogPostTitleAuthorStyled>
 
               <BlogPostTitleMiddleStyled>
-                <Link to={`/user/${elem.author.id}`}>
-                  <div>{elem.author.login}</div>
+                <Link to={`/user/${blogPost.author.id}`}>
+                  <div>{blogPost.author.login}</div>
                 </Link>
-                <div>{getTimeAgo(elem.publishDate)}</div>
+                <div>{getTimeAgo(blogPost.publishDate)}</div>
               </BlogPostTitleMiddleStyled>
               <BlogPostTitleEndStyled>
                 <img onClick={onThreeDotsClick} src={"/dots.svg"} />
                 {isThreeDotsMenuActive ? (
                   <ThreeDotsMenu
-                    onPostHideClick={() => onPostHideClick(elem.id)}
+                    onPostHideClick={() => onPostHideClick(blogPost.id)}
                   />
-                ) : (
-                  ""
-                )}
+                ) : null}
               </BlogPostTitleEndStyled>
             </BlogPostTitleStyled>
 
             <BlogPostBodyStyled>
-              <Link to={`/posts/${elem.category.name}/${elem.id}`}>
-                <h1>{elem.title}</h1>
+              <Link to={`/posts/${blogPost.category.name}/${blogPost.id}`}>
+                <h1>{blogPost.title}</h1>
               </Link>
-              <p>{elem.description}</p>
-              <img src={elem.postImage} />
+              <p>{blogPost.description}</p>
+              <img src={blogPost.postImage} />
             </BlogPostBodyStyled>
 
             <BlogPostFooterStyled>
-              <Link to={`/posts/${elem.category.name}/${elem.id}#comments`}>
+              <Link
+                to={`/posts/${blogPost.category.name}/${blogPost.id}#comments`}
+              >
                 <BlogPostCommentsStyled>
                   <span className="material-symbols-outlined">
                     mode_comment
                   </span>
-                  <span>{elem.comments.length}</span>
+                  <span>{blogPost.comments.length}</span>
                 </BlogPostCommentsStyled>
               </Link>
               <BlogPostRatingStyled>
                 <span
-                  onClick={() => onPostRatingDecrement(elem.id)}
+                  onClick={() => onPostRatingDecrement(blogPost.id)}
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >
                   keyboard_arrow_down
                 </span>
-                {elem.rating}
+
+                {blogPost.rating > 0 ? (
+                  <PositiveRatingStyled>{blogPost.rating}</PositiveRatingStyled>
+                ) : (
+                  <NegativeRatingStyled>{blogPost.rating}</NegativeRatingStyled>
+                )}
+
                 <span
-                  onClick={() => onPostRatingIncrement(elem.id)}
+                  onClick={() => onPostRatingIncrement(blogPost.id)}
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >

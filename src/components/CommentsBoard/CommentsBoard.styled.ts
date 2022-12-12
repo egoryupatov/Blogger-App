@@ -5,25 +5,30 @@ export const CommentsBoardContainerStyled = styled.div`
   justify-content: end;
   width: 100%;
   top: 100px;
+  gap: 20px;
   position: sticky;
   height: 100%;
 `;
 
 export const CommentsBoardStyled = styled.div`
-  display: flex;
   flex-direction: column;
-  gap: 20px;
+  height: calc(100vh - 150px);
   justify-content: end;
   max-width: 250px;
   padding: 10px 0px 10px 0px;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const CommentBoardCommentStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 `;
 
 export const CommentBoardCommentTitleStyled = styled.div`

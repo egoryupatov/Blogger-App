@@ -1,6 +1,6 @@
 import React from "react";
 import { DashboardMiddlePartStyled, UserStyled } from "./UserStyled";
-import { IArticle, IUser } from "../../store/userSlice";
+import { IBlogPost, IUser } from "../../store/userSlice";
 import { AuthorizedUserArticle } from "./AuthorizedUserArticle";
 
 interface PublishedArticlesProps {
@@ -23,7 +23,7 @@ export const AuthorizedUserArticleList: React.FC<PublishedArticlesProps> = (
 
         {props.userInfo.articles
           .filter((article) => article.id)
-          .map((article: IArticle) => (
+          .map((article: IBlogPost) => (
             <AuthorizedUserArticle
               article={article}
               isBannedPosts={false}

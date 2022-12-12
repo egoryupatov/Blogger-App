@@ -1,6 +1,6 @@
 import React from "react";
 import { DashboardMiddlePartStyled, UserStyled } from "./UserStyled";
-import { IArticle, IUser } from "../../store/userSlice";
+import { IBlogPost, IUser } from "../../store/userSlice";
 import { AuthorizedUserArticle } from "./AuthorizedUserArticle";
 
 interface BannedArticlesProps {
@@ -15,8 +15,9 @@ export const HiddenArticles: React.FC<BannedArticlesProps> = (props) => {
       <UserStyled>
         <h3>Hidden articles</h3>
 
-        {props.userInfo.bannedArticles.map((article: IArticle) => (
+        {props.userInfo.bannedArticles.map((article: IBlogPost) => (
           <AuthorizedUserArticle
+            key={article.id}
             article={article}
             isBannedPosts={true}
             onDeleteArticleClick={props.onDeleteArticleClick}

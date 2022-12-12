@@ -1,16 +1,25 @@
-import React from "react";
+import React, { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import {
   ButtonStyled,
   TextFormStyled,
   TextAreaStyled,
 } from "../../styles/general.styled";
+import { IComment } from "../../store/userSlice";
 
-export const CommentForm: React.FC = () => {
+interface CommentFormProps {
+  setIsAnswerWindowOpened: Dispatch<SetStateAction<boolean>>;
+  onAnswerChange: (e: any) => void;
+  onAnswerAdd: (id: number) => void;
+  comment: IComment;
+}
+
+export const CommentForm: React.FC<CommentFormProps> = (props) => {
   return (
     <TextFormStyled marginLeft="15px">
       <TextAreaStyled
         id="description"
         placeholder="Write an answer..."
+        onChange={props.onAnswerChange}
       ></TextAreaStyled>
       <div
         style={{
@@ -26,10 +35,13 @@ export const CommentForm: React.FC = () => {
           border="none"
           shadow="none"
           hover="none"
+          onClick={() => props.setIsAnswerWindowOpened(false)}
         >
           Cancel
         </ButtonStyled>
-        <ButtonStyled>Answer</ButtonStyled>
+        <ButtonStyled onClick={() => props.onAnswerAdd(props.comment.id)}>
+          Answer
+        </ButtonStyled>
       </div>
     </TextFormStyled>
   );

@@ -1,10 +1,10 @@
 import React from "react";
 import { DashboardPostsList } from "./UserStyled";
 import { Link } from "react-router-dom";
-import { IArticle } from "../../store/userSlice";
+import { IBlogPost } from "../../store/userSlice";
 
 interface DashboardPostProps {
-  article: IArticle;
+  article: IBlogPost;
   onDeleteArticleClick: (id: number) => void;
   onUnhideArticleClick: (id: number) => void;
   isBannedPosts: boolean;
