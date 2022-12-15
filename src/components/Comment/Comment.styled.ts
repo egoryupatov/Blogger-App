@@ -27,9 +27,10 @@ export const CommentTextStyled = styled.div`
 
 export const CommentAnswerStyled = styled.div`
   display: flex;
-  flex-direction: column;
+  /*  flex-direction: column;*/
   margin-top: 10px;
   cursor: pointer;
+  gap: 10px;
 
   span {
     color: gray;

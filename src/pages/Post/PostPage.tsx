@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
+  addNewComment,
   getPostComments,
   IComment,
+  selectBlogPost,
+  selectLoginFormDisplayed,
   selectPostComments,
+  setIsLoginFormDisplayed,
 } from "../../store/userSlice";
 import { SERVER_URL } from "../../constants/constants";
 import {
@@ -32,20 +36,19 @@ import { useGetBlogPost } from "../../utils/useGetBlogPost";
 import { useGetComments } from "../../utils/useGetComments";
 import { useAppSelector } from "../../store/hooks";
 import { useDispatch } from "react-redux";
+import { LoginForm } from "../../components/LoginForm/LoginForm";
+import { onNewCommentAdd } from "../../utils/onNewCommentAdd";
 
 export const PostPage: React.FC = () => {
   const dispatch = useDispatch();
+  const params = useParams();
 
   useGetComments();
+  useGetBlogPost();
 
   const comments = useAppSelector(selectPostComments);
-
-  const blogPost = useGetBlogPost();
-
-  // перенести как минимум комментарии в redux чтобы всегда иметь доступ к их стейту
-  //а потом убрать лишний код и оставить только кастомный хук
-
-  const params = useParams();
+  const blogPost = useAppSelector(selectBlogPost);
+  const isLoginFormDisplayed = useAppSelector(selectLoginFormDisplayed);
 
   const [newComment, setNewComment] = useState<any>({
     text: "",
@@ -62,75 +65,8 @@ export const PostPage: React.FC = () => {
   const handleAddingComment = (event: any) => {
     setNewComment({ ...newComment, text: event.target.value });
   };
-  const onCommentAdd = () => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newComment),
-    };
 
-    fetch(`${SERVER_URL}/comments/${params.id}`, options).then(
-      (response) => /*setComments(*/ [...comments, newComment] /*)*/
-    );
-  };
-
-  const onCommentRatingIncrement = (commentID: number) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    };
-
-    fetch(`${SERVER_URL}/comments/${commentID}/increment`, options);
-
-    const increment = (comment: IComment): IComment => {
-      if (comment.id === commentID) {
-        return { ...comment, rating: comment.rating + 1 };
-      }
-      return { ...comment, children: comment.children.map(increment) };
-    };
-
-    // переделать на отдельный экшен увеличения и уменьшения рейтинга и пофиксить хук useCommentRatingDecrement
-
-    dispatch(
-      getPostComments(
-        comments.map((comment: IComment) => {
-          return increment(comment);
-        })
-      )
-    );
-  };
-
-  const onCommentRatingDecrement = (commentID: number) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    };
-
-    fetch(`${SERVER_URL}/comments/${commentID}/decrement`, options);
-
-    const decrement = (comment: IComment): IComment => {
-      if (comment.id === commentID) {
-        return { ...comment, rating: comment.rating - 1 };
-      }
-      return { ...comment, children: comment.children.map(decrement) };
-    };
-
-    //сделать отдельный экшн для понижения рейтинга
-
-    dispatch(
-      getPostComments(
-        comments.map((comment: IComment) => {
-          return decrement(comment);
-        })
-      )
-    );
-  };
+  //добавление нового комментария в базу данных перестало работать потому что комментарии теперь идут деревом
 
   return (
     <MainContainerStyled>
@@ -196,16 +132,40 @@ export const PostPage: React.FC = () => {
               placeholder="What are your thoughts?"
               onChange={handleAddingComment}
             />
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                justifyContent: "end",
-                width: "100%",
-              }}
-            >
-              <ButtonStyled onClick={onCommentAdd}>Add a comment</ButtonStyled>
-            </div>
+
+            {localStorage.getItem("token") ? (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  justifyContent: "end",
+                  width: "100%",
+                }}
+              >
+                <ButtonStyled
+                  onClick={() => onNewCommentAdd(newComment, params, dispatch)}
+                >
+                  Add a comment
+                </ButtonStyled>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  justifyContent: "end",
+                  width: "100%",
+                }}
+              >
+                <ButtonStyled
+                  onClick={() => dispatch(setIsLoginFormDisplayed(true))}
+                >
+                  Add a comment
+                </ButtonStyled>
+              </div>
+            )}
+
+            {isLoginFormDisplayed ? <LoginForm /> : null}
           </TextFormStyled>
 
           <span id="comments"></span>
@@ -214,9 +174,8 @@ export const PostPage: React.FC = () => {
               key={comment.id}
               comment={comment}
               comments={comments}
-              /*setComments={setComments}*/
-              onCommentRatingIncrement={onCommentRatingIncrement}
-              onCommentRatingDecrement={onCommentRatingDecrement}
+              /*onCommentRatingIncrement={onCommentRatingIncrement}*/
+              // onCommentRatingDecrement={onCommentRatingDecrement}
             />
           ))}
         </PostPageComments>

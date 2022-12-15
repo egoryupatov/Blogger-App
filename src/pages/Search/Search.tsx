@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MainContainerStyled,
   WrapperStyled,
@@ -15,19 +15,21 @@ export const Search: React.FC = () => {
   const searchQuery = useAppSelector(selectSearchQuery);
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/search/${searchQuery}`)
+    fetch(`${SERVER_URL}/posts/search/${searchQuery}`)
       .then((result) => result.json())
-      .then((articles) => (searchResults = articles));
+      .then((searchResults) => setSearchResults(searchResults));
   }, []);
 
-  let searchResults: IBlogPost[] = [];
+  const [searchResults, setSearchResults] = useState([]);
+
+  //импортировать blogPosList когда будет сделан рефакторинг
 
   return (
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
         <SearchPageContainerStyled>
-          <h1>Search results for ...</h1>
+          <h1>Search results for "{searchQuery}"</h1>
           {searchResults.map((article: IBlogPost) => (
             <p>{article.title}</p>
           ))}

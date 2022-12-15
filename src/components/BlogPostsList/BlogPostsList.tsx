@@ -15,98 +15,32 @@ import { getTimeAgo } from "../../utils/getTimeAgo";
 import { SERVER_URL } from "../../constants/constants";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
 import { getCategoryName } from "../../utils/getCategoryName";
-import { IBlogPost } from "../../store/userSlice";
+import {
+  getAllBlogPosts,
+  IBlogPost,
+  selectAllBlogPosts,
+  selectIsThreeDotsMenuActive,
+  setIsThreeDotsMenuActive,
+} from "../../store/userSlice";
 import {
   PositiveRatingStyled,
   NegativeRatingStyled,
 } from "../../styles/general.styled";
+import { useAppSelector } from "../../store/hooks";
+import { useDispatch } from "react-redux";
+import { useGetAllPosts } from "../../utils/useGetAllPosts";
+import { onPostRatingIncrement } from "../../utils/onPostRatingIncrement";
+import { onPostRatingDecrement } from "../../utils/onPostRatingDecrement";
+import { onPostHideClick } from "../../utils/onPostHideClick";
 
 export const BlogPostsList: React.FC = () => {
-  // вынести в редакс получение постов
-  //сделать кастомный хук нау увеличение и уменьшение рейтинга поста
+  useGetAllPosts();
+  const dispatch = useDispatch();
+  const blogPosts = useAppSelector(selectAllBlogPosts);
+  const isThreeDotsMenuActive = useAppSelector(selectIsThreeDotsMenuActive);
 
-  const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
-  const location = useLocation();
-
-  useEffect(() => {
-    location.pathname !== "/"
-      ? fetch(`${SERVER_URL}${location.pathname}`)
-          .then((response) => response.json())
-          .then((posts) => setBlogPosts(posts))
-      : fetch(`${SERVER_URL}/posts/all`)
-          .then((response) => response.json())
-          .then((posts) => setBlogPosts(posts));
-  }, [location]);
-
-  const [isThreeDotsMenuActive, setIsThreeDotsMenuActive] =
-    useState<boolean>(false);
-
-  const onPostRatingIncrement = (postID: number) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ id: postID }),
-    };
-
-    fetch(`${SERVER_URL}/posts/rating/increment`, options);
-
-    setBlogPosts(
-      blogPosts.map((blogPost: IBlogPost) => {
-        if (blogPost.id === postID) {
-          return { ...blogPost, rating: blogPost.rating + 1 };
-        }
-        return blogPost;
-      })
-    );
-  };
-  const onPostRatingDecrement = (blogPostId: number) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ id: blogPostId }),
-    };
-
-    fetch(`${SERVER_URL}/posts/rating/decrement`, options);
-
-    setBlogPosts(
-      blogPosts.map((blogPost: IBlogPost) => {
-        if (blogPost.id === blogPostId) {
-          return { ...blogPost, rating: blogPost.rating - 1 };
-        }
-        return blogPost;
-      })
-    );
-  };
-
-  const onPostHideClick = (blogPostId: number) => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        postId: blogPostId,
-        userId: Number(localStorage.getItem("id")),
-      }),
-    };
-
-    fetch(`${SERVER_URL}/users/hide`, options).then((response) => {
-      setBlogPosts(
-        blogPosts.filter((blogPost: IBlogPost) => {
-          return blogPost.id != blogPostId;
-        })
-      );
-
-      setIsThreeDotsMenuActive((prevState) => !prevState);
-    });
-  };
-
-  const onThreeDotsClick = () => {
-    setIsThreeDotsMenuActive((prevState) => !prevState);
+  const onThreeDotsMenuClick = () => {
+    dispatch(setIsThreeDotsMenuActive(!isThreeDotsMenuActive));
   };
 
   return (
@@ -132,10 +66,17 @@ export const BlogPostsList: React.FC = () => {
                 <div>{getTimeAgo(blogPost.publishDate)}</div>
               </BlogPostTitleMiddleStyled>
               <BlogPostTitleEndStyled>
-                <img onClick={onThreeDotsClick} src={"/dots.svg"} />
+                <img onClick={onThreeDotsMenuClick} src={"/dots.svg"} />
                 {isThreeDotsMenuActive ? (
                   <ThreeDotsMenu
-                    onPostHideClick={() => onPostHideClick(blogPost.id)}
+                    onPostHideClick={() =>
+                      onPostHideClick(
+                        blogPost.id,
+                        dispatch,
+                        blogPosts,
+                        isThreeDotsMenuActive
+                      )
+                    }
                   />
                 ) : null}
               </BlogPostTitleEndStyled>
@@ -162,7 +103,9 @@ export const BlogPostsList: React.FC = () => {
               </Link>
               <BlogPostRatingStyled>
                 <span
-                  onClick={() => onPostRatingDecrement(blogPost.id)}
+                  onClick={() =>
+                    onPostRatingDecrement(blogPost.id, dispatch, blogPosts)
+                  }
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >
@@ -176,7 +119,9 @@ export const BlogPostsList: React.FC = () => {
                 )}
 
                 <span
-                  onClick={() => onPostRatingIncrement(blogPost.id)}
+                  onClick={() =>
+                    onPostRatingIncrement(blogPost.id, dispatch, blogPosts)
+                  }
                   style={{ cursor: "pointer" }}
                   className="material-symbols-outlined"
                 >

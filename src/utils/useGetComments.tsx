@@ -9,7 +9,7 @@ export const useGetComments = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/comments/${params.id}`).then((response) =>
+    fetch(`${SERVER_URL}/comments/post/${params.id}`).then((response) =>
       response.json().then((response) => dispatch(getPostComments(response)))
     );
   }, []);

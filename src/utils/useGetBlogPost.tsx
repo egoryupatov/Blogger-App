@@ -1,33 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SERVER_URL } from "../constants/constants";
+import { useAppDispatch } from "../store/hooks";
+import { getBlogPost } from "../store/userSlice";
 
 export const useGetBlogPost = () => {
+  const dispatch = useAppDispatch();
   const params = useParams();
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/posts/${params.category}/${params.id}`).then(
-      (response) => response.json().then((response) => setBlogPost(response))
+    fetch(`${SERVER_URL}/posts/category/${params.category}/${params.id}`).then(
+      (response) =>
+        response.json().then((response) => dispatch(getBlogPost(response)))
     );
   }, []);
-
-  const [blogPost, setBlogPost] = useState({
-    category: {
-      name: "",
-    },
-    author: {
-      login: "",
-      avatar: "",
-      id: 0,
-    },
-    categoryImage: "",
-    title: "",
-    description: "",
-    rating: 0,
-    postImage: "",
-    text: "",
-    publishDate: new Date(),
-  });
-
-  return blogPost;
 };

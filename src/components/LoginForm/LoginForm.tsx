@@ -55,6 +55,7 @@ export const LoginForm: React.FC = () => {
       .then((response) => {
         localStorage.setItem("token", response.access_token);
         localStorage.setItem("id", response.id);
+        localStorage.setItem("avatar", response.avatar);
         dispatch(setIsLoginFormDisplayed(false));
         dispatch(setIsUserLoggedIn(true));
       })

@@ -14,25 +14,25 @@ export const Categories: React.FC = () => {
           <p>All posts</p>
         </CategoryStyled>
       </Link>
-      <Link to={"/posts/business"}>
+      <Link to={"/posts/category/business"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">monitoring</span>
           <p>Business</p>
         </CategoryStyled>
       </Link>
-      <Link to={"/posts/entertainment"}>
+      <Link to={"/posts/category/entertainment"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">sports_esports</span>
           <p>Entertainment</p>
         </CategoryStyled>
       </Link>
-      <Link to={"/posts/health"}>
+      <Link to={"/posts/category/health"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">medical_services</span>
           <p>Health</p>
         </CategoryStyled>
       </Link>
-      <Link to={"/posts/travel"}>
+      <Link to={"/posts/category/travel"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">beach_access</span>
           <p>Travel</p>

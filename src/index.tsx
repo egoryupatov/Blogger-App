@@ -25,10 +25,10 @@ root.render(
         <AuthContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="posts/business" element={<Homepage />} />
-          <Route path="posts/travel" element={<Homepage />} />
-          <Route path="posts/health" element={<Homepage />} />
-          <Route path="posts/entertainment" element={<Homepage />} />
+          <Route path="posts/category/business" element={<Homepage />} />
+          <Route path="posts/category/travel" element={<Homepage />} />
+          <Route path="posts/category/health" element={<Homepage />} />
+          <Route path="posts/category/entertainment" element={<Homepage />} />
           <Route path="/add-new-post" element={<AddPostPage />} />
           <Route path="/edit-post/:id" element={<EditPostPage />} />
           <Route path="/posts/:category/:id" element={<PostPage />} />
