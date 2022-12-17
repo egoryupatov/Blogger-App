@@ -24,8 +24,9 @@ import {
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { AuthorizedUserArticleList } from "./AuthorizedUserArticleList";
 import { Route, useParams } from "react-router-dom";
-import { HiddenArticles } from "./HiddenArticles";
+import { HiddenPosts } from "./HiddenPosts";
 import { UserComments } from "./UserComments";
+import { Sub } from "../../components/Sub/Sub";
 
 export const User: React.FC = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export const User: React.FC = () => {
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/users/${params.id}`)
+    fetch(`${SERVER_URL}/users/info/${params.id}`)
       .then((response) => response.json())
       .then((user) => dispatch(getUserInfo(user)));
   }, []);
@@ -91,10 +92,10 @@ export const User: React.FC = () => {
             </DashboardUserInfoRightSideStyled>
           </DashboardUserPanelStyled>
           <DashboardUserInfoTabs>
-            <Link to={`/user/${params.id}/articles`}>Articles</Link>
+            <Link to={`/user/${params.id}/articles`}>Posts</Link>
 
             {isUserLoggedIn && localStorage.getItem("id") === params.id ? (
-              <Link to={`/user/${params.id}/hidden`}>Hidden articles</Link>
+              <Link to={`/user/${params.id}/hidden`}>Hidden posts</Link>
             ) : null}
 
             <Link to={`/user/${params.id}/comments`}>Comments</Link>
@@ -129,7 +130,7 @@ export const User: React.FC = () => {
             <Route
               path="hidden"
               element={
-                <HiddenArticles
+                <HiddenPosts
                   userInfo={userInfo}
                   onDeleteArticleClick={onDeleteArticleClick}
                   onUnhideArticleClick={onUnhideArticleClick}
@@ -143,6 +144,15 @@ export const User: React.FC = () => {
             path="comments"
             element={<UserComments userInfo={userInfo} />}
           />
+
+          <Route
+            path="comments"
+            element={<UserComments userInfo={userInfo} />}
+          />
+
+          <Route path="subscribers" element={<Sub userInfo={userInfo} />} />
+
+          <Route path="subscriptions" element={<Sub userInfo={userInfo} />} />
         </Routes>
       </DashboardWrapperStyled>
     </MainContainerStyled>

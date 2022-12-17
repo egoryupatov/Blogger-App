@@ -39,7 +39,10 @@ export interface IUser {
   login: string;
   avatar: string;
   rating: number;
+  subscriptions: IUser[];
+  subscribers: IUser[];
 }
+
 interface IInitialState {
   userInfo: IUser;
   isUserLoggedIn: boolean;
@@ -64,6 +67,8 @@ const initialState: IInitialState = {
     articles: [],
     comments: [],
     bannedArticles: [],
+    subscriptions: [],
+    subscribers: [],
   },
   blogPost: {
     author: {
@@ -75,6 +80,8 @@ const initialState: IInitialState = {
       login: "",
       avatar: "",
       rating: 0,
+      subscriptions: [],
+      subscribers: [],
     },
     comments: [],
     category: {

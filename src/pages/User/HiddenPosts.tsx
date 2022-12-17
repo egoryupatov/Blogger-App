@@ -9,11 +9,11 @@ interface BannedArticlesProps {
   onUnhideArticleClick: (articleId: number) => void;
 }
 
-export const HiddenArticles: React.FC<BannedArticlesProps> = (props) => {
+export const HiddenPosts: React.FC<BannedArticlesProps> = (props) => {
   return (
     <DashboardMiddlePartStyled>
       <UserStyled>
-        <h3>Hidden articles</h3>
+        <h3>Hidden posts</h3>
 
         {props.userInfo.bannedArticles.map((article: IBlogPost) => (
           <AuthorizedUserArticle

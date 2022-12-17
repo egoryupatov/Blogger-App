@@ -3,7 +3,7 @@ import {
   LoginFormContainerStyled,
   LoginFormStyled,
   LoginFormCloseStyled,
-} from "./LoginFormStyled";
+} from "./LoginForm.styled";
 import { useDispatch } from "react-redux";
 import {
   setIsLoginFormDisplayed,
