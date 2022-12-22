@@ -14,7 +14,7 @@ export const AuthorizedUserArticle: React.FC<DashboardPostProps> = (props) => {
   return (
     <DashboardPostsList key={props.article.id}>
       <Link to={`/posts/${props.article.id}`}>
-        <p>{props.article.title}</p>
+        <div>{props.article.title}</div>
       </Link>
 
       {props.isBannedPosts ? (

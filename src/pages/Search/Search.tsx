@@ -10,6 +10,7 @@ import { SERVER_URL } from "../../constants/constants";
 import { useAppSelector } from "../../store/hooks";
 import { selectSearchQuery } from "../../store/userSlice";
 import { IBlogPost } from "../../store/userSlice";
+import { BlogPost } from "../../components/BlogPostsList/BlogPost";
 
 export const Search: React.FC = () => {
   const searchQuery = useAppSelector(selectSearchQuery);
@@ -22,18 +23,16 @@ export const Search: React.FC = () => {
 
   const [searchResults, setSearchResults] = useState([]);
 
-  //импортировать blogPosList когда будет сделан рефакторинг
-
   return (
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
         <SearchPageContainerStyled>
           <h1>Search results for "{searchQuery}"</h1>
-          {searchResults.map((article: IBlogPost) => (
-            <p>{article.title}</p>
-          ))}
         </SearchPageContainerStyled>
+        {searchResults.map((blogPost: IBlogPost) => (
+          <BlogPost blogPost={blogPost} />
+        ))}
       </WrapperStyled>
       <CommentsBoard />
     </MainContainerStyled>

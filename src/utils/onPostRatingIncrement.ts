@@ -1,29 +1,37 @@
 import { SERVER_URL } from "../constants/constants";
-import { getAllBlogPosts, IBlogPost } from "../store/userSlice";
+import {
+  getAllBlogPosts,
+  IBlogPost,
+  incrementBlogPostRating,
+} from "../store/userSlice";
+import { Location } from "react-router-dom";
 
 export const onPostRatingIncrement = (
-  postID: number,
+  blogPostId: number,
   dispatch: any,
-  blogPosts: IBlogPost[]
+  blogPosts: IBlogPost[],
+  location: Location
 ) => {
   const options = {
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify({ id: postID }),
+    body: JSON.stringify({ id: blogPostId }),
   };
 
   fetch(`${SERVER_URL}/posts/rating/increment`, options);
 
-  dispatch(
-    getAllBlogPosts(
-      blogPosts.map((blogPost: IBlogPost) => {
-        if (blogPost.id === postID) {
-          return { ...blogPost, rating: blogPost.rating + 1 };
-        }
-        return blogPost;
-      })
-    )
-  );
+  location.pathname === "/"
+    ? dispatch(
+        getAllBlogPosts(
+          blogPosts.map((blogPost: IBlogPost) => {
+            if (blogPost.id === blogPostId) {
+              return { ...blogPost, rating: blogPost.rating + 1 };
+            }
+            return blogPost;
+          })
+        )
+      )
+    : dispatch(incrementBlogPostRating(blogPostId));
 };

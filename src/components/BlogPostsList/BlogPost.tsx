@@ -10,7 +10,7 @@ import {
   BlogPostTitleMiddleStyled,
   BlogPostTitleStyled,
 } from "./BlogPostsList.styled";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getCategoryName } from "../../utils/getCategoryName";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { ThreeDotsMenu } from "../ThreeDotsMenu/ThreeDotsMenu";
@@ -40,6 +40,7 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
   const isThreeDotsMenuActive = useAppSelector(selectIsThreeDotsMenuActive);
   const dispatch = useDispatch();
   const blogPosts = useAppSelector(selectAllBlogPosts);
+  const location = useLocation();
 
   const onThreeDotsMenuClick = () => {
     dispatch(setIsThreeDotsMenuActive(!isThreeDotsMenuActive));
@@ -70,9 +71,9 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
             <img src={props.blogPost.categoryImage} />
 
             <Link to={`/posts/${props.blogPost.category.name}`}>
-              <p style={{ fontWeight: "500" }}>
+              <div style={{ fontWeight: "500" }}>
                 {getCategoryName(props.blogPost.category.name)}
-              </p>
+              </div>
             </Link>
           </BlogPostTitleAuthorStyled>
 
@@ -82,8 +83,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
             </Link>
             <div>{getTimeAgo(props.blogPost.publishDate)}</div>
           </BlogPostTitleMiddleStyled>
-
-          {/*///////////////*/}
 
           {localStorage.getItem("token") ? (
             <BlogPostTitleEndStyled>
@@ -98,8 +97,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                   person_add
                 </span>
               )}
-
-              {/*//////////////*/}
 
               <img onClick={onThreeDotsMenuClick} src={"/dots.svg"} />
               {isThreeDotsMenuActive ? (
@@ -122,10 +119,23 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           <Link
             to={`/posts/${props.blogPost.category.name}/${props.blogPost.id}`}
           >
-            <h1>{props.blogPost.title}</h1>
+            <h1 style={{ marginBottom: "10px" }}>{props.blogPost.title}</h1>
           </Link>
-          <p>{props.blogPost.description}</p>
-          <img src={props.blogPost.postImage} />
+          <div style={{ marginBottom: "10px" }}>
+            {props.blogPost.description}
+          </div>
+
+          {location.pathname === "/search" ? null : (
+            <img
+              style={{ marginBottom: "10px" }}
+              src={props.blogPost.postImage}
+            />
+          )}
+
+          {location.pathname ===
+          `/posts/${props.blogPost.category.name}/${props.blogPost.id}` ? (
+            <div dangerouslySetInnerHTML={{ __html: props.blogPost.text }} />
+          ) : null}
         </BlogPostBodyStyled>
 
         <BlogPostFooterStyled>
@@ -140,7 +150,12 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           <BlogPostRatingStyled>
             <span
               onClick={() =>
-                onPostRatingDecrement(props.blogPost.id, dispatch, blogPosts)
+                onPostRatingDecrement(
+                  props.blogPost.id,
+                  dispatch,
+                  blogPosts,
+                  location
+                )
               }
               style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
@@ -160,7 +175,12 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
 
             <span
               onClick={() =>
-                onPostRatingIncrement(props.blogPost.id, dispatch, blogPosts)
+                onPostRatingIncrement(
+                  props.blogPost.id,
+                  dispatch,
+                  blogPosts,
+                  location
+                )
               }
               style={{ cursor: "pointer" }}
               className="material-symbols-outlined"

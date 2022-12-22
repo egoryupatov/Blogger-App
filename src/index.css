@@ -10,6 +10,11 @@
     color:black;
 }
 
+p {
+    margin-bottom: 12px;
+
+}
+
 .material-symbols-outlined {
    font-variation-settings:
            'FILL' 0,

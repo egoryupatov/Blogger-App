@@ -15,33 +15,33 @@ export const CommentBoardComment: React.FC<CommentProps> = (props) => {
   return (
     <CommentBoardCommentStyled key={props.comment.id}>
       <CommentBoardCommentTitleStyled>
-        <p>
+        <div>
           <img src={props.comment.author.avatar} />
-        </p>
+        </div>
         <Link to={`/user/${props.comment.author.id}`}>
-          <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+          <div style={{ fontSize: "14px", fontWeight: "bold" }}>
             {props.comment.author.login}
-          </p>
+          </div>
         </Link>
-        <p style={{ fontSize: "12px" }}>
+        <div style={{ fontSize: "12px" }}>
           {getTimeAgoShort(props.comment.publishDate)}
-        </p>
+        </div>
       </CommentBoardCommentTitleStyled>
 
-      <p style={{ fontSize: "16px" }}>
+      <div style={{ fontSize: "16px" }}>
         {props.comment.text.length > 65
           ? props.comment.text.split("").splice(0, 65).join("") + "..."
           : props.comment.text}
-      </p>
+      </div>
       <Link
         to={`/posts/${props.comment.article.category.name}/${props.comment.article.id}`}
       >
-        <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+        <div style={{ fontSize: "14px", fontWeight: "bold" }}>
           {props.comment.article.title.length > 35
             ? props.comment.article.title.split("").splice(0, 35).join("") +
               "..."
             : props.comment.article.title}
-        </p>
+        </div>
       </Link>
     </CommentBoardCommentStyled>
   );

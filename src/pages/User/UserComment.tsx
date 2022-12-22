@@ -20,7 +20,9 @@ export const UserComment: React.FC<userCommentProps> = (props) => {
         <Link
           to={`/posts/${props.comment.article.category.name}/${props.comment.article.id}`}
         >
-          <p style={{ fontWeight: "bold" }}>{props.comment.article.title}</p>
+          <div style={{ fontWeight: "bold" }}>
+            {props.comment.article.title}
+          </div>
         </Link>
       </UserCommentTitleStyled>
 
@@ -34,13 +36,13 @@ export const UserComment: React.FC<userCommentProps> = (props) => {
         >
           <img src={props.comment.author.avatar} />
           <Link to={`/user/${props.comment.author.id}`}>
-            <p>{props.comment.author.login}</p>
+            <div>{props.comment.author.login}</div>
           </Link>
-          <p>{getTimeAgo(props.comment.publishDate)}</p>
+          <div>{getTimeAgo(props.comment.publishDate)}</div>
         </div>
         <div>{props.comment.rating}</div>
       </UserCommentAuthorInfoStyled>
-      <p>{props.comment.text}</p>
+      <div>{props.comment.text}</div>
     </UserCommentStyled>
   );
 };

@@ -19,9 +19,8 @@ import { onCommentRatingIncrement } from "../../utils/onCommentRatingIncrement";
 interface CommentProps {
   comment: IComment;
   comments: IComment[];
-  /*  setComments: Dispatch<any>;*/
-  /*  onCommentRatingIncrement: (commentId: number) => void;
-  onCommentRatingDecrement: (commentId: number) => void;*/
+  onCommentRatingIncrement: () => void;
+  onCommentRatingDecrement: () => void;
 }
 
 export const Comment: React.FC<CommentProps> = (props) => {
@@ -79,13 +78,18 @@ export const Comment: React.FC<CommentProps> = (props) => {
               style={{ display: "flex", flexDirection: "column", gap: "2px" }}
             >
               <Link to={`/user/${props.comment.author.id}`}>
-                <p style={{ fontSize: "16px" }}>{props.comment.author.login}</p>
+                <div style={{ fontSize: "16px" }}>
+                  {props.comment.author.login}
+                </div>
               </Link>
-              <p style={{ fontSize: "12px", color: "#595959;" }}>
+              <div style={{ fontSize: "12px", color: "#595959;" }}>
                 {getTimeAgo(props.comment.publishDate)}
-              </p>
+              </div>
             </div>
           </CommentTitleAuthorStyled>
+
+          {/*qqqqqqqqqqqqqqqqqq*/}
+
           <CommentRatingStyled>
             <span
               onClick={() =>
@@ -98,9 +102,9 @@ export const Comment: React.FC<CommentProps> = (props) => {
             </span>
 
             {props.comment.rating > 0 ? (
-              <p style={{ color: "#2EA839" }}>{props.comment.rating}</p>
+              <div style={{ color: "#2EA839" }}>{props.comment.rating}</div>
             ) : (
-              <p style={{ color: "red" }}>{props.comment.rating}</p>
+              <div style={{ color: "red" }}>{props.comment.rating}</div>
             )}
             <span
               onClick={() =>
@@ -112,10 +116,12 @@ export const Comment: React.FC<CommentProps> = (props) => {
               keyboard_arrow_up
             </span>
           </CommentRatingStyled>
+
+          {/*qqqqqqqqqqqqqqqqqq*/}
         </CommentTitleStyled>
 
         <CommentTextStyled>
-          <p>{props.comment.text}</p>
+          <div>{props.comment.text}</div>
         </CommentTextStyled>
 
         <CommentAnswerStyled>
@@ -148,8 +154,12 @@ export const Comment: React.FC<CommentProps> = (props) => {
                   comment={childComment}
                   comments={props.comments}
                   /*setComments={props.setComments}*/
-                  /*     onCommentRatingIncrement={onCommentRatingIncrement}
-                  onCommentRatingDecrement={onCommentRatingDecrement}*/
+                  onCommentRatingIncrement={() =>
+                    onCommentRatingIncrement(props.comment.id, dispatch)
+                  }
+                  onCommentRatingDecrement={() =>
+                    onCommentRatingDecrement(props.comment.id, dispatch)
+                  }
                 />
               </div>
             ))

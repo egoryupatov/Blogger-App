@@ -157,6 +157,12 @@ export const userSlice = createSlice({
         return increment(comment, action.payload);
       });
     },
+    incrementBlogPostRating: (state, action) => {
+      state.blogPost = { ...state.blogPost, rating: state.blogPost.rating + 1 };
+    },
+    decrementBlogPostRating: (state, action) => {
+      state.blogPost = { ...state.blogPost, rating: state.blogPost.rating - 1 };
+    },
     setIsThreeDotsMenuActive: (state, action) => {
       state.isThreeDotsMenuActive = action.payload;
     },
@@ -177,6 +183,8 @@ export const {
   setIsThreeDotsMenuActive,
   decrementCommentRating,
   incrementCommentRating,
+  incrementBlogPostRating,
+  decrementBlogPostRating,
 } = userSlice.actions;
 
 export const selectIsUserLoggedIn = (state: RootState) =>

@@ -36,6 +36,10 @@ export const AuthSectionStyled = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
+
+  @media (max-width: 950px) {
+    display: none;
+  }
 `;
 
 export const AuthSectionContainerStyled = styled.div`
@@ -50,6 +54,10 @@ export const SearchbarStyled = styled.div`
   width: 100%;
   height: 100%;
   max-width: 380px;
+
+  @media (max-width: 1030px) {
+    display: none;
+  }
 
   input {
     display: flex;
@@ -133,4 +141,8 @@ export const NavbarMiddleStyled = styled.div`
   height: 100%;
   width: 100%;
   padding: 7px 0px 7px 0px;
+
+  @media (max-width: 1030px) {
+    justify-content: end;
+  }
 `;

@@ -14,12 +14,15 @@ export const CommentsBoardStyled = styled.div`
   flex-direction: column;
   height: calc(100vh - 150px);
   justify-content: end;
-  max-width: 250px;
   padding: 10px 0px 10px 0px;
   overflow-x: hidden;
   overflow-y: scroll;
-
+  max-width: 250px;
   &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 1200px) {
     display: none;
   }
 `;

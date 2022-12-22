@@ -81,10 +81,10 @@ export const User: React.FC = () => {
 
               <DashboardUserInfoStyled>
                 <h1>{userInfo.login}</h1>
-                <p>Signed up: {getTimeAgo(userInfo.signUpDate)}</p>
-                <p>Posts published: {userInfo.articles.length}</p>
+                <div>Signed up: {getTimeAgo(userInfo.signUpDate)}</div>
+                <div>Posts published: {userInfo.articles.length}</div>
 
-                <p>Rating: {userInfo.rating}</p>
+                <div>Rating: {userInfo.rating}</div>
               </DashboardUserInfoStyled>
             </div>
             <DashboardUserInfoRightSideStyled>

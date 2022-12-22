@@ -11,31 +11,31 @@ export const Categories: React.FC = () => {
       <Link to={"/"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">apps</span>
-          <p>All posts</p>
+          <div>All posts</div>
         </CategoryStyled>
       </Link>
       <Link to={"/posts/category/business"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">monitoring</span>
-          <p>Business</p>
+          <div>Business</div>
         </CategoryStyled>
       </Link>
       <Link to={"/posts/category/entertainment"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">sports_esports</span>
-          <p>Entertainment</p>
+          <div>Entertainment</div>
         </CategoryStyled>
       </Link>
       <Link to={"/posts/category/health"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">medical_services</span>
-          <p>Health</p>
+          <div>Health</div>
         </CategoryStyled>
       </Link>
       <Link to={"/posts/category/travel"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">beach_access</span>
-          <p>Travel</p>
+          <div>Travel</div>
         </CategoryStyled>
       </Link>
     </CategoriesContainerStyled>

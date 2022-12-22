@@ -1,10 +1,16 @@
 import { SERVER_URL } from "../constants/constants";
-import { getAllBlogPosts, IBlogPost } from "../store/userSlice";
+import {
+  decrementBlogPostRating,
+  getAllBlogPosts,
+  IBlogPost,
+} from "../store/userSlice";
+import { Location } from "react-router-dom";
 
 export const onPostRatingDecrement = (
   blogPostId: number,
   dispatch: any,
-  blogPosts: IBlogPost[]
+  blogPosts: IBlogPost[],
+  location: Location
 ) => {
   const options = {
     headers: {
@@ -16,14 +22,16 @@ export const onPostRatingDecrement = (
 
   fetch(`${SERVER_URL}/posts/rating/decrement`, options);
 
-  dispatch(
-    getAllBlogPosts(
-      blogPosts.map((blogPost: IBlogPost) => {
-        if (blogPost.id === blogPostId) {
-          return { ...blogPost, rating: blogPost.rating - 1 };
-        }
-        return blogPost;
-      })
-    )
-  );
+  location.pathname === "/"
+    ? dispatch(
+        getAllBlogPosts(
+          blogPosts.map((blogPost: IBlogPost) => {
+            if (blogPost.id === blogPostId) {
+              return { ...blogPost, rating: blogPost.rating - 1 };
+            }
+            return blogPost;
+          })
+        )
+      )
+    : dispatch(decrementBlogPostRating(blogPostId));
 };

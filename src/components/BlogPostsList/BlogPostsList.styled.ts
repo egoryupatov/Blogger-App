@@ -1,10 +1,5 @@
 import styled from "styled-components";
 
-export const BlogPostListContainerStyled = styled.div`
-  display: flex;
-  gap: 40px;
-`;
-
 export const BlogPostsListStyled = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,7 +73,6 @@ export const BlogPostBodyStyled = styled.div`
   display: flex;
   margin-top: 10px;
   flex-direction: column;
-  gap: 10px;
   width: 100%;
 
   img {
@@ -89,10 +83,8 @@ export const BlogPostBodyStyled = styled.div`
 
 export const BlogPostFooterStyled = styled.div`
   display: flex;
-  padding-top: 10px;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
   width: 100%;
 `;
 

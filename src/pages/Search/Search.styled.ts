@@ -10,5 +10,4 @@ export const SearchPageContainerStyled = styled.div`
   margin-top: 20px;
   background: white;
   transition: all 250ms;
-  margin-bottom: 5px;
 `;

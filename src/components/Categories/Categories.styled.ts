@@ -22,6 +22,10 @@ export const CategoryStyled = styled.div`
   text-decoration: none;
   padding: 10px 20px 10px 20px;
 
+  @media (max-width: 1030px) {
+    display: none;
+  }
+
   &:hover {
     background: #f9f9f9;
   }

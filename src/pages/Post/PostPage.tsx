@@ -1,33 +1,18 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  addNewComment,
-  getPostComments,
   IComment,
   selectBlogPost,
   selectLoginFormDisplayed,
   selectPostComments,
   setIsLoginFormDisplayed,
 } from "../../store/userSlice";
-import { SERVER_URL } from "../../constants/constants";
 import {
   MainContainerStyled,
   WrapperStyled,
-  PositiveRatingStyled,
-  NegativeRatingStyled,
 } from "../../styles/general.styled";
-import { PostPageStyled, PostPageComments } from "./PostPage.styled";
-import {
-  BlogPostTitleStyled,
-  BlogPostBodyStyled,
-  BlogPostTitleAuthorStyled,
-  BlogPostFooterStyled,
-  BlogPostCommentsStyled,
-  BlogPostRatingStyled,
-} from "../../components/BlogPostsList/BlogPostsList.styled";
+import { PostPageComments } from "./PostPage.styled";
 import { Comment } from "../../components/Comment/Comment";
-import { getCategoryName } from "../../utils/getCategoryName";
-import { getTimeAgo } from "../../utils/getTimeAgo";
 import { Categories } from "../../components/Categories/Categories";
 import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
 import { ButtonStyled } from "../../styles/general.styled";
@@ -38,6 +23,9 @@ import { useAppSelector } from "../../store/hooks";
 import { useDispatch } from "react-redux";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
 import { onNewCommentAdd } from "../../utils/onNewCommentAdd";
+import { onCommentRatingDecrement } from "../../utils/onCommentRatingDecrement";
+import { onCommentRatingIncrement } from "../../utils/onCommentRatingIncrement";
+import { BlogPost } from "../../components/BlogPostsList/BlogPost";
 
 export const PostPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -72,56 +60,9 @@ export const PostPage: React.FC = () => {
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
-        <PostPageStyled>
-          <BlogPostTitleStyled>
-            <BlogPostTitleAuthorStyled>
-              <img alt={""} src={blogPost.categoryImage} />
-              <Link to={`/posts/${blogPost.category.name}`}>
-                <p style={{ fontWeight: "500" }}>
-                  {getCategoryName(blogPost.category.name)}
-                </p>
-              </Link>
-              <Link to={`/user/${blogPost.author.id}`}>
-                <p>{blogPost.author.login}</p>
-              </Link>
-              <p>{getTimeAgo(blogPost.publishDate)}</p>
-            </BlogPostTitleAuthorStyled>
-          </BlogPostTitleStyled>
+        <BlogPost blogPost={blogPost} />
 
-          <BlogPostBodyStyled>
-            <h1>{blogPost.title}</h1>
-            <p>{blogPost.description}</p>
-            <img alt={""} src={blogPost.postImage} />
-            <p>{blogPost.text}</p>
-          </BlogPostBodyStyled>
-
-          <BlogPostFooterStyled>
-            <BlogPostCommentsStyled>
-              <span className="material-symbols-outlined">mode_comment</span>
-              <span>{comments.length}</span>
-            </BlogPostCommentsStyled>
-            <BlogPostRatingStyled>
-              <span
-                className="material-symbols-outlined"
-                style={{ cursor: "pointer" }}
-              >
-                keyboard_arrow_down
-              </span>
-              {blogPost.rating > 0 ? (
-                <PositiveRatingStyled>{blogPost.rating}</PositiveRatingStyled>
-              ) : (
-                <NegativeRatingStyled>{blogPost.rating}</NegativeRatingStyled>
-              )}
-
-              <span
-                className="material-symbols-outlined"
-                style={{ cursor: "pointer" }}
-              >
-                keyboard_arrow_up
-              </span>
-            </BlogPostRatingStyled>
-          </BlogPostFooterStyled>
-        </PostPageStyled>
+        {/* Вынести комментарии к посту к в отдельный компонент  */}
 
         <PostPageComments>
           <h2>Comments</h2>
@@ -174,8 +115,12 @@ export const PostPage: React.FC = () => {
               key={comment.id}
               comment={comment}
               comments={comments}
-              /*onCommentRatingIncrement={onCommentRatingIncrement}*/
-              // onCommentRatingDecrement={onCommentRatingDecrement}
+              onCommentRatingIncrement={() =>
+                onCommentRatingIncrement(comment.id, dispatch)
+              }
+              onCommentRatingDecrement={() =>
+                onCommentRatingDecrement(comment.id, dispatch)
+              }
             />
           ))}
         </PostPageComments>

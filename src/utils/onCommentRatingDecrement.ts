@@ -9,9 +9,9 @@ export const onCommentRatingDecrement = (commentID: number, dispatch: any) => {
     method: "POST",
   };
 
-  fetch(`${SERVER_URL}/comments/${commentID}/decrement`, options);
-
-  dispatch(decrementCommentRating(commentID));
+  fetch(`${SERVER_URL}/comments/${commentID}/decrement`, options).then(
+    (response) => dispatch(decrementCommentRating(commentID))
+  );
 
   /*  dispatch(
     getPostComments(
