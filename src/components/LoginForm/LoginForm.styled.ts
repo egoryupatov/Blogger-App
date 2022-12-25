@@ -93,4 +93,8 @@ export const LoginFormContainerStyled = styled.div`
 export const LoginFormCloseStyled = styled.div`
   display: flex;
   justify-content: end;
+
+  span {
+    cursor: pointer;
+  }
 `;

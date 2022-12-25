@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { AddPostStyled, AddPostWrapperStyled } from "./AddPostPage.styled";
+import {
+  AddPostStyled,
+  AddPostWrapperStyled,
+  ButtonsContainerStyled,
+} from "./AddPostPage.styled";
 import { MainContainerStyled } from "../../styles/general.styled";
 import {
   ButtonStyled,
@@ -12,7 +16,6 @@ export const AddPostPage: React.FC = () => {
   const [newBlogPost, setNewBlogPost] = useState({
     author: Number(localStorage.getItem("id")),
     category: 1,
-    categoryImage: "/category1.png",
     time: new Date(),
     postImage: "",
     title: "",
@@ -27,6 +30,10 @@ export const AddPostPage: React.FC = () => {
 
   const onTitleChange = (e: any) => {
     setNewBlogPost({ ...newBlogPost, title: e.target.value });
+  };
+
+  const onTextChange = (e: any) => {
+    setNewBlogPost({ ...newBlogPost, text: e.target.value });
   };
 
   const onDescriptionChange = (e: any) => {
@@ -87,14 +94,21 @@ export const AddPostPage: React.FC = () => {
             placeholder="Enter the post title"
           />
 
-          <label htmlFor="description">Text:</label>
+          <label htmlFor="description">Description:</label>
           <textarea
             onChange={onDescriptionChange}
             id="description"
+            placeholder="Enter the post description"
+          />
+
+          <label htmlFor="text">Text:</label>
+          <textarea
+            onChange={onTextChange}
+            id="text"
             placeholder="Enter the post text"
           />
 
-          <div style={{ display: "flex", gap: "10px" }}>
+          <ButtonsContainerStyled>
             <ButtonStyled onClick={onAddPostClick}>
               <button>Add a post</button>
             </ButtonStyled>
@@ -107,7 +121,7 @@ export const AddPostPage: React.FC = () => {
               />
               <span>Attach an image</span>
             </InputStyled>
-          </div>
+          </ButtonsContainerStyled>
         </AddPostStyled>
       </AddPostWrapperStyled>
     </MainContainerStyled>

@@ -46,3 +46,21 @@ export const CommentBoardCommentTitleStyled = styled.div`
     border-radius: 5px;
   }
 `;
+
+export const CommentBoardAuthorStyled = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+export const CommentBoardTimeAgoStyled = styled.div`
+  font-size: 12px;
+`;
+
+export const CommentBoardTextStyled = styled.div`
+  font-size: 16px;
+`;
+
+export const CommentBoardTitleStyled = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+`;

@@ -37,6 +37,21 @@ export const AddPostStyled = styled.div`
     color: #595959;
   }
 
+  textarea {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    align-items: center;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-radius: 9px;
+    border: 1px solid #e3e5e8;
+    background: #ffffff;
+    transition: 0.5s;
+    color: #595959;
+  }
+
   input[type="file"] {
     padding: 10px;
   }
@@ -58,4 +73,9 @@ export const AddPostStyled = styled.div`
   label {
     font-weight: 500;
   }
+`;
+
+export const ButtonsContainerStyled = styled.div`
+  display: flex;
+  gap: 10px;
 `;

@@ -37,8 +37,40 @@ export const AuthSectionStyled = styled.div`
   gap: 20px;
   cursor: pointer;
 
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
   @media (max-width: 950px) {
     display: none;
+  }
+`;
+
+export const NavbarIconsContainerStyled = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  img {
+    height: 30px;
+    width: 30px;
+  }
+`;
+
+export const LoginContainerStyled = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  img {
+    height: 30px;
+    width: 30px;
+  }
+
+  span {
+    font-weight: 500;
   }
 `;
 
@@ -82,10 +114,10 @@ export const SearchbarStyled = styled.div`
 
 export const ButtonStyled = styled.div`
   display: flex;
-  overflow: hidden;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9px;
 
   button {
-    overflow: hidden;
     display: flex;
     width: auto;
     align-items: center;
@@ -145,4 +177,15 @@ export const NavbarMiddleStyled = styled.div`
   @media (max-width: 1030px) {
     justify-content: end;
   }
+`;
+
+export const HamburgerStyled = styled.img`
+  height: 24px;
+  width: 24px;
+`;
+
+export const LogoImageStyled = styled.img`
+  height: 50px;
+  width: 70px;
+  margin-top: 4px;
 `;

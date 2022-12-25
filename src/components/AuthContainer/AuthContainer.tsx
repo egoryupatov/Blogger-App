@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { SERVER_URL } from "../../constants/constants";
 import { useDispatch } from "react-redux";
-import { setIsUserLoggedIn } from "../../store/userSlice";
+import {
+  getAuthorizedUserInfo,
+  setIsUserLoggedIn,
+} from "../../store/userSlice";
 
 export const AuthContainer: React.FC = () => {
   const token = localStorage.getItem("token");
@@ -13,7 +16,12 @@ export const AuthContainer: React.FC = () => {
 
   const checkToken = () => {
     if (token) {
-      dispatch(setIsUserLoggedIn(true));
+      fetch(`${SERVER_URL}/users/info/${localStorage.getItem("id")}`)
+        .then((response) => response.json())
+        .then((authorizedUserInfo) => {
+          dispatch(setIsUserLoggedIn(true));
+          dispatch(getAuthorizedUserInfo(authorizedUserInfo));
+        });
     }
   };
 

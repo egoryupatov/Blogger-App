@@ -1,11 +1,8 @@
 import React from "react";
 import { CategoriesContainerStyled, CategoryStyled } from "./Categories.styled";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export const Categories: React.FC = () => {
-  const params = useParams();
-
   return (
     <CategoriesContainerStyled>
       <Link to={"/"}>
@@ -14,24 +11,28 @@ export const Categories: React.FC = () => {
           <div>All posts</div>
         </CategoryStyled>
       </Link>
+
       <Link to={"/posts/category/business"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">monitoring</span>
           <div>Business</div>
         </CategoryStyled>
       </Link>
+
       <Link to={"/posts/category/entertainment"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">sports_esports</span>
           <div>Entertainment</div>
         </CategoryStyled>
       </Link>
+
       <Link to={"/posts/category/health"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">medical_services</span>
           <div>Health</div>
         </CategoryStyled>
       </Link>
+
       <Link to={"/posts/category/travel"}>
         <CategoryStyled>
           <span className="material-symbols-outlined">beach_access</span>

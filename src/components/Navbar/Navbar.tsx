@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 
 import {
   NavbarStyled,
@@ -6,6 +6,8 @@ import {
   SearchbarStyled,
   NavbarMiddleStyled,
   AuthSectionContainerStyled,
+  HamburgerStyled,
+  LogoImageStyled,
 } from "./Navbar.styled";
 import { AddButton } from "./AddButton";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +25,7 @@ export const Navbar: React.FC = () => {
   const isLoginFormVisible = useAppSelector(selectLoginFormDisplayed);
   const dispatch = useDispatch();
 
-  const [searchQuery, setSearchQuery] = useState("sad");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const onSearchQueryEnter = (e: any) => {
     setSearchQuery(e.target.value);
@@ -40,15 +42,9 @@ export const Navbar: React.FC = () => {
     <>
       <NavbarStyled>
         <LogoStyled>
-          <img
-            style={{ height: "24px", width: "24px" }}
-            src={"/hamburger.svg"}
-          />
+          <HamburgerStyled src={"/hamburger.svg"} />
           <Link to={"/"}>
-            <img
-              style={{ height: "50px", width: "70px", marginTop: "4px" }}
-              src={"/logo.svg"}
-            />
+            <LogoImageStyled src={"/logo.svg"} />
           </Link>
         </LogoStyled>
 

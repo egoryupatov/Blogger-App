@@ -9,9 +9,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AddPostPage } from "./pages/AddPost/AddPostPage";
 import { PostPage } from "./pages/Post/PostPage";
 import { User } from "./pages/User/User";
-import { AuthContainer } from "./components/LoginForm/AuthContainer";
+import { AuthContainer } from "./components/AuthContainer/AuthContainer";
 import { EditPostPage } from "./pages/EditPost/EditPostPage";
-import { AuthorizedUserArticle } from "./pages/User/AuthorizedUserArticle";
+import { AuthorizedUserBlogPost } from "./pages/User/AuthorizedUserBlogPost";
 import { Search } from "./pages/Search/Search";
 
 const container = document.getElementById("root")!;
@@ -35,7 +35,7 @@ root.render(
           <Route path="/search" element={<Search />} />
 
           <Route path="/user/:id" element={<User />}>
-            <Route path="articles" element={<User />} />
+            <Route path="posts" element={<User />} />
             <Route path="hidden" element={<User />} />
             <Route path="comments" element={<User />} />
             <Route path="subscriptions" element={<User />} />

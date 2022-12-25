@@ -30,6 +30,7 @@ import {
 import { SERVER_URL } from "../../constants/constants";
 import { useAppSelector } from "../../store/hooks";
 import { useDispatch } from "react-redux";
+import { CategoryNameStyled } from "./BlogPostsList.styled";
 
 interface BlogPostProps {
   blogPost: IBlogPost;
@@ -68,12 +69,12 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
       <div>
         <BlogPostTitleStyled>
           <BlogPostTitleAuthorStyled>
-            <img src={props.blogPost.categoryImage} />
+            <img src={props.blogPost.category.image} />
 
             <Link to={`/posts/${props.blogPost.category.name}`}>
-              <div style={{ fontWeight: "500" }}>
+              <CategoryNameStyled>
                 {getCategoryName(props.blogPost.category.name)}
-              </div>
+              </CategoryNameStyled>
             </Link>
           </BlogPostTitleAuthorStyled>
 
@@ -92,7 +93,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                 <span
                   onClick={() => onSubscribeClick(props.blogPost.author.id)}
                   className="material-symbols-outlined"
-                  style={{ cursor: "pointer" }}
                 >
                   person_add
                 </span>
@@ -157,7 +157,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                   location
                 )
               }
-              style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
             >
               keyboard_arrow_down
@@ -182,7 +181,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                   location
                 )
               }
-              style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
             >
               keyboard_arrow_up

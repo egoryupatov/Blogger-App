@@ -84,6 +84,7 @@ export const PostPage: React.FC = () => {
                 }}
               >
                 <ButtonStyled
+                  hover="yes"
                   onClick={() => onNewCommentAdd(newComment, params, dispatch)}
                 >
                   Add a comment
@@ -99,6 +100,7 @@ export const PostPage: React.FC = () => {
                 }}
               >
                 <ButtonStyled
+                  hover="yes"
                   onClick={() => dispatch(setIsLoginFormDisplayed(true))}
                 >
                   Add a comment

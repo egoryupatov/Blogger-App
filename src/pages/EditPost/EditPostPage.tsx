@@ -4,7 +4,7 @@ import { MainContainerStyled } from "../../styles/general.styled";
 import { ButtonStyled } from "../../components/Navbar/Navbar.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { SERVER_URL } from "../../constants/constants";
-import { deleteArticle } from "../../store/userSlice";
+import { deleteBlogPost } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 
 export const EditPostPage: React.FC = () => {
@@ -68,7 +68,7 @@ export const EditPostPage: React.FC = () => {
     };
 
     fetch(`${SERVER_URL}/posts`, options)
-      .then(() => dispatch(deleteArticle(Number(params.id))))
+      .then(() => dispatch(deleteBlogPost(Number(params.id))))
       .then(() => navigate("/dashboard"));
   };
 

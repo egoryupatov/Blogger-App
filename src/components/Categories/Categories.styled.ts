@@ -9,6 +9,14 @@ export const CategoriesContainerStyled = styled.div`
   height: 100%;
   top: 100px;
   margin-top: 40px;
+
+  a {
+    max-width: 200px;
+  }
+
+  @media (max-width: 1030px) {
+    display: none;
+  }
 `;
 
 export const CategoryStyled = styled.div`
@@ -21,10 +29,6 @@ export const CategoryStyled = styled.div`
   border-radius: 9px;
   text-decoration: none;
   padding: 10px 20px 10px 20px;
-
-  @media (max-width: 1030px) {
-    display: none;
-  }
 
   &:hover {
     background: #f9f9f9;

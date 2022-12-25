@@ -77,6 +77,10 @@ export const DashboardUserInfoTabs = styled.div`
   }
 `;
 
+export const SubscribeButtonContainer = styled.div`
+  height: 50px;
+`;
+
 export const DashboardPostsList = styled.div`
   display: flex;
   justify-content: space-between;

@@ -1,12 +1,12 @@
 import React from "react";
 import { DashboardMiddlePartStyled, UserStyled } from "./UserStyled";
 import { IBlogPost, IUser } from "../../store/userSlice";
-import { AuthorizedUserArticle } from "./AuthorizedUserArticle";
+import { AuthorizedUserBlogPost } from "./AuthorizedUserBlogPost";
 
 interface BannedArticlesProps {
   userInfo: IUser;
-  onDeleteArticleClick: (articleId: number) => void;
-  onUnhideArticleClick: (articleId: number) => void;
+  onDeleteBlogPostClick: (blogPostId: number) => void;
+  onUnhideBlogPostClick: (blogPostId: number) => void;
 }
 
 export const HiddenPosts: React.FC<BannedArticlesProps> = (props) => {
@@ -15,13 +15,13 @@ export const HiddenPosts: React.FC<BannedArticlesProps> = (props) => {
       <UserStyled>
         <h3>Hidden posts</h3>
 
-        {props.userInfo.bannedArticles.map((article: IBlogPost) => (
-          <AuthorizedUserArticle
-            key={article.id}
-            article={article}
+        {props.userInfo.bannedArticles.map((bannedArticles: IBlogPost) => (
+          <AuthorizedUserBlogPost
+            key={bannedArticles.id}
+            blogPost={bannedArticles}
             isBannedPosts={true}
-            onDeleteArticleClick={props.onDeleteArticleClick}
-            onUnhideArticleClick={props.onUnhideArticleClick}
+            onDeleteArticleClick={props.onDeleteBlogPostClick}
+            onUnhideArticleClick={props.onUnhideBlogPostClick}
           />
         ))}
       </UserStyled>

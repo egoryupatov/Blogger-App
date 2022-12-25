@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getCommentChildren, IComment, IUser } from "../../store/userSlice";
+import { getCommentChildren, IComment } from "../../store/userSlice";
 import {
   CommentTitleAuthorStyled,
   CommentTitleStyled,
@@ -7,10 +7,16 @@ import {
   CommentTextStyled,
   CommentRatingStyled,
   CommentAnswerStyled,
+  TimeAgoStyled,
+  AuthorNameStyled,
+  CommentInfoStyled,
+  PositiveRatingStyled,
+  NegativeRatingStyled,
+  ChildCommentContainerStyled,
 } from "./Comment.styled";
 import { getTimeAgo } from "../../utils/getTimeAgo";
 import { Link } from "react-router-dom";
-import { CommentForm } from "./CommentForm";
+import { AnswerForm } from "./AnswerForm";
 import { SERVER_URL } from "../../constants/constants";
 import { useAppDispatch } from "../../store/hooks";
 import { onCommentRatingDecrement } from "../../utils/onCommentRatingDecrement";
@@ -37,8 +43,6 @@ export const Comment: React.FC<CommentProps> = (props) => {
         setAreChildCommentsDisplayed((prevState) => !prevState);
       });
   };
-
-  // сделать понижение и повышение рейтинга не через пропсы а через редакс
 
   const [isAnswerWindowOpened, setIsAnswerWindowOpened] = useState(false);
 
@@ -74,50 +78,47 @@ export const Comment: React.FC<CommentProps> = (props) => {
               <img src={`${props.comment.author.avatar}`} />
             </Link>
 
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "2px" }}
-            >
+            <CommentInfoStyled>
               <Link to={`/user/${props.comment.author.id}`}>
-                <div style={{ fontSize: "16px" }}>
+                <AuthorNameStyled>
                   {props.comment.author.login}
-                </div>
+                </AuthorNameStyled>
               </Link>
-              <div style={{ fontSize: "12px", color: "#595959;" }}>
-                {getTimeAgo(props.comment.publishDate)}
-              </div>
-            </div>
-          </CommentTitleAuthorStyled>
 
-          {/*qqqqqqqqqqqqqqqqqq*/}
+              <TimeAgoStyled>
+                {getTimeAgo(props.comment.publishDate)}
+              </TimeAgoStyled>
+            </CommentInfoStyled>
+          </CommentTitleAuthorStyled>
 
           <CommentRatingStyled>
             <span
               onClick={() =>
                 onCommentRatingDecrement(props.comment.id, dispatch)
               }
-              style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
             >
               keyboard_arrow_down
             </span>
 
             {props.comment.rating > 0 ? (
-              <div style={{ color: "#2EA839" }}>{props.comment.rating}</div>
+              <PositiveRatingStyled>
+                {props.comment.rating}
+              </PositiveRatingStyled>
             ) : (
-              <div style={{ color: "red" }}>{props.comment.rating}</div>
+              <NegativeRatingStyled>
+                {props.comment.rating}
+              </NegativeRatingStyled>
             )}
             <span
               onClick={() =>
                 onCommentRatingIncrement(props.comment.id, dispatch)
               }
-              style={{ cursor: "pointer" }}
               className="material-symbols-outlined"
             >
               keyboard_arrow_up
             </span>
           </CommentRatingStyled>
-
-          {/*qqqqqqqqqqqqqqqqqq*/}
         </CommentTitleStyled>
 
         <CommentTextStyled>
@@ -137,7 +138,7 @@ export const Comment: React.FC<CommentProps> = (props) => {
         </CommentAnswerStyled>
 
         {isAnswerWindowOpened ? (
-          <CommentForm
+          <AnswerForm
             setIsAnswerWindowOpened={() =>
               setIsAnswerWindowOpened(!isAnswerWindowOpened)
             }
@@ -149,11 +150,10 @@ export const Comment: React.FC<CommentProps> = (props) => {
 
         {areChildrenCommentsDisplayed
           ? props.comment.children.map((childComment: IComment) => (
-              <div style={{ marginLeft: "20px", marginTop: "20px" }}>
+              <ChildCommentContainerStyled>
                 <Comment
                   comment={childComment}
                   comments={props.comments}
-                  /*setComments={props.setComments}*/
                   onCommentRatingIncrement={() =>
                     onCommentRatingIncrement(props.comment.id, dispatch)
                   }
@@ -161,7 +161,7 @@ export const Comment: React.FC<CommentProps> = (props) => {
                     onCommentRatingDecrement(props.comment.id, dispatch)
                   }
                 />
-              </div>
+              </ChildCommentContainerStyled>
             ))
           : null}
       </CommentStyled>

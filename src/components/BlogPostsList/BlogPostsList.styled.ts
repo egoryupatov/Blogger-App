@@ -50,6 +50,10 @@ export const BlogPostTitleAuthorStyled = styled.div`
   align-items: center;
 `;
 
+export const CategoryNameStyled = styled.div`
+  font-weight: 500;
+`;
+
 export const BlogPostTitleMiddleStyled = styled.div`
   display: flex;
   justify-content: start;
@@ -65,6 +69,10 @@ export const BlogPostTitleEndStyled = styled.div`
   gap: 10px;
 
   img {
+    cursor: pointer;
+  }
+
+  span {
     cursor: pointer;
   }
 `;
@@ -98,4 +106,8 @@ export const BlogPostRatingStyled = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  span {
+    cursor: pointer;
+  }
 `;

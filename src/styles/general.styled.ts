@@ -35,7 +35,7 @@ export const ButtonStyled = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   font-size: 15px;
-  gap: 5px;
+  gap: 20px;
   border-radius: 9px;
   cursor: pointer;
   transition: all 250ms;
@@ -45,12 +45,24 @@ export const ButtonStyled = styled.button<ButtonProps>`
   background-color: ${(props) => props.bg || "#a0bee9"};
   color: ${(props) => props.color || "white"};
 
-  &:hover {
-    border-color: rgba(0, 0, 0, 0.15);
-    background: #4683da;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-    transform: translateY(-1px);
+  span {
+    display: flex;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
   }
+
+  ${(props) =>
+    props.hover &&
+    css`
+      &:hover {
+        border-color: rgba(0, 0, 0, 0.15);
+        background: #4683da;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        transform: translateY(-1px);
+      }
+    `}
 `;
 
 export const TextFormStyled = styled.div<TextFormStyledProps>`

@@ -6,6 +6,7 @@ import { increment } from "../utils/incrementCommentRating";
 export interface ICategory {
   id: number;
   name: string;
+  image: string;
 }
 export interface IBlogPost {
   author: IUser;
@@ -45,6 +46,7 @@ export interface IUser {
 
 interface IInitialState {
   userInfo: IUser;
+  authorizedUserInfo: IUser;
   isUserLoggedIn: boolean;
   isLoginFormDisplayed: boolean;
   searchQuery: string;
@@ -59,6 +61,18 @@ const initialState: IInitialState = {
   isUserLoggedIn: false,
   isLoginFormDisplayed: false,
   userInfo: {
+    id: 0,
+    login: "",
+    avatar: "",
+    signUpDate: new Date(),
+    rating: 0,
+    articles: [],
+    comments: [],
+    bannedArticles: [],
+    subscriptions: [],
+    subscribers: [],
+  },
+  authorizedUserInfo: {
     id: 0,
     login: "",
     avatar: "",
@@ -87,6 +101,7 @@ const initialState: IInitialState = {
     category: {
       id: 0,
       name: "",
+      image: "",
     },
     publishDate: new Date(),
     id: 0,
@@ -115,13 +130,16 @@ export const userSlice = createSlice({
     setIsLoginFormDisplayed: (state, action) => {
       state.isLoginFormDisplayed = action.payload;
     },
-    deleteArticle: (state, action) => {
+    deleteBlogPost: (state, action) => {
       state.userInfo.articles = state.userInfo.articles.filter(
         (post) => post.id !== action.payload
       );
     },
     getUserInfo: (state, action) => {
       state.userInfo = action.payload;
+    },
+    getAuthorizedUserInfo: (state, action) => {
+      state.authorizedUserInfo = action.payload;
     },
     getPostComments: (state, action) => {
       state.postComments = action.payload;
@@ -173,7 +191,8 @@ export const {
   setIsUserLoggedIn,
   setIsLoginFormDisplayed,
   getUserInfo,
-  deleteArticle,
+  getAuthorizedUserInfo,
+  deleteBlogPost,
   getSearchQuery,
   getPostComments,
   getBlogPost,
@@ -192,6 +211,8 @@ export const selectIsUserLoggedIn = (state: RootState) =>
 export const selectLoginFormDisplayed = (state: RootState) =>
   state.user.isLoginFormDisplayed;
 export const selectUserInfo = (state: RootState) => state.user.userInfo;
+export const selectAuthorizedUserInfo = (state: RootState) =>
+  state.user.authorizedUserInfo;
 export const selectBlogPost = (state: RootState) => state.user.blogPost;
 export const selectAllBlogPosts = (state: RootState) => state.user.allBlogPosts;
 export const selectPostComments = (state: RootState) => state.user.postComments;

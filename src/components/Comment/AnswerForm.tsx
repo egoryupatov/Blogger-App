@@ -4,8 +4,9 @@ import {
   TextFormStyled,
   TextAreaStyled,
 } from "../../styles/general.styled";
-import { IComment } from "../../store/userSlice";
-
+import { IComment, setIsLoginFormDisplayed } from "../../store/userSlice";
+import { AnswerButtonsContainerStyled } from "./Comment.styled";
+import { useDispatch } from "react-redux";
 interface CommentFormProps {
   setIsAnswerWindowOpened: Dispatch<SetStateAction<boolean>>;
   onAnswerChange: (e: any) => void;
@@ -13,7 +14,8 @@ interface CommentFormProps {
   comment: IComment;
 }
 
-export const CommentForm: React.FC<CommentFormProps> = (props) => {
+export const AnswerForm: React.FC<CommentFormProps> = (props) => {
+  const dispatch = useDispatch();
   return (
     <TextFormStyled marginLeft="15px">
       <TextAreaStyled
@@ -21,28 +23,33 @@ export const CommentForm: React.FC<CommentFormProps> = (props) => {
         placeholder="Write an answer..."
         onChange={props.onAnswerChange}
       ></TextAreaStyled>
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          justifyContent: "end",
-          width: "100%",
-        }}
-      >
+      <AnswerButtonsContainerStyled>
         <ButtonStyled
           color="gray"
           bg="transparent"
           border="none"
           shadow="none"
-          hover="none"
           onClick={() => props.setIsAnswerWindowOpened(false)}
         >
           Cancel
         </ButtonStyled>
-        <ButtonStyled onClick={() => props.onAnswerAdd(props.comment.id)}>
-          Answer
-        </ButtonStyled>
-      </div>
+
+        {localStorage.getItem("token") ? (
+          <ButtonStyled
+            hover="yes"
+            onClick={() => props.onAnswerAdd(props.comment.id)}
+          >
+            Answer
+          </ButtonStyled>
+        ) : (
+          <ButtonStyled
+            hover="yes"
+            onClick={() => dispatch(setIsLoginFormDisplayed(true))}
+          >
+            Answer
+          </ButtonStyled>
+        )}
+      </AnswerButtonsContainerStyled>
     </TextFormStyled>
   );
 };

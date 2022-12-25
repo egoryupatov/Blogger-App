@@ -2,6 +2,10 @@ import React from "react";
 import {
   CommentBoardCommentTitleStyled,
   CommentBoardCommentStyled,
+  CommentBoardAuthorStyled,
+  CommentBoardTimeAgoStyled,
+  CommentBoardTextStyled,
+  CommentBoardTitleStyled,
 } from "./CommentsBoard.styled";
 import { getTimeAgoShort } from "../../utils/getTimeAgoShort";
 import { Link } from "react-router-dom";
@@ -19,29 +23,29 @@ export const CommentBoardComment: React.FC<CommentProps> = (props) => {
           <img src={props.comment.author.avatar} />
         </div>
         <Link to={`/user/${props.comment.author.id}`}>
-          <div style={{ fontSize: "14px", fontWeight: "bold" }}>
+          <CommentBoardAuthorStyled>
             {props.comment.author.login}
-          </div>
+          </CommentBoardAuthorStyled>
         </Link>
-        <div style={{ fontSize: "12px" }}>
+        <CommentBoardTimeAgoStyled>
           {getTimeAgoShort(props.comment.publishDate)}
-        </div>
+        </CommentBoardTimeAgoStyled>
       </CommentBoardCommentTitleStyled>
 
-      <div style={{ fontSize: "16px" }}>
+      <CommentBoardTextStyled>
         {props.comment.text.length > 65
           ? props.comment.text.split("").splice(0, 65).join("") + "..."
           : props.comment.text}
-      </div>
+      </CommentBoardTextStyled>
       <Link
         to={`/posts/${props.comment.article.category.name}/${props.comment.article.id}`}
       >
-        <div style={{ fontSize: "14px", fontWeight: "bold" }}>
+        <CommentBoardTitleStyled>
           {props.comment.article.title.length > 35
             ? props.comment.article.title.split("").splice(0, 35).join("") +
               "..."
             : props.comment.article.title}
-        </div>
+        </CommentBoardTitleStyled>
       </Link>
     </CommentBoardCommentStyled>
   );

@@ -46,6 +46,10 @@ export const CommentRatingStyled = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+  span {
+    cursor: pointer;
+  }
 `;
 
 export const CommentTitleAuthorStyled = styled.div`
@@ -60,4 +64,39 @@ export const CommentTitleAuthorStyled = styled.div`
     width: 32px;
     border-radius: 50%;
   }
+`;
+
+export const AnswerButtonsContainerStyled = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  width: 100%;
+`;
+
+export const TimeAgoStyled = styled.div`
+  font-size: 12px;
+  color: #595959;
+`;
+
+export const AuthorNameStyled = styled.div`
+  font-size: 16px;
+`;
+
+export const CommentInfoStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+export const PositiveRatingStyled = styled.div`
+  color: #2ea839;
+`;
+
+export const NegativeRatingStyled = styled.div`
+  color: red;
+`;
+
+export const ChildCommentContainerStyled = styled.div`
+  margin-left: 20px;
+  margin-top: 20px;
 `;

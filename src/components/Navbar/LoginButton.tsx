@@ -1,6 +1,11 @@
 import React from "react";
-import { AuthSectionStyled } from "./Navbar.styled";
 import {
+  AuthSectionStyled,
+  NavbarIconsContainerStyled,
+  LoginContainerStyled,
+} from "./Navbar.styled";
+import {
+  selectAuthorizedUserInfo,
   selectIsUserLoggedIn,
   setIsLoginFormDisplayed,
   setIsUserLoggedIn,
@@ -8,13 +13,14 @@ import {
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
+import { createInstance } from "@testing-library/user-event/setup/setup";
 
 export const LoginButton: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isUserLogged = useAppSelector(selectIsUserLoggedIn);
   const userId = localStorage.getItem("id");
-  const userAvatar = localStorage.getItem("avatar");
+  const authorizedUser = useAppSelector(selectAuthorizedUserInfo);
 
   return (
     <>
@@ -25,21 +31,13 @@ export const LoginButton: React.FC = () => {
               navigate(`/user/${userId}`);
             }}
           >
-            <img
-              style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-              src={userAvatar!}
-            />
+            <img src={authorizedUser.avatar} />
           </AuthSectionStyled>
 
           <AuthSectionStyled>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <NavbarIconsContainerStyled>
               <img src={"/bell.svg"} />
-            </div>
+            </NavbarIconsContainerStyled>
           </AuthSectionStyled>
           <AuthSectionStyled
             onClick={() => {
@@ -48,16 +46,10 @@ export const LoginButton: React.FC = () => {
               navigate("/");
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
+            <LoginContainerStyled>
               <img src={"/login.svg"} />
-              <div>Logout</div>
-            </div>
+              <span>Logout</span>
+            </LoginContainerStyled>
           </AuthSectionStyled>
         </>
       ) : (
@@ -65,24 +57,13 @@ export const LoginButton: React.FC = () => {
           <AuthSectionStyled
             onClick={() => dispatch(setIsLoginFormDisplayed(true))}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <NavbarIconsContainerStyled>
               <img src={"/bell.svg"} />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              <img src={"/login.svg"} />
-              <div>Login</div>
-            </div>
+              <LoginContainerStyled>
+                <img src={"/login.svg"} />
+                <span>Login</span>
+              </LoginContainerStyled>
+            </NavbarIconsContainerStyled>
           </AuthSectionStyled>
         </>
       )}
