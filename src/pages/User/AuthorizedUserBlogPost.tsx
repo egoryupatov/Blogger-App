@@ -12,6 +12,7 @@ interface DashboardPostProps {
 }
 
 export const AuthorizedUserBlogPost: React.FC<DashboardPostProps> = (props) => {
+  console.log(props.blogPost);
   return (
     <DashboardPostsList key={props.blogPost.id}>
       <Link to={`/posts/${props.blogPost.category.name}/${props.blogPost.id}`}>

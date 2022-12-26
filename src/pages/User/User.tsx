@@ -93,10 +93,6 @@ export const User: React.FC = () => {
               </DashboardUserInfoStyled>
             </div>
 
-            {/*///////
-
-            ///////*/}
-
             {isUserLoggedIn && localStorage.getItem("id") != params.id ? (
               <SubscribeButtons
                 params={params}
@@ -108,8 +104,6 @@ export const User: React.FC = () => {
                 <span className="material-symbols-outlined">settings</span>
               </DashboardUserInfoRightSideStyled>
             )}
-
-            {/*//////////////*/}
           </DashboardUserPanelStyled>
           <DashboardUserInfoTabs>
             <Link to={`/user/${params.id}/posts`}>Posts</Link>
@@ -173,7 +167,6 @@ export const User: React.FC = () => {
               }
             />
           ) : null}
-          {/*добавить страницу 404*/}
 
           <Route
             path="comments"

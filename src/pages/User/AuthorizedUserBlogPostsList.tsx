@@ -22,10 +22,10 @@ export const AuthorizedUserBlogPostsList: React.FC<PublishedArticlesProps> = (
         )}
 
         {props.userInfo.articles
-          .filter((article) => article.id)
-          .map((article: IBlogPost) => (
+          .filter((blogPost) => blogPost.id)
+          .map((blogPost: IBlogPost) => (
             <AuthorizedUserBlogPost
-              blogPost={article}
+              blogPost={blogPost}
               isBannedPosts={false}
               onDeleteArticleClick={props.onDeleteBlogPostClick}
               onUnhideArticleClick={props.onUnhideBlogPostClick}
