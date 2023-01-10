@@ -40,10 +40,10 @@ export const PostPage: React.FC = () => {
 
   const [newComment, setNewComment] = useState<any>({
     text: "",
-    author: {
+    user: {
       id: Number(localStorage.getItem("id")),
     },
-    article: {
+    blogPost: {
       id: 0,
       title: "",
     },
@@ -112,19 +112,22 @@ export const PostPage: React.FC = () => {
           </TextFormStyled>
 
           <span id="comments"></span>
-          {comments.map((comment: IComment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              comments={comments}
-              onCommentRatingIncrement={() =>
-                onCommentRatingIncrement(comment.id, dispatch)
-              }
-              onCommentRatingDecrement={() =>
-                onCommentRatingDecrement(comment.id, dispatch)
-              }
-            />
-          ))}
+
+          {comments.length > 0
+            ? comments.map((comment: IComment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  comments={comments}
+                  onCommentRatingIncrement={() =>
+                    onCommentRatingIncrement(comment.id, dispatch)
+                  }
+                  onCommentRatingDecrement={() =>
+                    onCommentRatingDecrement(comment.id, dispatch)
+                  }
+                />
+              ))
+            : null}
         </PostPageComments>
       </WrapperStyled>
       <CommentsBoard />

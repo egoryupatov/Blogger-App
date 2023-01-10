@@ -52,7 +52,7 @@ export const CommentRatingStyled = styled.div`
   }
 `;
 
-export const CommentTitleAuthorStyled = styled.div`
+export const CommentTitleUserStyled = styled.div`
   display: flex;
   justify-content: start;
   gap: 10px;
@@ -78,7 +78,7 @@ export const TimeAgoStyled = styled.div`
   color: #595959;
 `;
 
-export const AuthorNameStyled = styled.div`
+export const UserNameStyled = styled.div`
   font-size: 16px;
 `;
 

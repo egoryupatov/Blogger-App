@@ -20,11 +20,11 @@ export const CommentBoardComment: React.FC<CommentProps> = (props) => {
     <CommentBoardCommentStyled key={props.comment.id}>
       <CommentBoardCommentTitleStyled>
         <div>
-          <img src={props.comment.author.avatar} />
+          <img src={props.comment.user.avatar} />
         </div>
-        <Link to={`/user/${props.comment.author.id}`}>
+        <Link to={`/user/${props.comment.user.id}`}>
           <CommentBoardAuthorStyled>
-            {props.comment.author.login}
+            {props.comment.user.login}
           </CommentBoardAuthorStyled>
         </Link>
         <CommentBoardTimeAgoStyled>
@@ -38,13 +38,13 @@ export const CommentBoardComment: React.FC<CommentProps> = (props) => {
           : props.comment.text}
       </CommentBoardTextStyled>
       <Link
-        to={`/posts/${props.comment.article.category.name}/${props.comment.article.id}`}
+        to={`/posts/${props.comment.blogPost.category.name}/${props.comment.blogPost.id}`}
       >
         <CommentBoardTitleStyled>
-          {props.comment.article.title.length > 35
-            ? props.comment.article.title.split("").splice(0, 35).join("") +
+          {props.comment.blogPost.title.length > 35
+            ? props.comment.blogPost.title.split("").splice(0, 35).join("") +
               "..."
-            : props.comment.article.title}
+            : props.comment.blogPost.title}
         </CommentBoardTitleStyled>
       </Link>
     </CommentBoardCommentStyled>

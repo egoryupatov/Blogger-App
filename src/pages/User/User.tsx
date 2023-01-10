@@ -70,8 +70,8 @@ export const User: React.FC = () => {
     };
 
     fetch(`${SERVER_URL}/users/unhide`, options).then((response) =>
-      userInfo.bannedArticles?.filter(
-        (bannedArticles) => bannedArticles.id !== blogPostId
+      userInfo.hiddenBlogPosts?.filter(
+        (hiddenBlogPost) => hiddenBlogPost.id !== blogPostId
       )
     );
   };
@@ -87,7 +87,7 @@ export const User: React.FC = () => {
               <DashboardUserInfoStyled>
                 <h1>{userInfo.login}</h1>
                 <div>Signed up: {getTimeAgo(userInfo.signUpDate)}</div>
-                <div>Posts published: {userInfo.articles.length}</div>
+                <div>Posts published: {userInfo.blogPosts.length}</div>
 
                 <div>Rating: {userInfo.rating}</div>
               </DashboardUserInfoStyled>

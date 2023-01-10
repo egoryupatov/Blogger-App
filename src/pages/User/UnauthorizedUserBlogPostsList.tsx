@@ -12,7 +12,7 @@ export const UnauthorizedUserBlogPostsList: React.FC<
 > = (props) => {
   return (
     <UnauthorizedUserBlogPostsListStyled>
-      {props.userInfo.articles.map((blogPost: IBlogPost) => (
+      {props.userInfo.blogPosts.map((blogPost: IBlogPost) => (
         <BlogPost blogPost={blogPost} />
       ))}
     </UnauthorizedUserBlogPostsListStyled>

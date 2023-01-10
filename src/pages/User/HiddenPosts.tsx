@@ -15,13 +15,13 @@ export const HiddenPosts: React.FC<BannedArticlesProps> = (props) => {
       <UserStyled>
         <h3>Hidden posts</h3>
 
-        {props.userInfo.bannedArticles.map((bannedArticles: IBlogPost) => (
+        {props.userInfo.hiddenBlogPosts.map((hiddenBlogPost: IBlogPost) => (
           <AuthorizedUserBlogPost
-            key={bannedArticles.id}
-            blogPost={bannedArticles}
+            key={hiddenBlogPost.id}
+            blogPost={hiddenBlogPost}
             isBannedPosts={true}
-            onDeleteArticleClick={props.onDeleteBlogPostClick}
-            onUnhideArticleClick={props.onUnhideBlogPostClick}
+            onDeleteBlogPostClick={props.onDeleteBlogPostClick}
+            onUnhideBlogPostClick={props.onUnhideBlogPostClick}
           />
         ))}
       </UserStyled>

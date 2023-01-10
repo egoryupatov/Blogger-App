@@ -14,10 +14,10 @@ import { SERVER_URL } from "../../constants/constants";
 
 export const AddPostPage: React.FC = () => {
   const [newBlogPost, setNewBlogPost] = useState({
-    author: Number(localStorage.getItem("id")),
+    user: Number(localStorage.getItem("id")),
     category: 1,
     time: new Date(),
-    postImage: "",
+    image: "",
     title: "",
     description: "",
     text: "",
@@ -67,7 +67,7 @@ export const AddPostPage: React.FC = () => {
       method: "POST",
       body: JSON.stringify({
         ...newBlogPost,
-        postImage: `${SERVER_URL}/pictures/${imageURL}`,
+        image: `${SERVER_URL}/pictures/${imageURL}`,
       }),
     }).then((response) => navigate("/"));
   };

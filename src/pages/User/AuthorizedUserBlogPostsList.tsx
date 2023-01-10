@@ -15,20 +15,20 @@ export const AuthorizedUserBlogPostsList: React.FC<PublishedArticlesProps> = (
   return (
     <DashboardMiddlePartStyled>
       <UserStyled>
-        {props.userInfo.articles.length > 0 ? (
+        {props.userInfo.blogPosts.length > 0 ? (
           <h3>Published posts</h3>
         ) : (
           <h3>This user hasn't published anything yet!</h3>
         )}
 
-        {props.userInfo.articles
+        {props.userInfo.blogPosts
           .filter((blogPost) => blogPost.id)
           .map((blogPost: IBlogPost) => (
             <AuthorizedUserBlogPost
               blogPost={blogPost}
               isBannedPosts={false}
-              onDeleteArticleClick={props.onDeleteBlogPostClick}
-              onUnhideArticleClick={props.onUnhideBlogPostClick}
+              onDeleteBlogPostClick={props.onDeleteBlogPostClick}
+              onUnhideBlogPostClick={props.onUnhideBlogPostClick}
             />
           ))}
       </UserStyled>

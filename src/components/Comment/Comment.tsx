@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { getCommentChildren, IComment } from "../../store/userSlice";
 import {
-  CommentTitleAuthorStyled,
+  CommentTitleUserStyled,
   CommentTitleStyled,
   CommentStyled,
   CommentTextStyled,
   CommentRatingStyled,
   CommentAnswerStyled,
   TimeAgoStyled,
-  AuthorNameStyled,
+  UserNameStyled,
   CommentInfoStyled,
   PositiveRatingStyled,
   NegativeRatingStyled,
@@ -47,9 +47,9 @@ export const Comment: React.FC<CommentProps> = (props) => {
   const [isAnswerWindowOpened, setIsAnswerWindowOpened] = useState(false);
 
   const [answer, setAnswer] = useState({
-    author: localStorage.getItem("id"),
+    user: localStorage.getItem("id"),
     text: "",
-    article: props.comment.article.id,
+    blogPost: props.comment.blogPost.id,
     parent: props.comment.parent?.id,
   });
 
@@ -73,23 +73,21 @@ export const Comment: React.FC<CommentProps> = (props) => {
     <>
       <CommentStyled>
         <CommentTitleStyled>
-          <CommentTitleAuthorStyled>
-            <Link to={`/user/${props.comment.author.id}`}>
-              <img src={`${props.comment.author.avatar}`} />
+          <CommentTitleUserStyled>
+            <Link to={`/user/${props.comment.user.id}`}>
+              <img src={`${props.comment.user.avatar}`} />
             </Link>
 
             <CommentInfoStyled>
-              <Link to={`/user/${props.comment.author.id}`}>
-                <AuthorNameStyled>
-                  {props.comment.author.login}
-                </AuthorNameStyled>
+              <Link to={`/user/${props.comment.user.id}`}>
+                <UserNameStyled>{props.comment.user.login}</UserNameStyled>
               </Link>
 
               <TimeAgoStyled>
                 {getTimeAgo(props.comment.publishDate)}
               </TimeAgoStyled>
             </CommentInfoStyled>
-          </CommentTitleAuthorStyled>
+          </CommentTitleUserStyled>
 
           <CommentRatingStyled>
             <span

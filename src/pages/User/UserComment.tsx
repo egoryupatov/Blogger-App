@@ -18,10 +18,10 @@ export const UserComment: React.FC<userCommentProps> = (props) => {
     <UserCommentStyled>
       <UserCommentTitleStyled>
         <Link
-          to={`/posts/${props.comment.article.category.name}/${props.comment.article.id}`}
+          to={`/posts/${props.comment.blogPost.category.name}/${props.comment.blogPost.id}`}
         >
           <div style={{ fontWeight: "bold" }}>
-            {props.comment.article.title}
+            {props.comment.blogPost.title}
           </div>
         </Link>
       </UserCommentTitleStyled>
@@ -34,9 +34,9 @@ export const UserComment: React.FC<userCommentProps> = (props) => {
             alignItems: "center",
           }}
         >
-          <img src={props.comment.author.avatar} />
-          <Link to={`/user/${props.comment.author.id}`}>
-            <div>{props.comment.author.login}</div>
+          <img src={props.comment.user.avatar} />
+          <Link to={`/user/${props.comment.user.id}`}>
+            <div>{props.comment.user.login}</div>
           </Link>
           <div>{getTimeAgo(props.comment.publishDate)}</div>
         </div>

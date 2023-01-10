@@ -6,8 +6,8 @@ import { IconsContainerStyled } from "./AuthorizedUserBlogPostsList.styled";
 
 interface DashboardPostProps {
   blogPost: IBlogPost;
-  onDeleteArticleClick: (id: number) => void;
-  onUnhideArticleClick: (id: number) => void;
+  onDeleteBlogPostClick: (id: number) => void;
+  onUnhideBlogPostClick: (id: number) => void;
   isBannedPosts: boolean;
 }
 
@@ -24,7 +24,7 @@ export const AuthorizedUserBlogPost: React.FC<DashboardPostProps> = (props) => {
           <span
             className="material-symbols-outlined"
             onClick={() => {
-              props.onUnhideArticleClick(props.blogPost.id);
+              props.onUnhideBlogPostClick(props.blogPost.id);
             }}
           >
             undo
@@ -38,7 +38,7 @@ export const AuthorizedUserBlogPost: React.FC<DashboardPostProps> = (props) => {
 
           <span
             onClick={() => {
-              props.onDeleteArticleClick(props.blogPost.id);
+              props.onDeleteBlogPostClick(props.blogPost.id);
             }}
             className="material-symbols-outlined"
           >

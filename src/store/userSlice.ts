@@ -9,21 +9,21 @@ export interface ICategory {
   image: string;
 }
 export interface IBlogPost {
-  author: IUser;
+  user: IUser;
   comments: IComment[];
   category: ICategory;
   publishDate: Date;
   id: number;
   categoryImage: string;
-  postImage: string;
+  image: string;
   title: string;
   description: string;
   rating: number;
   text: string;
 }
 export interface IComment {
-  article: IBlogPost;
-  author: IUser;
+  blogPost: IBlogPost;
+  user: IUser;
   children: IComment[];
   parent: IComment;
   publishDate: Date;
@@ -32,9 +32,9 @@ export interface IComment {
   text: string;
 }
 export interface IUser {
-  articles: IBlogPost[];
+  blogPosts: IBlogPost[];
   comments: IComment[];
-  bannedArticles: IBlogPost[];
+  hiddenBlogPosts: IBlogPost[];
   signUpDate: Date;
   id: number;
   login: string;
@@ -55,6 +55,7 @@ interface IInitialState {
   loggedUserAvatar: string;
   allBlogPosts: IBlogPost[];
   isThreeDotsMenuActive: boolean;
+  isServerDataLoaded: boolean;
 }
 
 const initialState: IInitialState = {
@@ -66,9 +67,9 @@ const initialState: IInitialState = {
     avatar: "",
     signUpDate: new Date(),
     rating: 0,
-    articles: [],
+    blogPosts: [],
     comments: [],
-    bannedArticles: [],
+    hiddenBlogPosts: [],
     subscriptions: [],
     subscribers: [],
   },
@@ -78,17 +79,17 @@ const initialState: IInitialState = {
     avatar: "",
     signUpDate: new Date(),
     rating: 0,
-    articles: [],
+    blogPosts: [],
     comments: [],
-    bannedArticles: [],
+    hiddenBlogPosts: [],
     subscriptions: [],
     subscribers: [],
   },
   blogPost: {
-    author: {
-      articles: [],
+    user: {
+      blogPosts: [],
       comments: [],
-      bannedArticles: [],
+      hiddenBlogPosts: [],
       signUpDate: new Date(),
       id: 0,
       login: "",
@@ -106,7 +107,7 @@ const initialState: IInitialState = {
     publishDate: new Date(),
     id: 0,
     categoryImage: "",
-    postImage: "",
+    image: "",
     title: "",
     description: "",
     rating: 0,
@@ -117,6 +118,7 @@ const initialState: IInitialState = {
   loggedUserAvatar: "",
   allBlogPosts: [],
   isThreeDotsMenuActive: false,
+  isServerDataLoaded: true,
 };
 
 export const userSlice = createSlice({
@@ -131,7 +133,7 @@ export const userSlice = createSlice({
       state.isLoginFormDisplayed = action.payload;
     },
     deleteBlogPost: (state, action) => {
-      state.userInfo.articles = state.userInfo.articles.filter(
+      state.userInfo.blogPosts = state.userInfo.blogPosts.filter(
         (post) => post.id !== action.payload
       );
     },
@@ -184,6 +186,9 @@ export const userSlice = createSlice({
     setIsThreeDotsMenuActive: (state, action) => {
       state.isThreeDotsMenuActive = action.payload;
     },
+    setIsServerDataLoaded: (state, action) => {
+      state.isServerDataLoaded = action.payload;
+    },
   },
 });
 
@@ -200,6 +205,7 @@ export const {
   addNewComment,
   getCommentChildren,
   setIsThreeDotsMenuActive,
+  setIsServerDataLoaded,
   decrementCommentRating,
   incrementCommentRating,
   incrementBlogPostRating,
@@ -219,5 +225,7 @@ export const selectPostComments = (state: RootState) => state.user.postComments;
 export const selectSearchQuery = (state: RootState) => state.user.searchQuery;
 export const selectIsThreeDotsMenuActive = (state: RootState) =>
   state.user.isThreeDotsMenuActive;
+export const selectIsServerDataLoaded = (state: RootState) =>
+  state.user.isServerDataLoaded;
 
 export default userSlice.reducer;

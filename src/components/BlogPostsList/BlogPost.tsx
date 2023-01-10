@@ -79,8 +79,8 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           </BlogPostTitleAuthorStyled>
 
           <BlogPostTitleMiddleStyled>
-            <Link to={`/user/${props.blogPost.author.id}`}>
-              <div>{props.blogPost.author.login}</div>
+            <Link to={`/user/${props.blogPost.user.id}`}>
+              <div>{props.blogPost.user.login}</div>
             </Link>
             <div>{getTimeAgo(props.blogPost.publishDate)}</div>
           </BlogPostTitleMiddleStyled>
@@ -91,7 +91,7 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                 <span className="material-symbols-outlined">done</span>
               ) : (
                 <span
-                  onClick={() => onSubscribeClick(props.blogPost.author.id)}
+                  onClick={() => onSubscribeClick(props.blogPost.user.id)}
                   className="material-symbols-outlined"
                 >
                   person_add
@@ -126,10 +126,7 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           </div>
 
           {location.pathname === "/search" ? null : (
-            <img
-              style={{ marginBottom: "10px" }}
-              src={props.blogPost.postImage}
-            />
+            <img style={{ marginBottom: "10px" }} src={props.blogPost.image} />
           )}
 
           {location.pathname ===
