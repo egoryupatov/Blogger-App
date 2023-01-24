@@ -1,46 +1,74 @@
-# Getting Started with Create React App!
+Hi! This is one of the apps I developed as a pet project to acquire new skills and strengthen the ones I already have.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+## App requirements
 
-## Available Scripts
+Develop a full-fledged blog app (front end + back end). 
 
-In the project directory, you can run:
+## App features
 
-### `npm start`
+The app features:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1) Authorization (JWT token)
+2) Routes protection (Guards) (under development)
+3) Blog post CRUD operations
+4) User rating system (rating of posts and comments published by a user affects their overall rating in the profile)
+5) Comments and nested comments
+6) Search
+7) Hidden posts (if you’re logged in, you can hide posts and unhide them in the dashboard)
+8) User dashboard
+9) Infinity scroll of posts and comments (under development)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Used technologies
 
-### `npm test`
+* Language - JavaScript/TypeScript
+* Front end framework/library - React
+* Back end framework/library - Nest.js
+* State management - Redux + Thunk
+* Routing - React Router
+* CSS - Styled Components
+* Database - MySQL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to run the app on your local machine
 
-### `npm run build`
+First, you'll need to create a MySQL database:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1) Install and launch MySQL on your local machine using your favorite way
+2) Create a database with the following configuration:
+   1) host: `localhost`, 
+   2) username: `admin`, 
+   3) port: `3306`, 
+   4) password: `qwerty`, 
+   5) database: `blog`,
+3) Connect to your new database using your favorite database tool (e.g. DBeaver)
+4) Create at least one record in the following tables: 
+   1) Category - available blog post categories
+   2) User - existing users and blog post authors
+   3) Blog_post - existing blog posts (don't forget to select relations with a user and category)
+   4) Comment - existing comments (don't forget to select relations with a user and blog post / you can also add relations between existing comments to create nested ones)
+   5) Subscribers - existing subscribers (create at least 2 users and add one of them as a relation to the other)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The second step is to start the server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1) Clone the server repository to your local machine https://github.com/egoryupatov/Blogger-Nest-Server
+2) Navigate into the project directory
+3) Install the dependencies using one of the following commands: `npm install` or `yarn install`
+4) Start the server using one of the following commands: `npm start` or `yarn start`
 
-### `npm run eject`
+The final step is to start the app itself:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1) Clone the app repository to your local machine https://github.com/egoryupatov/Blogger-App
+2) Navigate into the project directory
+3) Install the dependencies using one of the following commands: `npm install` or `yarn install`
+4) Start the app using one of the following commands: `npm start` or `yarn start`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Where to see the deployed version of the app
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You can see the deployed version of the app here - https://blogger-app-19qn.onrender.com/
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Pay attention!** This is a bit outdated build and I update it quite rare, plus there is some delay in uploading blog posts.
 
-## Learn More
+So, it's better to clone the app and launch it on your local machine.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Authorization details
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You can authorize into the application using the credentials of one of the users you added to your database in the very first step
