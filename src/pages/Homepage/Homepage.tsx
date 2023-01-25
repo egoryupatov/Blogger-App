@@ -1,18 +1,18 @@
 import React from "react";
 import { WrapperStyled } from "../../styles/general.styled";
-import { BlogPostsList } from "../../components/BlogPostsList/BlogPostsList";
+import { BlogPostsListContainer } from "../../components/BlogPostsList/BlogPostsListContainer";
 import { MainContainerStyled } from "../../styles/general.styled";
 import { Categories } from "../../components/Categories/Categories";
-import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
+import { CommentsBoardContainer } from "../../components/CommentsBoard/CommentsBoardContainer";
 
 export function Homepage() {
   return (
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
-        <BlogPostsList />
+        <BlogPostsListContainer />
       </WrapperStyled>
-      <CommentsBoard />
+      <CommentsBoardContainer />
     </MainContainerStyled>
   );
 }

@@ -1,18 +1,12 @@
 import React from "react";
-import { DashboardPostsList } from "./UserStyled";
+import { DashboardPostsList } from "../User.styled";
 import { Link } from "react-router-dom";
-import { IBlogPost } from "../../store/userSlice";
-import { IconsContainerStyled } from "./AuthorizedUserBlogPostsList.styled";
+import { IconsContainerStyled } from "./AuthorizedUserBlogPosts.styled";
+import { AuthorizedUserBlogPostProps } from "./AuthorizedUserBlogPost.types";
 
-interface DashboardPostProps {
-  blogPost: IBlogPost;
-  onDeleteBlogPostClick: (id: number) => void;
-  onUnhideBlogPostClick: (id: number) => void;
-  isBannedPosts: boolean;
-}
-
-export const AuthorizedUserBlogPost: React.FC<DashboardPostProps> = (props) => {
-  console.log(props.blogPost);
+export const AuthorizedUserBlogPost: React.FC<AuthorizedUserBlogPostProps> = (
+  props
+) => {
   return (
     <DashboardPostsList key={props.blogPost.id}>
       <Link to={`/posts/${props.blogPost.category.name}/${props.blogPost.id}`}>

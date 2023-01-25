@@ -1,168 +1,122 @@
-import React, { useState } from "react";
-import { getCommentChildren, IComment } from "../../store/userSlice";
+import React from "react";
 import {
-  CommentTitleUserStyled,
-  CommentTitleStyled,
+  ChildCommentContainerStyled,
+  CommentAnswerStyled,
+  CommentInfoStyled,
+  CommentRatingStyled,
   CommentStyled,
   CommentTextStyled,
-  CommentRatingStyled,
-  CommentAnswerStyled,
+  CommentTitleStyled,
+  CommentTitleUserStyled,
+  NegativeRatingStyled,
+  PositiveRatingStyled,
   TimeAgoStyled,
   UserNameStyled,
-  CommentInfoStyled,
-  PositiveRatingStyled,
-  NegativeRatingStyled,
-  ChildCommentContainerStyled,
 } from "./Comment.styled";
-import { getTimeAgo } from "../../utils/getTimeAgo";
 import { Link } from "react-router-dom";
-import { AnswerForm } from "./AnswerForm";
-import { SERVER_URL } from "../../constants/constants";
-import { useAppDispatch } from "../../store/hooks";
+import { getTimeAgo } from "../../utils/getTimeAgo";
 import { onCommentRatingDecrement } from "../../utils/onCommentRatingDecrement";
 import { onCommentRatingIncrement } from "../../utils/onCommentRatingIncrement";
-
-interface CommentProps {
-  comment: IComment;
-  comments: IComment[];
-  onCommentRatingIncrement: () => void;
-  onCommentRatingDecrement: () => void;
-}
+import { AnswerForm } from "../AnswerForm/AnswerForm";
+import { IComment } from "../../types/general.types";
+import { CommentContainer } from "./CommentContainer";
+import { CommentProps } from "./Comment.types";
 
 export const Comment: React.FC<CommentProps> = (props) => {
-  const dispatch = useAppDispatch();
-
-  const [areChildrenCommentsDisplayed, setAreChildCommentsDisplayed] =
-    useState(false);
-
-  const onCommentChildrenRequest = (parentCommentId: number) => {
-    fetch(`${SERVER_URL}/comments/children/${parentCommentId}`)
-      .then((response) => response.json())
-      .then((children) => {
-        dispatch(getCommentChildren(children));
-        setAreChildCommentsDisplayed((prevState) => !prevState);
-      });
-  };
-
-  const [isAnswerWindowOpened, setIsAnswerWindowOpened] = useState(false);
-
-  const [answer, setAnswer] = useState({
-    user: localStorage.getItem("id"),
-    text: "",
-    blogPost: props.comment.blogPost.id,
-    parent: props.comment.parent?.id,
-  });
-
-  const onAnswerChange = (e: any) => {
-    setAnswer({ ...answer, text: e.target.value });
-  };
-
-  const onAnswerAdd = (parentCommentId: number) => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(answer),
-    };
-
-    fetch(`${SERVER_URL}/comments/${props.comment.id}/answer`, options);
-  };
-
   return (
-    <>
-      <CommentStyled>
-        <CommentTitleStyled>
-          <CommentTitleUserStyled>
+    <CommentStyled>
+      <CommentTitleStyled>
+        <CommentTitleUserStyled>
+          <Link to={`/user/${props.comment.user.id}`}>
+            <img src={`${props.comment.user.avatar}`} alt={""} />
+          </Link>
+
+          <CommentInfoStyled>
             <Link to={`/user/${props.comment.user.id}`}>
-              <img src={`${props.comment.user.avatar}`} />
+              <UserNameStyled>{props.comment.user.login}</UserNameStyled>
             </Link>
 
-            <CommentInfoStyled>
-              <Link to={`/user/${props.comment.user.id}`}>
-                <UserNameStyled>{props.comment.user.login}</UserNameStyled>
-              </Link>
+            <TimeAgoStyled>
+              {getTimeAgo(props.comment.publishDate)}
+            </TimeAgoStyled>
+          </CommentInfoStyled>
+        </CommentTitleUserStyled>
 
-              <TimeAgoStyled>
-                {getTimeAgo(props.comment.publishDate)}
-              </TimeAgoStyled>
-            </CommentInfoStyled>
-          </CommentTitleUserStyled>
-
-          <CommentRatingStyled>
-            <span
-              onClick={() =>
-                onCommentRatingDecrement(props.comment.id, dispatch)
-              }
-              className="material-symbols-outlined"
-            >
-              keyboard_arrow_down
-            </span>
-
-            {props.comment.rating > 0 ? (
-              <PositiveRatingStyled>
-                {props.comment.rating}
-              </PositiveRatingStyled>
-            ) : (
-              <NegativeRatingStyled>
-                {props.comment.rating}
-              </NegativeRatingStyled>
-            )}
-            <span
-              onClick={() =>
-                onCommentRatingIncrement(props.comment.id, dispatch)
-              }
-              className="material-symbols-outlined"
-            >
-              keyboard_arrow_up
-            </span>
-          </CommentRatingStyled>
-        </CommentTitleStyled>
-
-        <CommentTextStyled>
-          <div>{props.comment.text}</div>
-        </CommentTextStyled>
-
-        <CommentAnswerStyled>
-          <span onClick={() => setIsAnswerWindowOpened(!isAnswerWindowOpened)}>
-            Answer
+        <CommentRatingStyled>
+          <span
+            onClick={() =>
+              onCommentRatingDecrement(props.comment.id, props.dispatch)
+            }
+            className="material-symbols-outlined"
+          >
+            keyboard_arrow_down
           </span>
 
-          {props.comment.children.length > 0 ? (
-            <span onClick={() => onCommentChildrenRequest(props.comment.id)}>
-              {props.comment.children.length} more replies
-            </span>
-          ) : null}
-        </CommentAnswerStyled>
-
-        {isAnswerWindowOpened ? (
-          <AnswerForm
-            setIsAnswerWindowOpened={() =>
-              setIsAnswerWindowOpened(!isAnswerWindowOpened)
+          {props.comment.rating > 0 ? (
+            <PositiveRatingStyled>{props.comment.rating}</PositiveRatingStyled>
+          ) : (
+            <NegativeRatingStyled>{props.comment.rating}</NegativeRatingStyled>
+          )}
+          <span
+            onClick={() =>
+              onCommentRatingIncrement(props.comment.id, props.dispatch)
             }
-            onAnswerChange={onAnswerChange}
-            onAnswerAdd={onAnswerAdd}
-            comment={props.comment}
-          />
-        ) : null}
+            className="material-symbols-outlined"
+          >
+            keyboard_arrow_up
+          </span>
+        </CommentRatingStyled>
+      </CommentTitleStyled>
 
-        {areChildrenCommentsDisplayed
-          ? props.comment.children.map((childComment: IComment) => (
-              <ChildCommentContainerStyled>
-                <Comment
-                  comment={childComment}
-                  comments={props.comments}
-                  onCommentRatingIncrement={() =>
-                    onCommentRatingIncrement(props.comment.id, dispatch)
-                  }
-                  onCommentRatingDecrement={() =>
-                    onCommentRatingDecrement(props.comment.id, dispatch)
-                  }
-                />
-              </ChildCommentContainerStyled>
-            ))
-          : null}
-      </CommentStyled>
-    </>
+      <CommentTextStyled>
+        <div>{props.comment.text}</div>
+      </CommentTextStyled>
+
+      <CommentAnswerStyled>
+        <span
+          onClick={() =>
+            props.setIsAnswerWindowOpened(!props.isAnswerWindowOpened)
+          }
+        >
+          Answer
+        </span>
+
+        {props.comment.children.length > 0 ? (
+          <span
+            onClick={() => props.onCommentChildrenRequest(props.comment.id)}
+          >
+            {props.comment.children.length} more replies
+          </span>
+        ) : null}
+      </CommentAnswerStyled>
+
+      {props.isAnswerWindowOpened ? (
+        <AnswerForm
+          setIsAnswerWindowOpened={() =>
+            props.setIsAnswerWindowOpened(!props.isAnswerWindowOpened)
+          }
+          onAnswerChange={props.onAnswerChange}
+          onAnswerAdd={props.onAnswerAdd}
+          comment={props.comment}
+        />
+      ) : null}
+
+      {props.areChildrenCommentsDisplayed
+        ? props.comment.children.map((childComment: IComment) => (
+            <ChildCommentContainerStyled>
+              <CommentContainer
+                comment={childComment}
+                comments={props.comments}
+                onCommentRatingIncrement={() =>
+                  onCommentRatingIncrement(props.comment.id, props.dispatch)
+                }
+                onCommentRatingDecrement={() =>
+                  onCommentRatingDecrement(props.comment.id, props.dispatch)
+                }
+              />
+            </ChildCommentContainerStyled>
+          ))
+        : null}
+    </CommentStyled>
   );
 };

@@ -1,9 +1,6 @@
 import { SERVER_URL } from "../constants/constants";
-import {
-  getAllBlogPosts,
-  IBlogPost,
-  setIsThreeDotsMenuActive,
-} from "../store/userSlice";
+import { getAllBlogPosts, setIsThreeDotsMenuActive } from "../store/userSlice";
+import { IBlogPost } from "../types/general.types";
 
 export const onPostHideClick = (
   blogPostId: number,

@@ -4,15 +4,15 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { Homepage } from "./pages/Homepage/Homepage";
 import "./index.css";
-import { Navbar } from "./components/Navbar/Navbar";
+import { NavbarContainer } from "./components/Navbar/NavbarContainer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AddPostPage } from "./pages/AddPost/AddPostPage";
-import { PostPage } from "./pages/Post/PostPage";
-import { User } from "./pages/User/User";
+import { AddPostPageContainer } from "./pages/AddPost/AddPostPageContainer";
+import { PostPageContainer } from "./pages/Post/PostPageContainer";
+import { UserContainer } from "./pages/User/UserContainer";
 import { AuthContainer } from "./components/AuthContainer/AuthContainer";
-import { EditPostPage } from "./pages/EditPost/EditPostPage";
-import { AuthorizedUserBlogPost } from "./pages/User/AuthorizedUserBlogPost";
-import { Search } from "./pages/Search/Search";
+import { EditPostPageContainer } from "./pages/EditPost/EditPostPageContainer";
+import { AuthorizedUserBlogPost } from "./pages/User/AuthorizedUserBlogPosts/AuthorizedUserBlogPost";
+import { SearchContainer } from "./pages/Search/SearchContainer";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -21,7 +21,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <Navbar />
+        <NavbarContainer />
         <AuthContainer />
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -29,17 +29,17 @@ root.render(
           <Route path="posts/category/travel" element={<Homepage />} />
           <Route path="posts/category/health" element={<Homepage />} />
           <Route path="posts/category/entertainment" element={<Homepage />} />
-          <Route path="/add-new-post" element={<AddPostPage />} />
-          <Route path="/edit-post/:id" element={<EditPostPage />} />
-          <Route path="/posts/:category/:id" element={<PostPage />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/add-new-post" element={<AddPostPageContainer />} />
+          <Route path="/edit-post/:id" element={<EditPostPageContainer />} />
+          <Route path="/posts/:category/:id" element={<PostPageContainer />} />
+          <Route path="/search" element={<SearchContainer />} />
 
-          <Route path="/user/:id" element={<User />}>
-            <Route path="posts" element={<User />} />
-            <Route path="hidden" element={<User />} />
-            <Route path="comments" element={<User />} />
-            <Route path="subscriptions" element={<User />} />
-            <Route path="subscribers" element={<User />} />
+          <Route path="/user/:id" element={<UserContainer />}>
+            <Route path="posts" element={<UserContainer />} />
+            <Route path="hidden" element={<UserContainer />} />
+            <Route path="comments" element={<UserContainer />} />
+            <Route path="subscriptions" element={<UserContainer />} />
+            <Route path="subscribers" element={<UserContainer />} />
           </Route>
         </Routes>
       </Provider>

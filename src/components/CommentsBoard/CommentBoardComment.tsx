@@ -9,18 +9,16 @@ import {
 } from "./CommentsBoard.styled";
 import { getTimeAgoShort } from "../../utils/getTimeAgoShort";
 import { Link } from "react-router-dom";
-import { IComment } from "../../store/userSlice";
+import { CommentBoardCommentProps } from "./CommentBoardComment.types";
 
-interface CommentProps {
-  comment: IComment;
-}
-
-export const CommentBoardComment: React.FC<CommentProps> = (props) => {
+export const CommentBoardComment: React.FC<CommentBoardCommentProps> = (
+  props
+) => {
   return (
     <CommentBoardCommentStyled key={props.comment.id}>
       <CommentBoardCommentTitleStyled>
         <div>
-          <img src={props.comment.user.avatar} />
+          <img src={props.comment.user.avatar} alt={""} />
         </div>
         <Link to={`/user/${props.comment.user.id}`}>
           <CommentBoardAuthorStyled>

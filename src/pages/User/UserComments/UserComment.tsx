@@ -1,17 +1,12 @@
 import React from "react";
-import { IComment } from "../../store/userSlice";
 import {
   UserCommentStyled,
   UserCommentTitleStyled,
   UserCommentAuthorInfoStyled,
-} from "./UserStyled";
+} from "../User.styled";
 import { Link } from "react-router-dom";
-import { getTimeAgo } from "../../utils/getTimeAgo";
-
-interface userCommentProps {
-  comment: IComment;
-  login: string;
-}
+import { getTimeAgo } from "../../../utils/getTimeAgo";
+import { userCommentProps } from "./UserComments.types";
 
 export const UserComment: React.FC<userCommentProps> = (props) => {
   return (
@@ -34,7 +29,7 @@ export const UserComment: React.FC<userCommentProps> = (props) => {
             alignItems: "center",
           }}
         >
-          <img src={props.comment.user.avatar} />
+          <img src={props.comment.user.avatar} alt={""} />
           <Link to={`/user/${props.comment.user.id}`}>
             <div>{props.comment.user.login}</div>
           </Link>

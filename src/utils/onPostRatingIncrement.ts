@@ -1,10 +1,7 @@
 import { SERVER_URL } from "../constants/constants";
-import {
-  getAllBlogPosts,
-  IBlogPost,
-  incrementBlogPostRating,
-} from "../store/userSlice";
+import { getAllBlogPosts, incrementBlogPostRating } from "../store/userSlice";
 import { Location } from "react-router-dom";
+import { IBlogPost } from "../types/general.types";
 
 export const onPostRatingIncrement = (
   blogPostId: number,

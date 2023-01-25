@@ -2,47 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { decrement } from "../utils/decrementCommentRating";
 import { increment } from "../utils/incrementCommentRating";
-
-export interface ICategory {
-  id: number;
-  name: string;
-  image: string;
-}
-export interface IBlogPost {
-  user: IUser;
-  comments: IComment[];
-  category: ICategory;
-  publishDate: Date;
-  id: number;
-  categoryImage: string;
-  image: string;
-  title: string;
-  description: string;
-  rating: number;
-  text: string;
-}
-export interface IComment {
-  blogPost: IBlogPost;
-  user: IUser;
-  children: IComment[];
-  parent: IComment;
-  publishDate: Date;
-  id: number;
-  rating: number;
-  text: string;
-}
-export interface IUser {
-  blogPosts: IBlogPost[];
-  comments: IComment[];
-  hiddenBlogPosts: IBlogPost[];
-  signUpDate: Date;
-  id: number;
-  login: string;
-  avatar: string;
-  rating: number;
-  subscriptions: IUser[];
-  subscribers: IUser[];
-}
+import { IBlogPost, IComment, IUser } from "../types/general.types";
 
 interface IInitialState {
   userInfo: IUser;

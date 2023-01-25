@@ -1,43 +1,20 @@
-import React, { useState } from "react";
-
+import React from "react";
 import {
-  NavbarStyled,
-  LogoStyled,
-  SearchbarStyled,
-  NavbarMiddleStyled,
   AuthSectionContainerStyled,
   HamburgerStyled,
   LogoImageStyled,
+  LogoStyled,
+  NavbarMiddleStyled,
+  NavbarStyled,
+  SearchbarStyled,
 } from "./Navbar.styled";
-import { AddButton } from "./AddButton";
-import { Link, useNavigate } from "react-router-dom";
-import { LoginForm } from "../LoginForm/LoginForm";
-import { useAppSelector } from "../../store/hooks";
-import {
-  getSearchQuery,
-  selectLoginFormDisplayed,
-} from "../../store/userSlice";
-import { LoginButton } from "./LoginButton";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { AddNewBlogpostButtonContainer } from "./AddNewBlogpostButton/AddNewBlogpostButtonContainer";
+import { LoginButtonContainer } from "./LoginButton/LoginButtonContainer";
+import { LoginFormContainer } from "../LoginForm/LoginFormContainer";
+import { NavbarProps } from "./Navbar.types";
 
-export const Navbar: React.FC = () => {
-  const navigate = useNavigate();
-  const isLoginFormVisible = useAppSelector(selectLoginFormDisplayed);
-  const dispatch = useDispatch();
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const onSearchQueryEnter = (e: any) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const onSearchClick = (e: any) => {
-    if (e.key === "Enter") {
-      dispatch(getSearchQuery(searchQuery));
-      navigate("search");
-    }
-  };
-
+export const Navbar: React.FC<NavbarProps> = (props) => {
   return (
     <>
       <NavbarStyled>
@@ -51,19 +28,19 @@ export const Navbar: React.FC = () => {
         <NavbarMiddleStyled>
           <SearchbarStyled>
             <input
-              onChange={onSearchQueryEnter}
-              onKeyDown={onSearchClick}
+              onChange={props.onSearchQueryEnter}
+              onKeyDown={props.onSearchClick}
               type="search"
-              placeholder="Search"
+              placeholder="SearchContainer"
             />
           </SearchbarStyled>
-          <AddButton />
+          <AddNewBlogpostButtonContainer />
         </NavbarMiddleStyled>
         <AuthSectionContainerStyled>
-          <LoginButton />
+          <LoginButtonContainer />
         </AuthSectionContainerStyled>
       </NavbarStyled>
-      {isLoginFormVisible ? <LoginForm /> : ""}
+      {props.isLoginFormVisible ? <LoginFormContainer /> : ""}
     </>
   );
 };

@@ -1,20 +1,15 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction } from "react";
+import React from "react";
 import {
   ButtonStyled,
   TextFormStyled,
   TextAreaStyled,
 } from "../../styles/general.styled";
-import { IComment, setIsLoginFormDisplayed } from "../../store/userSlice";
-import { AnswerButtonsContainerStyled } from "./Comment.styled";
+import { setIsLoginFormDisplayed } from "../../store/userSlice";
+import { AnswerButtonsContainerStyled } from "../Comment/Comment.styled";
 import { useDispatch } from "react-redux";
-interface CommentFormProps {
-  setIsAnswerWindowOpened: Dispatch<SetStateAction<boolean>>;
-  onAnswerChange: (e: any) => void;
-  onAnswerAdd: (id: number) => void;
-  comment: IComment;
-}
+import { AnswerFormProps } from "./AnswerForm.types";
 
-export const AnswerForm: React.FC<CommentFormProps> = (props) => {
+export const AnswerForm: React.FC<AnswerFormProps> = (props) => {
   const dispatch = useDispatch();
   return (
     <TextFormStyled marginLeft="15px">

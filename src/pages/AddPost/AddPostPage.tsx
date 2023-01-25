@@ -1,77 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AddPostStyled,
   AddPostWrapperStyled,
   ButtonsContainerStyled,
 } from "./AddPostPage.styled";
-import { MainContainerStyled } from "../../styles/general.styled";
 import {
   ButtonStyled,
   InputStyled,
 } from "../../components/Navbar/Navbar.styled";
-import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../../constants/constants";
+import { MainContainerStyled } from "../../styles/general.styled";
+import { AddPostPageProps } from "./AddPostPage.types";
 
-export const AddPostPage: React.FC = () => {
-  const [newBlogPost, setNewBlogPost] = useState({
-    user: Number(localStorage.getItem("id")),
-    category: 1,
-    time: new Date(),
-    image: "",
-    title: "",
-    description: "",
-    text: "",
-  });
-
-  const [attachedImage, setAttachedImage] = useState<string>("");
-  const [attachedImageName, setAttachedImageName] = useState<string>("");
-
-  const navigate = useNavigate();
-
-  const onTitleChange = (e: any) => {
-    setNewBlogPost({ ...newBlogPost, title: e.target.value });
-  };
-
-  const onTextChange = (e: any) => {
-    setNewBlogPost({ ...newBlogPost, text: e.target.value });
-  };
-
-  const onDescriptionChange = (e: any) => {
-    setNewBlogPost({ ...newBlogPost, description: e.target.value });
-  };
-
-  const onCategorySelect = (e: any) => {
-    setNewBlogPost({ ...newBlogPost, category: e.target.value });
-  };
-
-  const onPostImageAttach = (e: any) => {
-    setAttachedImage(e.target.files[0]);
-    setAttachedImageName(e.target.files[0].name);
-  };
-
-  const onAddPostClick = async () => {
-    const formData = new FormData();
-    formData.append("file", attachedImage, attachedImageName);
-
-    const response = await fetch(`${SERVER_URL}/posts/image`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const imageURL = await response.json();
-
-    await fetch(`${SERVER_URL}/posts`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        ...newBlogPost,
-        image: `${SERVER_URL}/pictures/${imageURL}`,
-      }),
-    }).then((response) => navigate("/"));
-  };
-
+export const AddPostPage: React.FC<AddPostPageProps> = (props) => {
   return (
     <MainContainerStyled>
       <AddPostWrapperStyled>
@@ -79,7 +19,7 @@ export const AddPostPage: React.FC = () => {
           <h1>Add a new post</h1>
 
           <label htmlFor="category">Choose a category:</label>
-          <select id="category" onChange={onCategorySelect}>
+          <select id="category" onChange={props.onCategorySelect}>
             <option value="1">Business</option>
             <option value="2">Health</option>
             <option value="3">Travel</option>
@@ -88,7 +28,7 @@ export const AddPostPage: React.FC = () => {
 
           <label htmlFor="title">Title:</label>
           <input
-            onChange={onTitleChange}
+            onChange={props.onTitleChange}
             type="text"
             id="title"
             placeholder="Enter the post title"
@@ -96,27 +36,27 @@ export const AddPostPage: React.FC = () => {
 
           <label htmlFor="description">Description:</label>
           <textarea
-            onChange={onDescriptionChange}
+            onChange={props.onDescriptionChange}
             id="description"
             placeholder="Enter the post description"
           />
 
           <label htmlFor="text">Text:</label>
           <textarea
-            onChange={onTextChange}
+            onChange={props.onTextChange}
             id="text"
             placeholder="Enter the post text"
           />
 
           <ButtonsContainerStyled>
-            <ButtonStyled onClick={onAddPostClick}>
+            <ButtonStyled onClick={props.onAddPostClick}>
               <button>Add a post</button>
             </ButtonStyled>
 
             <InputStyled>
               <input
                 style={{ display: "none" }}
-                onChange={onPostImageAttach}
+                onChange={props.onPostImageAttach}
                 type="file"
               />
               <span>Attach an image</span>

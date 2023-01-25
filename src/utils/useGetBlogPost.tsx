@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SERVER_URL } from "../constants/constants";
 import { useAppDispatch } from "../store/hooks";
 import { getBlogPost } from "../store/userSlice";

@@ -11,11 +11,11 @@ The app features:
 1) Authorization (JWT token)
 2) Routes protection (Guards) (under development)
 3) Blog post CRUD operations
-4) User rating system (rating of posts and comments published by a user affects their overall rating in the profile)
+4) UserContainer rating system (rating of posts and comments published by a user affects their overall rating in the profile)
 5) Comments and nested comments
-6) Search
+6) SearchContainer
 7) Hidden posts (if you’re logged in, you can hide posts and unhide them in the dashboard)
-8) User dashboard
+8) UserContainer dashboard
 9) Infinity scroll of posts and comments (under development)
 
 ## Used technologies
@@ -42,9 +42,9 @@ First, you'll need to create a MySQL database:
 3) Connect to your new database using your favorite database tool (e.g. DBeaver)
 4) Create at least one record in the following tables: 
    1) Category - available blog post categories
-   2) User - existing users and blog post authors
+   2) UserContainer - existing users and blog post authors
    3) Blog_post - existing blog posts (don't forget to select relations with a user and category)
-   4) Comment - existing comments (don't forget to select relations with a user and blog post / you can also add relations between existing comments to create nested ones)
+   4) CommentContainer - existing comments (don't forget to select relations with a user and blog post / you can also add relations between existing comments to create nested ones)
    5) Subscribers - existing subscribers (create at least 2 users and add one of them as a relation to the other)
 
 The second step is to start the server:

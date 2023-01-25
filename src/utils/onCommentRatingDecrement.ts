@@ -12,12 +12,4 @@ export const onCommentRatingDecrement = (commentID: number, dispatch: any) => {
   fetch(`${SERVER_URL}/comments/${commentID}/decrement`, options).then(
     (response) => dispatch(decrementCommentRating(commentID))
   );
-
-  /*  dispatch(
-    getPostComments(
-      comments.map((comment: IComment) => {
-        return decrement(comment);
-      })
-    )
-  );*/
 };

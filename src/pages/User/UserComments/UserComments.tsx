@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  DashboardMiddlePartStyled,
-  UserStyled,
-  DashboardCommentStyled,
-} from "./UserStyled";
-import { IUser, IComment } from "../../store/userSlice";
+import { DashboardCommentStyled } from "../User.styled";
+import { IComment } from "../../../types/general.types";
 import { UserComment } from "./UserComment";
-
-interface UserCommentsProps {
-  userInfo: IUser;
-}
+import { UserCommentsProps } from "./UserComments.types";
 
 export const UserComments: React.FC<UserCommentsProps> = (props) => {
   return (

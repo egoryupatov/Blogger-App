@@ -1,66 +1,30 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import {
-  IComment,
-  selectBlogPost,
-  selectLoginFormDisplayed,
-  selectPostComments,
-  setIsLoginFormDisplayed,
-} from "../../store/userSlice";
-import {
+  ButtonStyled,
   MainContainerStyled,
+  TextAreaStyled,
+  TextFormStyled,
   WrapperStyled,
 } from "../../styles/general.styled";
-import { PostPageComments } from "./PostPage.styled";
-import { Comment } from "../../components/Comment/Comment";
 import { Categories } from "../../components/Categories/Categories";
-import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
-import { ButtonStyled } from "../../styles/general.styled";
-import { TextAreaStyled, TextFormStyled } from "../../styles/general.styled";
-import { useGetBlogPost } from "../../utils/useGetBlogPost";
-import { useGetComments } from "../../utils/useGetComments";
-import { useAppSelector } from "../../store/hooks";
-import { useDispatch } from "react-redux";
-import { LoginForm } from "../../components/LoginForm/LoginForm";
+import { BlogPostContainer } from "../../components/BlogPost/BlogPostContainer";
+import { PostPageComments } from "./PostPage.styled";
 import { onNewCommentAdd } from "../../utils/onNewCommentAdd";
-import { onCommentRatingDecrement } from "../../utils/onCommentRatingDecrement";
+import { setIsLoginFormDisplayed } from "../../store/userSlice";
+import { IComment } from "../../types/general.types";
+import { LoginFormContainer } from "../../components/LoginForm/LoginFormContainer";
+import { CommentContainer } from "../../components/Comment/CommentContainer";
 import { onCommentRatingIncrement } from "../../utils/onCommentRatingIncrement";
-import { BlogPost } from "../../components/BlogPostsList/BlogPost";
+import { onCommentRatingDecrement } from "../../utils/onCommentRatingDecrement";
+import { CommentsBoardContainer } from "../../components/CommentsBoard/CommentsBoardContainer";
+import { PostPageProps } from "./PostPage.types";
 
-export const PostPage: React.FC = () => {
-  const dispatch = useDispatch();
-  const params = useParams();
-
-  useGetComments();
-  useGetBlogPost();
-
-  const comments = useAppSelector(selectPostComments);
-  const blogPost = useAppSelector(selectBlogPost);
-  const isLoginFormDisplayed = useAppSelector(selectLoginFormDisplayed);
-
-  const [newComment, setNewComment] = useState<any>({
-    text: "",
-    user: {
-      id: Number(localStorage.getItem("id")),
-    },
-    blogPost: {
-      id: 0,
-      title: "",
-    },
-    publishDate: new Date(),
-  });
-
-  const handleAddingComment = (event: any) => {
-    setNewComment({ ...newComment, text: event.target.value });
-  };
-
-  //добавление нового комментария в базу данных перестало работать потому что комментарии теперь идут деревом
-
+export const PostPage: React.FC<PostPageProps> = (props) => {
   return (
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
-        <BlogPost blogPost={blogPost} />
+        <BlogPostContainer blogPost={props.blogPost} />
 
         {/* Вынести комментарии к посту к в отдельный компонент  */}
 
@@ -71,7 +35,7 @@ export const PostPage: React.FC = () => {
             <TextAreaStyled
               id="description"
               placeholder="What are your thoughts?"
-              onChange={handleAddingComment}
+              onChange={props.handleAddingComment}
             />
 
             {localStorage.getItem("token") ? (
@@ -85,7 +49,13 @@ export const PostPage: React.FC = () => {
               >
                 <ButtonStyled
                   hover="yes"
-                  onClick={() => onNewCommentAdd(newComment, params, dispatch)}
+                  onClick={() =>
+                    onNewCommentAdd(
+                      props.newComment,
+                      props.params,
+                      props.dispatch
+                    )
+                  }
                 >
                   Add a comment
                 </ButtonStyled>
@@ -101,36 +71,36 @@ export const PostPage: React.FC = () => {
               >
                 <ButtonStyled
                   hover="yes"
-                  onClick={() => dispatch(setIsLoginFormDisplayed(true))}
+                  onClick={() => props.dispatch(setIsLoginFormDisplayed(true))}
                 >
                   Add a comment
                 </ButtonStyled>
               </div>
             )}
 
-            {isLoginFormDisplayed ? <LoginForm /> : null}
+            {props.isLoginFormDisplayed ? <LoginFormContainer /> : null}
           </TextFormStyled>
 
           <span id="comments"></span>
 
-          {comments.length > 0
-            ? comments.map((comment: IComment) => (
-                <Comment
+          {props.comments.length > 0
+            ? props.comments.map((comment: IComment) => (
+                <CommentContainer
                   key={comment.id}
                   comment={comment}
-                  comments={comments}
+                  comments={props.comments}
                   onCommentRatingIncrement={() =>
-                    onCommentRatingIncrement(comment.id, dispatch)
+                    onCommentRatingIncrement(comment.id, props.dispatch)
                   }
                   onCommentRatingDecrement={() =>
-                    onCommentRatingDecrement(comment.id, dispatch)
+                    onCommentRatingDecrement(comment.id, props.dispatch)
                   }
                 />
               ))
             : null}
         </PostPageComments>
       </WrapperStyled>
-      <CommentsBoard />
+      <CommentsBoardContainer />
     </MainContainerStyled>
   );
 };

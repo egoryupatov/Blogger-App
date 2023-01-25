@@ -1,76 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { EditPostStyled, EditPostWrapperStyled } from "./EditPostPage.styled";
+import React from "react";
 import { MainContainerStyled } from "../../styles/general.styled";
+import { EditPostStyled, EditPostWrapperStyled } from "./EditPostPage.styled";
 import { ButtonStyled } from "../../components/Navbar/Navbar.styled";
-import { useNavigate, useParams } from "react-router-dom";
-import { SERVER_URL } from "../../constants/constants";
-import { deleteBlogPost } from "../../store/userSlice";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { EditPostPageProps } from "./EditPostPage.types";
 
-export const EditPostPage: React.FC = () => {
-  const params = useParams();
-
-  useEffect(() => {
-    fetch(`${SERVER_URL}/posts/${params.id}`)
-      .then((response) => response.json())
-      .then((response) => setEditedPost(response));
-  }, []);
-
-  const [editedPost, setEditedPost] = useState({
-    user: Number(localStorage.getItem("id")),
-    category: 1, //категория должна быть изначальная
-    time: new Date(), // дата тоже
-    title: "",
-    description: "",
-    text: "",
-  });
-
-  const dispatch = useDispatch();
+export const EditPostPage: React.FC<EditPostPageProps> = (props) => {
   const navigate = useNavigate();
-
-  const onTitleChange = (e: any) => {
-    setEditedPost({ ...editedPost, title: e.target.value });
-  };
-
-  const onDescriptionChange = (e: any) => {
-    setEditedPost({ ...editedPost, description: e.target.value });
-  };
-
-  /*const onImageUpload = (e: any) => {
-      setNewPost({ ...newPost, postImage: e.target.value });
-    };*/
-
-  const onCategorySelect = (e: any) => {
-    setEditedPost({ ...editedPost, category: e.target.value });
-  };
-
-  const onUpdatePostClick = () => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "PUT",
-      body: JSON.stringify(editedPost),
-    };
-
-    fetch(`http://localhost:3005/posts/${params.id}`, options).then(
-      (response) => navigate("/dashboard")
-    );
-  };
-
-  const onDeletePostClick = () => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "DELETE",
-      body: JSON.stringify({ id: params.id }),
-    };
-
-    fetch(`${SERVER_URL}/posts`, options)
-      .then(() => dispatch(deleteBlogPost(Number(params.id))))
-      .then(() => navigate("/dashboard"));
-  };
 
   return (
     <MainContainerStyled>
@@ -81,8 +17,8 @@ export const EditPostPage: React.FC = () => {
           <label htmlFor="category">Choose a category:</label>
           <select
             id="category"
-            onChange={onCategorySelect}
-            defaultValue={editedPost.category}
+            onChange={props.onCategorySelect}
+            defaultValue={props.editedPost.category}
           >
             <option value="1">Business</option>
             <option value="2">Health</option>
@@ -92,17 +28,17 @@ export const EditPostPage: React.FC = () => {
 
           <label htmlFor="title">Title:</label>
           <input
-            onChange={onTitleChange}
+            onChange={props.onTitleChange}
             type="text"
             id="title"
-            value={editedPost.title}
+            value={props.editedPost.title}
           />
 
           <label htmlFor="description">Text:</label>
           <textarea
-            onChange={onDescriptionChange}
+            onChange={props.onDescriptionChange}
             id="description"
-            value={editedPost.description}
+            value={props.editedPost.description}
           />
 
           {/*<label htmlFor="image">Image:</label>
@@ -112,11 +48,12 @@ export const EditPostPage: React.FC = () => {
             id="image"
             placeholder="Enter the post title"
           />*/}
+
           <div style={{ display: "flex", gap: "10px" }}>
-            <ButtonStyled onClick={onUpdatePostClick}>
+            <ButtonStyled onClick={props.onUpdatePostClick}>
               <button>Update post</button>
             </ButtonStyled>
-            <ButtonStyled onClick={onDeletePostClick}>
+            <ButtonStyled onClick={props.onDeletePostClick}>
               <button>Delete post</button>
             </ButtonStyled>
             <ButtonStyled onClick={() => navigate("/dashboard")}>

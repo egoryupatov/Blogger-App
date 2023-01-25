@@ -1,4 +1,4 @@
-import { IComment } from "../store/userSlice";
+import { IComment } from "../types/general.types";
 
 export const decrement = (comment: IComment, commentID: number): IComment => {
   if (comment.id === commentID) {

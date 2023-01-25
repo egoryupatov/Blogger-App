@@ -12,12 +12,4 @@ export const onCommentRatingIncrement = (commentID: number, dispatch: any) => {
   fetch(`${SERVER_URL}/comments/${commentID}/increment`, options).then(
     (response) => dispatch(incrementCommentRating(commentID))
   );
-
-  /*dispatch(
-    getPostComments(
-      comments.map((comment: IComment) => {
-        return increment(comment);
-      })
-    )
-  );*/
 };

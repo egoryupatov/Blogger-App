@@ -3,10 +3,7 @@ import {
   ThreeDotsMenuContainerStyled,
   ThreeDotsMenuStyled,
 } from "./ThreeDotsMenu.styled";
-
-interface ThreeDotsMenuInterface {
-  onPostHideClick: () => void;
-}
+import { ThreeDotsMenuInterface } from "./ThreeDotsMenu.types";
 
 export const ThreeDotsMenu: React.FC<ThreeDotsMenuInterface> = (props) => {
   return (

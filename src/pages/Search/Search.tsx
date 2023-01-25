@@ -1,40 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   MainContainerStyled,
   WrapperStyled,
 } from "../../styles/general.styled";
-import { SearchPageContainerStyled } from "./Search.styled";
 import { Categories } from "../../components/Categories/Categories";
-import { CommentsBoard } from "../../components/CommentsBoard/CommentsBoard";
-import { SERVER_URL } from "../../constants/constants";
-import { useAppSelector } from "../../store/hooks";
-import { selectSearchQuery } from "../../store/userSlice";
-import { IBlogPost } from "../../store/userSlice";
-import { BlogPost } from "../../components/BlogPostsList/BlogPost";
+import { SearchPageContainerStyled } from "./Search.styled";
+import { IBlogPost } from "../../types/general.types";
+import { BlogPostContainer } from "../../components/BlogPost/BlogPostContainer";
+import { CommentsBoardContainer } from "../../components/CommentsBoard/CommentsBoardContainer";
+import { SearchProps } from "./Search.types";
 
-export const Search: React.FC = () => {
-  const searchQuery = useAppSelector(selectSearchQuery);
-
-  useEffect(() => {
-    fetch(`${SERVER_URL}/posts/search/${searchQuery}`)
-      .then((result) => result.json())
-      .then((searchResults) => setSearchResults(searchResults));
-  }, []);
-
-  const [searchResults, setSearchResults] = useState([]);
-
+export const Search: React.FC<SearchProps> = (props) => {
   return (
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
         <SearchPageContainerStyled>
-          <h1>Search results for "{searchQuery}"</h1>
+          <h1>Search results for "{props.searchQuery}"</h1>
         </SearchPageContainerStyled>
-        {searchResults.map((blogPost: IBlogPost) => (
-          <BlogPost blogPost={blogPost} />
+        {props.searchResults.map((blogPost: IBlogPost) => (
+          <BlogPostContainer blogPost={blogPost} />
         ))}
       </WrapperStyled>
-      <CommentsBoard />
+      <CommentsBoardContainer />
     </MainContainerStyled>
   );
 };

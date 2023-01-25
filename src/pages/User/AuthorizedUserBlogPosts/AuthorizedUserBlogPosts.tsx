@@ -1,15 +1,10 @@
 import React from "react";
-import { DashboardMiddlePartStyled, UserStyled } from "./UserStyled";
-import { IBlogPost, IUser } from "../../store/userSlice";
+import { DashboardMiddlePartStyled, UserStyled } from "../User.styled";
+import { IBlogPost } from "../../../types/general.types";
 import { AuthorizedUserBlogPost } from "./AuthorizedUserBlogPost";
+import { AuthorizedUserBlogPostsProps } from "./AuthorizedUserBlogPost.types";
 
-interface PublishedArticlesProps {
-  userInfo: IUser;
-  onDeleteBlogPostClick: (articleId: number) => void;
-  onUnhideBlogPostClick: (articleId: number) => void;
-}
-
-export const AuthorizedUserBlogPostsList: React.FC<PublishedArticlesProps> = (
+export const AuthorizedUserBlogPosts: React.FC<AuthorizedUserBlogPostsProps> = (
   props
 ) => {
   return (
@@ -22,7 +17,7 @@ export const AuthorizedUserBlogPostsList: React.FC<PublishedArticlesProps> = (
         )}
 
         {props.userInfo.blogPosts
-          .filter((blogPost) => blogPost.id)
+          .filter((blogPost: IBlogPost) => blogPost.id)
           .map((blogPost: IBlogPost) => (
             <AuthorizedUserBlogPost
               blogPost={blogPost}

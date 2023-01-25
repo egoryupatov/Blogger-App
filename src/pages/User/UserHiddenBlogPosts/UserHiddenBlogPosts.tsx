@@ -1,15 +1,12 @@
 import React from "react";
-import { DashboardMiddlePartStyled, UserStyled } from "./UserStyled";
-import { IBlogPost, IUser } from "../../store/userSlice";
-import { AuthorizedUserBlogPost } from "./AuthorizedUserBlogPost";
+import { DashboardMiddlePartStyled, UserStyled } from "../User.styled";
+import { IBlogPost } from "../../../types/general.types";
+import { AuthorizedUserBlogPost } from "../AuthorizedUserBlogPosts/AuthorizedUserBlogPost";
+import { UserHiddenBlogPostsProps } from "./UserHiddenBlogPosts.types";
 
-interface BannedArticlesProps {
-  userInfo: IUser;
-  onDeleteBlogPostClick: (blogPostId: number) => void;
-  onUnhideBlogPostClick: (blogPostId: number) => void;
-}
-
-export const HiddenPosts: React.FC<BannedArticlesProps> = (props) => {
+export const UserHiddenBlogPosts: React.FC<UserHiddenBlogPostsProps> = (
+  props
+) => {
   return (
     <DashboardMiddlePartStyled>
       <UserStyled>

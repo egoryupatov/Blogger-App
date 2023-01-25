@@ -1,5 +1,6 @@
 import { SERVER_URL } from "../constants/constants";
-import { addNewComment, IComment } from "../store/userSlice";
+import { addNewComment } from "../store/userSlice";
+import { IComment } from "../types/general.types";
 import { Params } from "react-router-dom";
 
 export const onNewCommentAdd = (

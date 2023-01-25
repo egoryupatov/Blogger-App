@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BlogPostBodyStyled,
   BlogPostCommentsStyled,
@@ -9,7 +9,8 @@ import {
   BlogPostTitleEndStyled,
   BlogPostTitleMiddleStyled,
   BlogPostTitleStyled,
-} from "./BlogPostsList.styled";
+  CategoryNameStyled,
+} from "../BlogPostsList/BlogPostsList.styled";
 import { Link, useLocation } from "react-router-dom";
 import { getCategoryName } from "../../utils/getCategoryName";
 import { getTimeAgo } from "../../utils/getTimeAgo";
@@ -21,49 +22,10 @@ import {
   PositiveRatingStyled,
 } from "../../styles/general.styled";
 import { onPostRatingIncrement } from "../../utils/onPostRatingIncrement";
-import {
-  IBlogPost,
-  selectAllBlogPosts,
-  selectIsThreeDotsMenuActive,
-  setIsThreeDotsMenuActive,
-} from "../../store/userSlice";
-import { SERVER_URL } from "../../constants/constants";
-import { useAppSelector } from "../../store/hooks";
-import { useDispatch } from "react-redux";
-import { CategoryNameStyled } from "./BlogPostsList.styled";
-
-interface BlogPostProps {
-  blogPost: IBlogPost;
-}
+import { BlogPostProps } from "./BlogPost.types";
 
 export const BlogPost: React.FC<BlogPostProps> = (props) => {
-  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
-  const isThreeDotsMenuActive = useAppSelector(selectIsThreeDotsMenuActive);
-  const dispatch = useDispatch();
-  const blogPosts = useAppSelector(selectAllBlogPosts);
   const location = useLocation();
-
-  const onThreeDotsMenuClick = () => {
-    dispatch(setIsThreeDotsMenuActive(!isThreeDotsMenuActive));
-  };
-
-  const onSubscribeClick = (subId: number) => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: Number(localStorage.getItem("id")),
-        subId: subId,
-      }),
-    };
-
-    fetch(`${SERVER_URL}/users/subscribe`, options).then((response) =>
-      setIsUserSubscribed((prevState) => !prevState)
-    );
-  };
-
   return (
     <BlogPostsListStyled key={props.blogPost.id}>
       <div>
@@ -87,26 +49,26 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
 
           {localStorage.getItem("token") ? (
             <BlogPostTitleEndStyled>
-              {isUserSubscribed ? (
+              {props.isUserSubscribed ? (
                 <span className="material-symbols-outlined">done</span>
               ) : (
                 <span
-                  onClick={() => onSubscribeClick(props.blogPost.user.id)}
+                  onClick={() => props.onSubscribeClick(props.blogPost.user.id)}
                   className="material-symbols-outlined"
                 >
                   person_add
                 </span>
               )}
 
-              <img onClick={onThreeDotsMenuClick} src={"/dots.svg"} />
-              {isThreeDotsMenuActive ? (
+              <img onClick={props.onThreeDotsMenuClick} src={"/dots.svg"} />
+              {props.isThreeDotsMenuActive ? (
                 <ThreeDotsMenu
                   onPostHideClick={() =>
                     onPostHideClick(
                       props.blogPost.id,
-                      dispatch,
-                      blogPosts,
-                      isThreeDotsMenuActive
+                      props.dispatch,
+                      props.blogPosts,
+                      props.isThreeDotsMenuActive
                     )
                   }
                 />
@@ -149,8 +111,8 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
               onClick={() =>
                 onPostRatingDecrement(
                   props.blogPost.id,
-                  dispatch,
-                  blogPosts,
+                  props.dispatch,
+                  props.blogPosts,
                   location
                 )
               }
@@ -173,8 +135,8 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
               onClick={() =>
                 onPostRatingIncrement(
                   props.blogPost.id,
-                  dispatch,
-                  blogPosts,
+                  props.dispatch,
+                  props.blogPosts,
                   location
                 )
               }
