@@ -44,7 +44,7 @@ export const PostPageComments = styled.div`
   flex-direction: column;
   border-radius: 9px;
   width: 100%;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   margin-top: 20px;
   background: white;
   transition: all 250ms;

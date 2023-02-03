@@ -1,10 +1,10 @@
 import React from "react";
 import { IBlogPost } from "../../types/general.types";
 import { BlogPostContainer } from "../BlogPost/BlogPostContainer";
-import { BlogPostsListStyled } from "./BlogPostsList.styled";
-import { BlogPostListProps } from "./BlogPostList.types";
+import { BlogFeedStyled } from "./BlogFeed.styled";
+import { BlogFeedProps } from "./BlogFeed.types";
 
-export const BlogPostList: React.FC<BlogPostListProps> = (props) => {
+export const BlogFeed: React.FC<BlogFeedProps> = (props) => {
   return (
     <>
       {props.isServerDataLoaded ? (
@@ -14,9 +14,9 @@ export const BlogPostList: React.FC<BlogPostListProps> = (props) => {
           ))}
         </>
       ) : (
-        <BlogPostsListStyled>
+        <BlogFeedStyled>
           <h1>Something went wrong!</h1>
-        </BlogPostsListStyled>
+        </BlogFeedStyled>
       )}
     </>
   );

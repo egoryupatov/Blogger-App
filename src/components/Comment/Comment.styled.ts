@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CommentStyled = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 2px;
+  margin-bottom: 15px;
 `;
 
 export const CommentTitleStyled = styled.div`
@@ -80,6 +80,7 @@ export const TimeAgoStyled = styled.div`
 
 export const UserNameStyled = styled.div`
   font-size: 16px;
+  font-weight: 500;
 `;
 
 export const CommentInfoStyled = styled.div`

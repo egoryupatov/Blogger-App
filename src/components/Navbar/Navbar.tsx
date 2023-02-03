@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = (props) => {
               onChange={props.onSearchQueryEnter}
               onKeyDown={props.onSearchClick}
               type="search"
-              placeholder="SearchContainer"
+              placeholder="Search"
             />
           </SearchbarStyled>
           <AddNewBlogpostButtonContainer />

@@ -1,6 +1,6 @@
 import { IBlogPost } from "../../types/general.types";
 
-export interface BlogPostListProps {
+export interface BlogFeedProps {
   blogPosts: IBlogPost[];
   isServerDataLoaded: boolean;
 }

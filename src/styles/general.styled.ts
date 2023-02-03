@@ -13,6 +13,30 @@ interface TextFormStyledProps {
   marginLeft?: string;
 }
 
+export const ContainerStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 9px;
+  width: 100%;
+  padding: 20px;
+  margin-top: 40px;
+  background: white;
+
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  &:nth-last-child(1) {
+    margin-bottom: 20px;
+  }
+`;
+
 export const WrapperStyled = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,7 +91,8 @@ export const ButtonStyled = styled.button<ButtonProps>`
 
 export const TextFormStyled = styled.div<TextFormStyledProps>`
   margin-left: ${(props) => props.marginLeft || "0px"};
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   min-height: 48px;

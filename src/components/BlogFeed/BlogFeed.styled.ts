@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const BlogPostsListStyled = styled.div`
+export const BlogFeedStyled = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 9px;
   width: 100%;
   padding: 10px 20px 10px 20px;
-  margin-top: 40px;
+  margin-top: 25px;
   background: white;
   transition: all 250ms;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { WrapperStyled } from "../../styles/general.styled";
-import { BlogPostsListContainer } from "../../components/BlogPostsList/BlogPostsListContainer";
+import { BlogFeedContainer } from "../../components/BlogFeed/BlogFeedContainer";
 import { MainContainerStyled } from "../../styles/general.styled";
 import { Categories } from "../../components/Categories/Categories";
 import { CommentsBoardContainer } from "../../components/CommentsBoard/CommentsBoardContainer";
@@ -10,7 +10,7 @@ export function Homepage() {
     <MainContainerStyled>
       <Categories />
       <WrapperStyled>
-        <BlogPostsListContainer />
+        <BlogFeedContainer />
       </WrapperStyled>
       <CommentsBoardContainer />
     </MainContainerStyled>

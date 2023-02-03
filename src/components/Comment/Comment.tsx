@@ -21,6 +21,8 @@ import { AnswerForm } from "../AnswerForm/AnswerForm";
 import { IComment } from "../../types/general.types";
 import { CommentContainer } from "./CommentContainer";
 import { CommentProps } from "./Comment.types";
+import { useAppSelector } from "../../store/hooks";
+import { getCommentChildren } from "../../store/userSlice";
 
 export const Comment: React.FC<CommentProps> = (props) => {
   return (

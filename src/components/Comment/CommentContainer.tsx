@@ -6,16 +6,22 @@ import { ICommentContainerProps } from "./CommentContainer.types";
 import { Comment } from "./Comment";
 
 export const CommentContainer: React.FC<ICommentContainerProps> = (props) => {
+  console.log(props.comments);
   const dispatch = useAppDispatch();
 
   const [areChildrenCommentsDisplayed, setAreChildCommentsDisplayed] =
     useState<boolean>(false);
 
-  const onCommentChildrenRequest = (parentCommentId: number) => {
-    fetch(`${SERVER_URL}/comments/children/${parentCommentId}`)
+  const onGetRepliesClick = (parentCommentId: number) => {
+    fetch(`${SERVER_URL}/comments/child/${parentCommentId}`)
       .then((response) => response.json())
-      .then((childrenComment) => {
-        dispatch(getCommentChildren(childrenComment));
+      .then((childrenComments) => {
+        dispatch(
+          getCommentChildren({
+            children: childrenComments,
+            parentId: parentCommentId,
+          })
+        );
         setAreChildCommentsDisplayed((prevState) => !prevState);
       });
   };
@@ -56,7 +62,7 @@ export const CommentContainer: React.FC<ICommentContainerProps> = (props) => {
       dispatch={dispatch}
       onAnswerAdd={handleAnswerAdd}
       onAnswerChange={handleAnswerChange}
-      onCommentChildrenRequest={onCommentChildrenRequest}
+      onCommentChildrenRequest={onGetRepliesClick}
     />
   );
 };

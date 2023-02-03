@@ -5,17 +5,18 @@ import {
 } from "../../store/userSlice";
 import { useAppSelector } from "../../store/hooks";
 import { useGetAllPosts } from "../../utils/useGetAllPosts";
-import { BlogPostList } from "./BlogPostList";
+import { BlogFeed } from "./BlogFeed";
+import { LatestBlogPostsContainer } from "../LatestBlogposts/LatestBlogPostsContainer";
 
-export const BlogPostsListContainer: React.FC = () => {
+export const BlogFeedContainer: React.FC = () => {
   useGetAllPosts();
   const blogPosts = useAppSelector(selectAllBlogPosts);
   const isServerDataLoaded = useAppSelector(selectIsServerDataLoaded);
 
   return (
-    <BlogPostList
-      blogPosts={blogPosts}
-      isServerDataLoaded={isServerDataLoaded}
-    />
+    <>
+      <LatestBlogPostsContainer />
+      <BlogFeed blogPosts={blogPosts} isServerDataLoaded={isServerDataLoaded} />
+    </>
   );
 };

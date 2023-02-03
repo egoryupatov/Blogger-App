@@ -16,6 +16,7 @@ interface IInitialState {
   allBlogPosts: IBlogPost[];
   isThreeDotsMenuActive: boolean;
   isServerDataLoaded: boolean;
+  latestBlogPosts: IBlogPost[];
 }
 
 const initialState: IInitialState = {
@@ -79,6 +80,7 @@ const initialState: IInitialState = {
   allBlogPosts: [],
   isThreeDotsMenuActive: false,
   isServerDataLoaded: true,
+  latestBlogPosts: [],
 };
 
 export const userSlice = createSlice({
@@ -108,8 +110,8 @@ export const userSlice = createSlice({
     },
     getCommentChildren: (state, action) => {
       state.postComments = state.postComments.map((comment) => {
-        if (comment.id === action.payload.id) {
-          comment = action.payload;
+        if (comment.id === action.payload.parentId) {
+          comment.children = action.payload.children;
         }
 
         return comment;
@@ -120,6 +122,12 @@ export const userSlice = createSlice({
     },
     getAllBlogPosts: (state, action) => {
       state.allBlogPosts = action.payload;
+    },
+    getLatestBlogPosts: (state, action) => {
+      state.latestBlogPosts = action.payload;
+    },
+    getMoreLatestBlogPosts: (state, action) => {
+      state.latestBlogPosts = [...state.latestBlogPosts, ...action.payload];
     },
     getSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
@@ -162,6 +170,8 @@ export const {
   getPostComments,
   getBlogPost,
   getAllBlogPosts,
+  getLatestBlogPosts,
+  getMoreLatestBlogPosts,
   addNewComment,
   getCommentChildren,
   setIsThreeDotsMenuActive,
@@ -181,6 +191,8 @@ export const selectAuthorizedUserInfo = (state: RootState) =>
   state.user.authorizedUserInfo;
 export const selectBlogPost = (state: RootState) => state.user.blogPost;
 export const selectAllBlogPosts = (state: RootState) => state.user.allBlogPosts;
+export const selectLatestBlogPosts = (state: RootState) =>
+  state.user.latestBlogPosts;
 export const selectPostComments = (state: RootState) => state.user.postComments;
 export const selectSearchQuery = (state: RootState) => state.user.searchQuery;
 export const selectIsThreeDotsMenuActive = (state: RootState) =>

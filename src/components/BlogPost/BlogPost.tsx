@@ -4,13 +4,13 @@ import {
   BlogPostCommentsStyled,
   BlogPostFooterStyled,
   BlogPostRatingStyled,
-  BlogPostsListStyled,
+  BlogFeedStyled,
   BlogPostTitleAuthorStyled,
   BlogPostTitleEndStyled,
   BlogPostTitleMiddleStyled,
   BlogPostTitleStyled,
   CategoryNameStyled,
-} from "../BlogPostsList/BlogPostsList.styled";
+} from "../BlogFeed/BlogFeed.styled";
 import { Link, useLocation } from "react-router-dom";
 import { getCategoryName } from "../../utils/getCategoryName";
 import { getTimeAgo } from "../../utils/getTimeAgo";
@@ -27,7 +27,7 @@ import { BlogPostProps } from "./BlogPost.types";
 export const BlogPost: React.FC<BlogPostProps> = (props) => {
   const location = useLocation();
   return (
-    <BlogPostsListStyled key={props.blogPost.id}>
+    <BlogFeedStyled key={props.blogPost.id}>
       <div>
         <BlogPostTitleStyled>
           <BlogPostTitleAuthorStyled>
@@ -147,6 +147,6 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           </BlogPostRatingStyled>
         </BlogPostFooterStyled>
       </div>
-    </BlogPostsListStyled>
+    </BlogFeedStyled>
   );
 };
