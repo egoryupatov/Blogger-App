@@ -16,7 +16,9 @@ export const onNewCommentAdd = (
     body: JSON.stringify(newComment),
   };
 
-  fetch(`${SERVER_URL}/comments/${params.id}`, options).then((response) =>
+  fetch(`${SERVER_URL}/comments/add`, options).then((response) =>
     dispatch(addNewComment(newComment))
   );
+
+  console.log(params.id, "params.id");
 };

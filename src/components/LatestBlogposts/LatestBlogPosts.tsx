@@ -23,7 +23,9 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = (
               <LatestBlogPostTitle>{post.title}</LatestBlogPostTitle>
             </Link>
             <LatestBlogPostComments>
-              {post.comments.length}
+              <Link to={`/posts/${post.category.name}/${post.id}#comments`}>
+                {post.comments.length}
+              </Link>
             </LatestBlogPostComments>
           </LatestBlogPostStyled>
         ))}

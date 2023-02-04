@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { getCommentChildren } from "../../store/userSlice";
+import {
+  getCommentChildren,
+  selectAuthorizedUserInfo,
+} from "../../store/userSlice";
 import { SERVER_URL } from "../../constants/constants";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { ICommentContainerProps } from "./CommentContainer.types";
 import { Comment } from "./Comment";
+import { useParams } from "react-router-dom";
 
 export const CommentContainer: React.FC<ICommentContainerProps> = (props) => {
-  console.log(props.comments);
   const dispatch = useAppDispatch();
+  const params = useParams();
+  const authorizedUser = useAppSelector(selectAuthorizedUserInfo);
 
   const [areChildrenCommentsDisplayed, setAreChildCommentsDisplayed] =
     useState<boolean>(false);
@@ -30,14 +35,25 @@ export const CommentContainer: React.FC<ICommentContainerProps> = (props) => {
     useState<boolean>(false);
 
   const [answer, setAnswer] = useState({
-    user: localStorage.getItem("id"),
     text: "",
-    blogPost: props.comment.blogPost.id,
+    user: {},
+    blogPost: {
+      id: params.id,
+    },
     parent: props.comment.parent?.id,
+    children: [],
   });
 
   const handleAnswerChange = (e: any) => {
-    setAnswer({ ...answer, text: e.target.value });
+    setAnswer({
+      ...answer,
+      text: e.target.value,
+      user: {
+        id: authorizedUser.id,
+        avatar: authorizedUser.avatar,
+        login: authorizedUser.login,
+      },
+    });
   };
 
   const handleAnswerAdd = (parentCommentId: number) => {
@@ -49,7 +65,12 @@ export const CommentContainer: React.FC<ICommentContainerProps> = (props) => {
       body: JSON.stringify(answer),
     };
 
-    fetch(`${SERVER_URL}/comments/${props.comment.id}/answer`, options);
+    fetch(
+      `${SERVER_URL}/comments/${props.comment.id}/answer`,
+      options
+    ); /*.then(
+      (response) => dispatch(() => setIsAnswerWindowOpened(false))
+    );*/
   };
 
   return (
