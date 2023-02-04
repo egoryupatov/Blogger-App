@@ -1,15 +1,18 @@
 import React from "react";
 import {
-  BlogPostBodyStyled,
+  ContentBodyStyled,
   BlogPostCommentsStyled,
-  BlogPostFooterStyled,
+  ContentFooterStyled,
   BlogPostRatingStyled,
   BlogFeedStyled,
-  BlogPostTitleAuthorStyled,
-  BlogPostTitleEndStyled,
+  ContentHeaderLeftPartStyled,
+  ContentHeaderRightPartStyled,
   BlogPostTitleMiddleStyled,
-  BlogPostTitleStyled,
+  ContentHeaderStyled,
   CategoryNameStyled,
+  BlogPostDataStyled,
+  BlogPostTitleTimeUser,
+  ContentBodyTitleStyled,
 } from "../BlogFeed/BlogFeed.styled";
 import { Link, useLocation } from "react-router-dom";
 import { getCategoryName } from "../../utils/getCategoryName";
@@ -23,44 +26,46 @@ import {
 } from "../../styles/general.styled";
 import { onPostRatingIncrement } from "../../utils/onPostRatingIncrement";
 import { BlogPostProps } from "./BlogPost.types";
+import { SubscribeButton } from "../SubscribeButton/SubscribeButton";
 
 export const BlogPost: React.FC<BlogPostProps> = (props) => {
   const location = useLocation();
   return (
     <BlogFeedStyled key={props.blogPost.id}>
       <div>
-        <BlogPostTitleStyled>
-          <BlogPostTitleAuthorStyled>
+        <ContentHeaderStyled>
+          <ContentHeaderLeftPartStyled>
             <img src={props.blogPost.category.image} />
-
-            <Link to={`/posts/${props.blogPost.category.name}`}>
-              <CategoryNameStyled>
-                {getCategoryName(props.blogPost.category.name)}
-              </CategoryNameStyled>
-            </Link>
-          </BlogPostTitleAuthorStyled>
-
-          <BlogPostTitleMiddleStyled>
-            <Link to={`/user/${props.blogPost.user.id}`}>
-              <div>{props.blogPost.user.login}</div>
-            </Link>
-            <div>{getTimeAgo(props.blogPost.publishDate)}</div>
-          </BlogPostTitleMiddleStyled>
+            <BlogPostTitleMiddleStyled>
+              <Link to={`/posts/${props.blogPost.category.name}`}>
+                <CategoryNameStyled>
+                  {getCategoryName(props.blogPost.category.name)}
+                </CategoryNameStyled>
+              </Link>
+              <BlogPostTitleTimeUser>
+                <Link to={`/user/${props.blogPost.user.id}`}>
+                  {props.blogPost.user.login}
+                </Link>
+                {getTimeAgo(props.blogPost.publishDate)}
+              </BlogPostTitleTimeUser>
+            </BlogPostTitleMiddleStyled>
+          </ContentHeaderLeftPartStyled>
 
           {localStorage.getItem("token") ? (
-            <BlogPostTitleEndStyled>
+            <ContentHeaderRightPartStyled>
               {props.isUserSubscribed ? (
                 <span className="material-symbols-outlined">done</span>
               ) : (
-                <span
+                <SubscribeButton text={"Subscribe"} />
+                /*<span
                   onClick={() => props.onSubscribeClick(props.blogPost.user.id)}
                   className="material-symbols-outlined"
                 >
                   person_add
-                </span>
+                </span>*/
               )}
 
-              <img onClick={props.onThreeDotsMenuClick} src={"/dots.svg"} />
+              {/* <img onClick={props.onThreeDotsMenuClick} src={"/dots.svg"} />
               {props.isThreeDotsMenuActive ? (
                 <ThreeDotsMenu
                   onPostHideClick={() =>
@@ -72,18 +77,20 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
                     )
                   }
                 />
-              ) : null}
-            </BlogPostTitleEndStyled>
+              ) : null}*/}
+            </ContentHeaderRightPartStyled>
           ) : null}
-        </BlogPostTitleStyled>
+        </ContentHeaderStyled>
 
-        <BlogPostBodyStyled>
+        <ContentBodyStyled>
           <Link
             to={`/posts/${props.blogPost.category.name}/${props.blogPost.id}`}
           >
-            <h1 style={{ marginBottom: "10px" }}>{props.blogPost.title}</h1>
+            <ContentBodyTitleStyled>
+              {props.blogPost.title}
+            </ContentBodyTitleStyled>
           </Link>
-          <div style={{ marginBottom: "10px" }}>
+          <div style={{ marginBottom: "20px" }}>
             {props.blogPost.description}
           </div>
 
@@ -95,19 +102,36 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
           `/posts/${props.blogPost.category.name}/${props.blogPost.id}` ? (
             <div dangerouslySetInnerHTML={{ __html: props.blogPost.text }} />
           ) : null}
-        </BlogPostBodyStyled>
+        </ContentBodyStyled>
 
-        <BlogPostFooterStyled>
+        <ContentFooterStyled>
           <Link
             to={`/posts/${props.blogPost.category.name}/${props.blogPost.id}#comments`}
           >
             <BlogPostCommentsStyled>
-              <span className="material-symbols-outlined">mode_comment</span>
-              <span>{props.blogPost.comments.length}</span>
+              <BlogPostDataStyled>
+                <object
+                  data="./hearth.svg"
+                  type="image/svg+xml"
+                  width="20"
+                  height="20"
+                ></object>
+                <span>{props.blogPost.rating}</span>
+              </BlogPostDataStyled>
+              <BlogPostDataStyled>
+                <object
+                  data="./comments.svg"
+                  type="image/svg+xml"
+                  width="20"
+                  height="20"
+                ></object>
+                <span>{props.blogPost.comments.length}</span>
+              </BlogPostDataStyled>
             </BlogPostCommentsStyled>
           </Link>
+
           <BlogPostRatingStyled>
-            <span
+            {/* <span
               onClick={() =>
                 onPostRatingDecrement(
                   props.blogPost.id,
@@ -143,9 +167,15 @@ export const BlogPost: React.FC<BlogPostProps> = (props) => {
               className="material-symbols-outlined"
             >
               keyboard_arrow_up
-            </span>
+            </span>*/}
+            <object
+              data="./download.svg"
+              type="image/svg+xml"
+              width="20"
+              height="20"
+            ></object>
           </BlogPostRatingStyled>
-        </BlogPostFooterStyled>
+        </ContentFooterStyled>
       </div>
     </BlogFeedStyled>
   );

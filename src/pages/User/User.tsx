@@ -13,7 +13,7 @@ import { SubscribeButtonsContainer } from "./SubscribeButtons/SubscribeButtonsCo
 import { Link, Params, Route, Routes } from "react-router-dom";
 import { AuthorizedUserBlogPosts } from "./AuthorizedUserBlogPosts/AuthorizedUserBlogPosts";
 import { UnauthorizedUserBlogPosts } from "./UnauthorizedUserBlogPosts/UnauthorizedUserBlogPosts";
-import { UserHiddenBlogPosts } from "./UserHiddenBlogPosts/UserHiddenBlogPosts";
+import { UserHiddenBlogPostsContainer } from "./UserHiddenBlogPosts/UserHiddenBlogPostsContainer";
 import { UserComments } from "./UserComments/UserComments";
 import { SubscriptionsContainer } from "../../components/Subscriptions/SubscriptionsContainer";
 import { UserProps } from "./User.types";
@@ -109,7 +109,7 @@ export const User: React.FC<UserProps> = (props) => {
             <Route
               path="hidden"
               element={
-                <UserHiddenBlogPosts
+                <UserHiddenBlogPostsContainer
                   userInfo={props.userInfo}
                   onDeleteBlogPostClick={props.onDeleteBlogPostClick}
                   onUnhideBlogPostClick={props.onUnhideBlogPostClick}

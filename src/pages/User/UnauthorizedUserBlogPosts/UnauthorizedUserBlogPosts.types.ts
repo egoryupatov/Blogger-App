@@ -1,5 +1,5 @@
 import { IUser } from "../../../types/general.types";
 
-export interface UnauthorizedUserArticleListProps {
+export interface UnauthorizedUserBlogPostListProps {
   userInfo: IUser;
 }
